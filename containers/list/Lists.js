@@ -7,7 +7,12 @@ const Lists = () => {
 
     return (
         <View style={Styles.listsView}>
-            <Text>Lists</Text>
+            <View style={Styles.listsFilter}>
+
+            </View>
+            <View>
+
+            </View>
         </View>
     )
 }

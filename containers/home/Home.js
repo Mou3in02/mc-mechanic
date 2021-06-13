@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {SafeAreaView} from 'react-native'
+import {SafeAreaView, StatusBar} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Styles from "./Styles"
 import Lists from "../list/Lists";
@@ -12,6 +12,9 @@ const Home = () => {
 
     return (
         <SafeAreaView style={Styles.homeView}>
+            <StatusBar
+                backgroundColor="#293b5f"
+            />
             <Tab.Navigator
                 tabBarOptions={{
                     activeTintColor: '#fff',
@@ -23,7 +26,7 @@ const Home = () => {
                 }}
             >
                 <Tab.Screen name="Lists" component={Lists} options={{
-                    tabBarLabel: 'Lists',
+                    tabBarLabel: 'Tâches',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="list" color={color} size={size}/>
                     ),
