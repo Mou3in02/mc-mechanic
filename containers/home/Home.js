@@ -26,9 +26,9 @@ const Home = () => {
                 <Tab.Screen name="Lists" component={Lists} options={{
                     tabBarLabel: 'Tâches',
                     tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="list" color={color} size={size}/>
+                        <FontAwesome5 name="tools" color={color} size={size}/>
                     ),
-                    tabBarBadge: '+9'
+                    // tabBarBadge: '+9'
                 }}
                 />
                 <Tab.Screen name="Charts" component={Charts} options={{

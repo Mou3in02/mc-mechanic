@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
+import {View, FlatList, Pressable} from 'react-native';
 import Styles from "./Styles"
 import Task from "../../components/task/Task";
 
 
-const Lists = () => {
+const Lists = (props) => {
 
     const data = [
         {
@@ -68,20 +68,29 @@ const Lists = () => {
             status: true
         }
     ]
+    const onPress = (id,model) => {
+       props.navigation.navigate('TaskDetails',{
+           id: id,
+           name: model
+       })
+    }
     const renderItem = ({item}) => (
-        <Task model={item.model} tel={item.tel} date={item.date} earn={item.earn} spent={item.spent}
-              description={item.description} status={item.status}/>
+        <Pressable onPress={() => {onPress(item.id,item.model)}}>
+            <Task model={item.model} tel={item.tel} date={item.date} earn={item.earn} spent={item.spent}
+                  description={item.description} status={item.status}/>
+        </Pressable>
     )
+
     return (
         <View style={Styles.listsView}>
             <View style={Styles.listsFilter}>
             </View>
             <View>
                 <FlatList
-                    contentContainerStyle={{ paddingBottom: 150 }}
+                    contentContainerStyle={{paddingBottom: 150}}
                     data={data}
                     renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                 />
             </View>
         </View>
