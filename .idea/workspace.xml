@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8e897fc5-3d3f-48a9-8a00-b7ceaa7a6592" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/task/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/task/Task.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/list/Lists.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Lists.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/taskDetails/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/taskDetails/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/taskDetails/TaskDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/taskDetails/TaskDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -67,7 +65,8 @@
       <workItem from="1623585088381" duration="579000" />
       <workItem from="1623585964905" duration="2644000" />
       <workItem from="1623622009106" duration="8775000" />
-      <workItem from="1623679492674" duration="12518000" />
+      <workItem from="1623679492674" duration="12766000" />
+      <workItem from="1623710934139" duration="9458000" />
     </task>
     <servers />
   </component>
