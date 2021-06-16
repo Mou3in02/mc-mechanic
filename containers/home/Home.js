@@ -5,6 +5,7 @@ import Styles from "./Styles"
 import Lists from "../list/Lists";
 import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AddTask from "../add/AddTask";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,30 +22,32 @@ const Home = () => {
                     labelStyle: {
                         fontSize: 12
                     }
-                }}
-            >
+                }}>
                 <Tab.Screen name="Lists" component={Lists} options={{
                     tabBarLabel: 'Tâches',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="tools" color={color} size={size}/>
                     ),
                     // tabBarBadge: '+9'
-                }}
-                />
+                }}/>
+                <Tab.Screen name="New" component={AddTask} options={{
+                    tabBarLabel: 'Nouveau',
+                    tabBarIcon: ({color, size}) => (
+                        <FontAwesome5 name="plus-circle" color={color} size={size}/>
+                    ),
+                }}/>
                 <Tab.Screen name="Charts" component={Charts} options={{
                     tabBarLabel: 'Stats',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="chart-pie" color={color} size={size}/>
                     )
-                }}
-                />
+                }}/>
                 <Tab.Screen name="Settings" component={Charts} options={{
                     tabBarLabel: 'Paramètres',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="cog" color={color} size={size}/>
                     )
-                }}
-                />
+                }}/>
             </Tab.Navigator>
         </SafeAreaView>
     )
