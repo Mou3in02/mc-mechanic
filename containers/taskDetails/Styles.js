@@ -6,45 +6,14 @@ const Styles = StyleSheet.create({
     taskDetails:{
         flex: 1,
         backgroundColor: '#fff',
-    },
-    actionView:{
-        flexDirection: 'row',
-        height: 60,
-        backgroundColor: '#666',
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee'
-    },
-    editView: {
-        width: '50%',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    deleteView:{
-        width: '50%',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRightWidth: 1,
-        borderRightColor: '#eee'
-    },
-    editText: {
-        fontSize: 10,
-        color: '#17A2B8'
-    },
-    deleteText: {
-        fontSize: 10,
-        color: '#8b008b'
-    },
-    detailsView:{
-        flex: 1,
-        marginTop: 12,
+        marginVertical: 20,
+        marginHorizontal: 10
     },
     fieldView:{
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 10,
-        marginBottom: 10
+        marginBottom: 10,
     },
     _30:{
         flexDirection: 'row',
@@ -76,28 +45,28 @@ const Styles = StyleSheet.create({
     },
     dateInput:{
         height: 40,
-        width: '100%',
-        borderWidth: 1,
-        borderColor: '#eee',
+        marginRight: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
         paddingHorizontal: 20,
         marginLeft: 10,
         color: '#47597e',
         fontSize: 16,
+        paddingTop: 10
     },
     descriptionView:{
-        marginTop: 10,
-        flexDirection: 'column'
+        marginTop: 5,
+        flexDirection: 'column',
     },
     descriptionTextView:{
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 5
     },
     descriptionInputView:{
         alignItems: 'center'
     },
     descriptionInput:{
-        height: 120,
+        height: 80,
         borderWidth: 1,
         borderColor: '#eee',
         width: '90%',
@@ -108,6 +77,17 @@ const Styles = StyleSheet.create({
         fontSize: 15,
         color: '#47597e',
         lineHeight: 25
+    },
+    statusView:{
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        marginLeft: 10,
+        marginBottom: 10,
+        marginTop: 10
+    },
+    statusText:{
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     saveView:{
         marginTop: 20,

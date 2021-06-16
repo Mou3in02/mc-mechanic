@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8e897fc5-3d3f-48a9-8a00-b7ceaa7a6592" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/taskDetails/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/taskDetails/Styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/taskDetails/TaskDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/taskDetails/TaskDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/taskDetails/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/taskDetails/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/taskDetails/TaskDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/taskDetails/TaskDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -45,6 +46,7 @@
       <recent name="D:\WORK\mc-mechanic\containers\chart" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\WORK\mc-mechanic\containers" />
       <recent name="D:\WORK\mc-mechanic\Containers\home" />
     </key>
   </component>
@@ -66,11 +68,23 @@
       <workItem from="1623585964905" duration="2644000" />
       <workItem from="1623622009106" duration="8775000" />
       <workItem from="1623679492674" duration="12766000" />
-      <workItem from="1623710934139" duration="9458000" />
+      <workItem from="1623710934139" duration="9763000" />
+      <workItem from="1623797427027" duration="14610000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
