@@ -97,7 +97,7 @@ const Styles = StyleSheet.create({
         width: '90%',
     },
     saveButton:{
-        height: 45,
+        height: 40,
         backgroundColor: '#fff',
         borderWidth: 1,
         borderColor: '#47597e',

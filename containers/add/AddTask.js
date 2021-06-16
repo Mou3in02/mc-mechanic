@@ -6,6 +6,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from 'validator/es/lib/isEmpty'
+import Toast from 'react-native-simple-toast'
 
 const AddTask = (props) => {
 
@@ -89,8 +90,12 @@ const AddTask = (props) => {
     const onClickSave = () => {
         if (isEmpty(data.model.trim()) === true) {
             setIsValidData(false)
+            Toast.show('Le champ modéle est obligatoire !',Toast.LONG)
         }
-        console.log(isEmpty(data.model))
+        else {
+            setIsValidData(true)
+            console.log(data)
+        }
     }
 
     return (

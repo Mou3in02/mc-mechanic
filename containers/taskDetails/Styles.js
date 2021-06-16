@@ -55,7 +55,7 @@ const Styles = StyleSheet.create({
         paddingTop: 10
     },
     descriptionView:{
-        marginTop: 5,
+        marginVertical: 5,
         flexDirection: 'column',
     },
     descriptionTextView:{
@@ -90,12 +90,12 @@ const Styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     saveView:{
-        marginTop: 20,
+        marginTop: 10,
         marginHorizontal: 20,
         width: '90%',
     },
     saveButton:{
-        height: 45,
+        height: 40,
         backgroundColor: '#47597e',
         alignItems: 'center',
         justifyContent: 'center',
@@ -109,6 +109,85 @@ const Styles = StyleSheet.create({
     saveItems:{
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    deleteView:{
+        marginTop: 10,
+        marginHorizontal: 20,
+        width: '90%',
+    },
+    deleteButton:{
+        height: 40,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 30,
+        // borderWidth: 1,
+        // borderColor: '#900'
+    },
+    deleteItems:{
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    deleteText:{
+        color: '#900',
+        fontSize: 16,
+        marginLeft: 5
+    },
+    invalidModelInput:{
+        borderBottomColor: '#f00'
+    },
+    // modal style
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 20
+        // elevation: 2
+    },
+    buttonDelete: {
+        borderWidth: 1,
+        borderColor: "#900",
+    },
+    buttonCancel: {
+        backgroundColor: "#2196F3",
+    },
+    deleteStyle: {
+        color: "#900",
+        textAlign: "center"
+    },
+    cancelStyle:{
+        color: "#fff",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        fontSize: 15,
+        marginBottom: 15,
+        textAlign: "center"
+    },
+    buttonsView:{
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'space-around'
     }
 })
 
