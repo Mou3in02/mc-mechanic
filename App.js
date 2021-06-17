@@ -4,10 +4,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './containers/home/Home'
 import TaskDetails from "./containers/taskDetails/TaskDetails";
+import {initDatabase} from "./utils/DatabaseConnection";
 
 const Stack = createStackNavigator()
 
 const App = () => {
+
+    initDatabase().then(() => {
+        console.log('***    Connection is established   ***')
+    }).catch((error) => {
+        console.log('Connection is failed !')
+        console.log(error)
+    })
+
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Home">

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Text, View, TextInput, TouchableOpacity, Pressable, Modal} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
@@ -7,22 +7,24 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from "validator/es/lib/isEmpty";
 import Toast from "react-native-simple-toast";
+import {deleteTask, getTaskById} from "../../utils/DatabaseConnection";
 
 
 const TaskDetails = (props) => {
 
-    // const {id} = props.route.params
-    // console.log(new Date())
-    const [data, setData] = useState({
-        id: 6,
-        model: 'Megan 3',
-        tel: 29284808,
-        date: 1,
-        earn: 220,
-        spent: 170,
-        description: 'Lorem ipsum dolor sit amet, consectetur.',
-        status: true
-    })
+    const {id} = props.route.params
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [data, setData] = useState(null)
+    useEffect(() => {
+        getTaskById(id)
+            .then((result) => {
+                setData(result.rows._array[0])
+                setIsLoaded(true)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
     const [isValidData, setIsValidData] = useState(true)
     const [showDate, setShowDate] = useState(false)
     const [selectedRadio, setSelectedRadio] = useState(0)
@@ -95,9 +97,8 @@ const TaskDetails = (props) => {
     const onClickSave = () => {
         if (isEmpty(data.model.trim()) === true) {
             setIsValidData(false)
-            Toast.show('Le champ modéle est obligatoire !',Toast.LONG)
-        }
-        else {
+            Toast.show('Le champ modéle est obligatoire !', Toast.LONG)
+        } else {
             setIsValidData(true)
             console.log(data)
         }
@@ -105,11 +106,18 @@ const TaskDetails = (props) => {
     const onClickDelete = () => {
         setShowDeleteModal(true)
     }
-    const deleteTaskAction = () => {
-
+    const deleteTaskAction = (taskId) => {
+        deleteTask(taskId)
+            .then(() => {
+                props.navigation.navigate('Lists')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     return (
+        isLoaded &&
         <KeyboardAwareScrollView style={{backgroundColor: '#fff'}}>
             <View style={[Styles.taskDetails]} opacity={showDeleteModal ? .1 : 1}>
                 <View style={Styles.fieldView}>
@@ -126,7 +134,7 @@ const TaskDetails = (props) => {
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
                         <FontAwesome5 name="mobile-alt" size={16}/>
-                        <Text style={Styles.modelText}>Téléphone :</Text>
+                        <Text style={Styles.modelText}>Téléphone</Text>
                     </View>
                     <View style={Styles._70}>
                         <TextInput style={Styles.modelInput} value={data.tel.toString()}
@@ -136,17 +144,7 @@ const TaskDetails = (props) => {
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
                         <FontAwesome5 name="euro-sign" size={16}/>
-                        <Text style={Styles.modelText}>Dépensé :</Text>
-                    </View>
-                    <View style={Styles._70}>
-                        <TextInput style={Styles.modelInput} value={data.spent.toString()}
-                                   keyboardType="numeric" onChangeText={(text) => onChangeSpent(text)}/>
-                    </View>
-                </View>
-                <View style={Styles.fieldView}>
-                    <View style={Styles._30}>
-                        <FontAwesome5 name="euro-sign" size={16}/>
-                        <Text style={Styles.modelText}>Gagner :</Text>
+                        <Text style={Styles.modelText}>Gagner</Text>
                     </View>
                     <View style={Styles._70}>
                         <TextInput style={Styles.modelInput} value={data.earn.toString()}
@@ -155,13 +153,23 @@ const TaskDetails = (props) => {
                 </View>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
+                        <FontAwesome5 name="euro-sign" size={16}/>
+                        <Text style={Styles.modelText}>Dépensé</Text>
+                    </View>
+                    <View style={Styles._70}>
+                        <TextInput style={Styles.modelInput} value={data.spent.toString()}
+                                   keyboardType="numeric" onChangeText={(text) => onChangeSpent(text)}/>
+                    </View>
+                </View>
+                <View style={Styles.fieldView}>
+                    <View style={Styles._30}>
                         <FontAwesome5 name="calendar-alt" size={16}/>
-                        <Text style={Styles.dateText}>Date :</Text>
+                        <Text style={Styles.dateText}>Date </Text>
                     </View>
                     <View style={Styles._70}>
                         <TouchableOpacity onPress={() => onPressDatePicker()}>
                             <Text style={Styles.dateInput}>
-                                {formatDate(data.date)}
+                                {formatDate(data.createdAt)}
                                 {showDate && (
                                     <DateTimePicker
                                         testID="dateTimePicker"
@@ -208,7 +216,12 @@ const TaskDetails = (props) => {
                                         onPress={(value) => {
                                             onChangeStatus(value)
                                         }}
-                                        labelStyle={{fontSize: 14, color: '#47597e', paddingLeft: 5, marginRight: 10}}
+                                        labelStyle={{
+                                            fontSize: 14,
+                                            color: '#47597e',
+                                            paddingLeft: 5,
+                                            marginRight: 10
+                                        }}
                                         labelWrapStyle={{}}
                                     />
                                 </RadioButton>
@@ -218,7 +231,7 @@ const TaskDetails = (props) => {
                 </View>
                 <View style={Styles.descriptionView}>
                     <View style={Styles.descriptionTextView}>
-                        <Text style={Styles.modelText}>Déscription :</Text>
+                        <Text style={Styles.modelText}>Déscription</Text>
                     </View>
                     <View style={Styles.descriptionInputView}>
                         <TextInput style={Styles.descriptionInput} multiline={true}
@@ -255,15 +268,18 @@ const TaskDetails = (props) => {
                                 <View>
                                     <Pressable
                                         style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
-                                        onPress={deleteTaskAction} >
-                                        <FontAwesome5 name="trash-alt" size={16} color={"#900"} style={{marginRight:2}} />
+                                        onPress={() => {
+                                            deleteTaskAction(data.id)
+                                        }}>
+                                        <FontAwesome5 name="trash-alt" size={16} color={"#900"}
+                                                      style={{marginRight: 2}}/>
                                         <Text style={Styles.deleteStyle}>Supprimer</Text>
                                     </Pressable>
                                 </View>
                                 <View>
                                     <Pressable
                                         style={[Styles.button, Styles.buttonCancel]}
-                                        onPress={() => setShowDeleteModal(!showDeleteModal)} >
+                                        onPress={() => setShowDeleteModal(!showDeleteModal)}>
                                         <Text style={Styles.cancelStyle}>Anuuler</Text>
                                     </Pressable>
                                 </View>

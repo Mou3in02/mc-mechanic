@@ -99,7 +99,7 @@ const Styles = StyleSheet.create({
         backgroundColor: '#47597e',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 30
+        borderRadius: 5
     },
     saveText:{
         color: '#fff',

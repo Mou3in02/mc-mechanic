@@ -103,13 +103,13 @@ const Styles = StyleSheet.create({
         borderColor: '#47597e',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 30
+        borderRadius: 5
     },
     saveText:{
         color: '#47597e',
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: 'bold',
-        marginRight: 2
+        // marginRight: 2
     },
     saveItems:{
         flexDirection: 'row',

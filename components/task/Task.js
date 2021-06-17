@@ -14,7 +14,7 @@ const Task = (props) => {
             </Text>
             <Text style={Styles.date}>
                 <FontAwesome5 name="calendar-alt" color="#444"
-                              size={15}/> {moment(new Date(props.date), 'YYYYMMDD').fromNow()}
+                              size={15}/> {moment(new Date(parseInt(props.date)), 'YYYYMMDD').fromNow()}
             </Text>
             <View style={{flexDirection: 'row'}}>
                 <Text style={Styles.earn}>

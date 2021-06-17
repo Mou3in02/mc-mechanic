@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 
 const Styles = StyleSheet.create({
     taskView:{
-        borderBottomWidth: 1,
-        borderBottomColor: '#999',
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#999',
         margin: 2,
         padding: 10
     },

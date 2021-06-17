@@ -12,6 +12,16 @@ const Styles = StyleSheet.create({
         height: '10%',
         borderWidth: 1,
         borderColor: '#999',
+    },
+    noRowsView:{
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    noRowsText:{
+        fontSize: 18,
+        color: '#999'
     }
 })
 

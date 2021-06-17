@@ -104,8 +104,8 @@ const AddTask = (props) => {
                 <View style={Styles.saveView}>
                     <Pressable style={Styles.saveButton} onPress={onClickSave}>
                         <View style={Styles.saveItems}>
+                            {/*<FontAwesome5 name="save" color="#47597e" size={18} style={{marginRight: 5}} />*/}
                             <Text style={Styles.saveText}>Enregistrer</Text>
-                            <FontAwesome5 name="save" color="#47597e" size={18}/>
                         </View>
                     </Pressable>
                 </View>
