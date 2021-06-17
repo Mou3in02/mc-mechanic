@@ -1,44 +1,61 @@
 import * as React from 'react'
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 
 const Styles = StyleSheet.create({
-    taskView:{
+    taskView: {
         // borderBottomWidth: 1,
         // borderBottomColor: '#999',
         margin: 2,
         padding: 10
     },
-    model:{
-        fontSize: 16,
+    model: {
+        fontSize: 17,
         fontWeight: 'bold',
         color: '#47597e',
         textAlign: 'center'
     },
-    tel:{
-        fontSize: 15,
+    telView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 2
+    },
+    tel: {
+        fontSize: 16,
         color: '#333',
-        marginBottom: 2,
+        marginLeft: 5
     },
-    date:{
-        fontSize: 15,
+    dateView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 2
+    },
+    date: {
+        fontSize: 16,
         color: '#333',
-        marginBottom: 4,
+        marginLeft: 5
     },
-    earn:{
+    moneyView: {
+        flexDirection: "row",
+        alignItems: 'center',
+    },
+    earn: {
         fontWeight: 'bold',
-        color: '#00b8a9'
+        fontSize: 16,
+        color: '#138496',
+        marginLeft: 10
     },
-    spent:{
+    spent: {
         fontWeight: 'bold',
-        color: '#e23e57',
-        paddingLeft: 10
+        color: '#d33682',
+        fontSize: 16,
+        marginLeft: 10
     },
-    description:{
+    description: {
         fontSize: 14,
         color: '#555',
     },
-    status:{
+    status: {
         textAlign: 'right'
     }
 })

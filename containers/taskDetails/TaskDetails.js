@@ -256,38 +256,6 @@ const TaskDetails = (props) => {
                     </Pressable>
                 </View>
             </View>
-            <View>
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={showDeleteModal}>
-                    <View style={Styles.centeredView}>
-                        <View style={Styles.modalView}>
-                            <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
-                            <View style={Styles.buttonsView}>
-                                <View>
-                                    <Pressable
-                                        style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
-                                        onPress={() => {
-                                            deleteTaskAction(data.id)
-                                        }}>
-                                        <FontAwesome5 name="trash-alt" size={16} color={"#900"}
-                                                      style={{marginRight: 2}}/>
-                                        <Text style={Styles.deleteStyle}>Supprimer</Text>
-                                    </Pressable>
-                                </View>
-                                <View>
-                                    <Pressable
-                                        style={[Styles.button, Styles.buttonCancel]}
-                                        onPress={() => setShowDeleteModal(!showDeleteModal)}>
-                                        <Text style={Styles.cancelStyle}>Anuuler</Text>
-                                    </Pressable>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
         </KeyboardAwareScrollView>
     )
 }
