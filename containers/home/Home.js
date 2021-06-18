@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React,{useEffect} from 'react'
 import {SafeAreaView, StatusBar} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Styles from "./Styles"
