@@ -79,7 +79,7 @@ export const getTaskById = (id) => {
         })
     })
 }
-export const updateTask = (task) => {
+export const updateTaskFromDatabase = (task) => {
     const {id, model, tel, earn, spent, createdAt, description, status} = task
     return new Promise((resolve, reject) => {
         database.transaction((tx) => {
@@ -98,7 +98,7 @@ export const updateTask = (task) => {
         })
     })
 }
-export const deleteTask = (id) => {
+export const deleteTaskFromDatabase = (id) => {
     return new Promise((resolve, reject) => {
         database.transaction((tx) => {
             tx.executeSql(

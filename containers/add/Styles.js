@@ -36,7 +36,7 @@ const Styles = StyleSheet.create({
         borderBottomColor: '#eee',
         paddingHorizontal: 20,
         marginLeft: 10,
-        color: '#47597e',
+        color: '#293b5f',
         fontSize: 16,
     },
     dateText:{
@@ -51,7 +51,7 @@ const Styles = StyleSheet.create({
         borderBottomColor: '#eee',
         paddingHorizontal: 20,
         marginLeft: 10,
-        color: '#47597e',
+        color: '#293b5f',
         fontSize: 16,
         paddingTop: 10
     },
@@ -76,7 +76,7 @@ const Styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         fontSize: 15,
-        color: '#47597e',
+        color: '#293b5f',
         lineHeight: 25
     },
     statusView:{
@@ -100,13 +100,13 @@ const Styles = StyleSheet.create({
         height: 40,
         backgroundColor: '#fff',
         borderWidth: 1,
-        borderColor: '#47597e',
+        borderColor: '#293b5f',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5
     },
     saveText:{
-        color: '#47597e',
+        color: '#293b5f',
         fontSize: 17,
         fontWeight: 'bold',
         // marginRight: 2

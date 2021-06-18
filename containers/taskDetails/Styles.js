@@ -4,8 +4,6 @@ import {StyleSheet} from 'react-native'
 
 const Styles = StyleSheet.create({
     taskDetails:{
-        flex: 1,
-        backgroundColor: '#fff',
         marginVertical: 20,
         marginHorizontal: 10
     },
@@ -35,7 +33,7 @@ const Styles = StyleSheet.create({
         borderBottomColor: '#eee',
         paddingHorizontal: 20,
         marginLeft: 10,
-        color: '#47597e',
+        color: '#293b5f',
         fontSize: 16,
     },
     dateText:{
@@ -50,7 +48,7 @@ const Styles = StyleSheet.create({
         borderBottomColor: '#eee',
         paddingHorizontal: 20,
         marginLeft: 10,
-        color: '#47597e',
+        color: '#293b5f',
         fontSize: 16,
         paddingTop: 10
     },
@@ -66,7 +64,7 @@ const Styles = StyleSheet.create({
         alignItems: 'center'
     },
     descriptionInput:{
-        height: 80,
+        height: 120,
         borderWidth: 1,
         borderColor: '#eee',
         width: '90%',
@@ -75,7 +73,7 @@ const Styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         fontSize: 15,
-        color: '#47597e',
+        color: '#293b5f',
         lineHeight: 25
     },
     statusView:{
@@ -96,7 +94,7 @@ const Styles = StyleSheet.create({
     },
     saveButton:{
         height: 40,
-        backgroundColor: '#47597e',
+        backgroundColor: '#293b5f',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5
@@ -126,6 +124,11 @@ const Styles = StyleSheet.create({
     },
     invalidModelInput:{
         borderBottomColor: '#f00'
+    },
+    spinnerView:{
+        flex: 1,
+        justifyContent: 'center', //Centered vertically
+        alignItems: 'center', // Centered horizontally
     },
 })
 

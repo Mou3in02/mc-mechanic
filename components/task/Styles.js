@@ -4,16 +4,28 @@ import {StyleSheet} from 'react-native';
 
 const Styles = StyleSheet.create({
     taskView: {
-        // borderBottomWidth: 1,
-        // borderBottomColor: '#999',
-        margin: 2,
-        padding: 10
+        marginBottom: 1,
+        padding: 10,
+        // backgroundColor: '#fff',
+        // borderRadius: 20
     },
     model: {
         fontSize: 17,
         fontWeight: 'bold',
-        color: '#47597e',
-        textAlign: 'center'
+        color: '#293b5f',
+        textAlign: 'center',
+        marginBottom: 10
+    },
+    taskDetailsView:{
+        flexDirection: 'row',
+        marginBottom: 10
+    },
+    _50A:{
+        width: '50%'
+    },
+    _50B:{
+        width: '50%',
+        alignContent: 'flex-end'
     },
     telView: {
         flexDirection: 'row',
@@ -28,12 +40,13 @@ const Styles = StyleSheet.create({
     dateView: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 2
+        marginBottom: 2,
+        alignSelf: 'flex-end'
     },
     date: {
         fontSize: 16,
         color: '#333',
-        marginLeft: 5
+        marginRight: 5
     },
     moneyView: {
         flexDirection: "row",
@@ -42,12 +55,12 @@ const Styles = StyleSheet.create({
     earn: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#138496',
+        color: '#444',
         marginLeft: 10
     },
     spent: {
         fontWeight: 'bold',
-        color: '#d33682',
+        color: '#444',
         fontSize: 16,
         marginLeft: 10
     },
@@ -57,6 +70,29 @@ const Styles = StyleSheet.create({
     },
     status: {
         textAlign: 'right'
+    },
+    statusView:{
+        flexDirection: 'row',
+        alignSelf: 'flex-end',
+        marginBottom: 5,
+        alignItems: 'center'
+    },
+    trueStatusTxt:{
+        fontSize: 14,
+        color: '#151965',
+        fontWeight: 'bold',
+        marginRight: 5
+    },
+    falseStatusTxt:{
+        fontSize: 14,
+        color: '#900D0D',
+        fontWeight: 'bold'
+    },
+    earnText:{
+        color: '#444'
+    },
+    spentText:{
+        color: '#444'
     }
 })
 

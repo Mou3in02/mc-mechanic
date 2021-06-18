@@ -204,7 +204,7 @@ const AddTask = (props) => {
                                         onPress={(value) => {
                                             onChangeStatus(value)
                                         }}
-                                        labelStyle={{fontSize: 14, color: '#47597e', paddingLeft: 5, marginRight: 10}}
+                                        labelStyle={{fontSize: 14, color: '#293b5f', paddingLeft: 5, marginRight: 10}}
                                         labelWrapStyle={{}}
                                     />
                                 </RadioButton>
