@@ -51,7 +51,7 @@ export const getTasks = (limit , offset) => {
     return new Promise((resolve, reject) => {
         database.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Task LIMIT ? OFFSET ? ;',
+                'SELECT * FROM Task ORDER BY id DESC LIMIT ? OFFSET ? ;',
                 [limit,offset],
                 (_var, result) => {
                     resolve(result)

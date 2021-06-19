@@ -1,4 +1,5 @@
 import React from 'react'
+import {combineReducers, createStore} from 'redux'
 import {SafeAreaView, StatusBar} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Styles from "./Styles"
@@ -7,8 +8,14 @@ import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AddTask from "../add/AddTask";
 import {insertTask} from "../../utils/DatabaseConnection";
+import {tasksReducer} from "../../store/reducers/TasksReducer";
+import {Provider} from 'react-redux'
 
 const Tab = createBottomTabNavigator();
+
+// let tasksReducer = tasksReducer()
+// let rootReducer = combineReducers({tasksReducer: tasksReducer})
+// let store = createStore(rootReducer)
 
 const Home = () => {
 
@@ -44,12 +51,6 @@ const Home = () => {
                     tabBarLabel: 'Tâches',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="tools" color={color} size={size}/>
-                    ),
-                }}/>
-                <Tab.Screen name="New" component={AddTask} options={{
-                    tabBarLabel: 'Nouveau',
-                    tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="plus-circle" color={color} size={size}/>
                     ),
                 }}/>
                 <Tab.Screen name="Charts" component={Charts} options={{

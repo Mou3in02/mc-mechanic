@@ -15,6 +15,14 @@ const TaskDetails = (props) => {
     const {id} = props.route.params
     const [isLoaded, setIsLoaded] = useState(false)
     const [data, setData] = useState(null)
+    const [isValidData, setIsValidData] = useState(true)
+    const [showDate, setShowDate] = useState(false)
+    const [selectedRadio, setSelectedRadio] = useState(0)
+    const radio_props = [
+        {id: 0, label: 'Effectué', value: true},
+        {id: 1, label: 'Non effectué', value: false}
+    ]
+
     useEffect(() => {
         getTaskById(id)
             .then((result) => {
@@ -25,20 +33,14 @@ const TaskDetails = (props) => {
                 console.log(error)
             })
     }, [])
-    const [isValidData, setIsValidData] = useState(true)
-    const [showDate, setShowDate] = useState(false)
-    const [selectedRadio, setSelectedRadio] = useState(0)
-    const radio_props = [
-        {id: 0, label: 'Effectué', value: true},
-        {id: 1, label: 'Non effectué', value: false}
-    ]
+
     const showDatePicker = () => {
         setShowDate(true)
     }
     const onPressDatePicker = () => {
         showDatePicker()
     }
-    const onChange = (event, selectedDate) => {
+    const onChangeDate = (event, selectedDate) => {
         setShowDate(false)
         if (selectedDate !== undefined) {
             setData({
@@ -165,7 +167,7 @@ const TaskDetails = (props) => {
                                                 mode="datetime"
                                                 is24Hour={true}
                                                 display="spinner"
-                                                onChange={onChange}
+                                                onChange={onChangeDate}
                                             />
                                         )}
                                     </Text>

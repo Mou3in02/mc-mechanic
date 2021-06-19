@@ -8,7 +8,7 @@ import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-
 import isEmpty from 'validator/es/lib/isEmpty'
 import Toast from 'react-native-simple-toast'
 
-const AddTask = (props) => {
+const AddTask = () => {
 
     const [data, setData] = useState({
         model: '',

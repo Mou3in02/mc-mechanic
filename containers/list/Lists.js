@@ -203,6 +203,11 @@ const Lists = (props) => {
                             <Text style={Styles.tasksTxt}>Tâches : </Text>
                             <Text style={Styles.numberTxt}>{numberOfTasks}</Text>
                         </View>
+                        <View style={Styles.addView}>
+                            <Pressable onPress={() => props.navigation.navigate('AddTask',{name: 'Ajouter teche'})}>
+                                <FontAwesome5 name={"plus-circle"} color={'#293b5f'} size={32} />
+                            </Pressable>
+                        </View>
                     </View>
                     {!dataIsEmpty ?
                         <SwipeListView

@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Home from './containers/home/Home'
 import TaskDetails from "./containers/taskDetails/TaskDetails";
 import {initDatabase} from "./utils/DatabaseConnection";
+import AddTask from './containers/add/AddTask.js'
 
 const Stack = createStackNavigator()
 
@@ -24,8 +25,8 @@ const App = () => {
                 <Stack.Screen name="TaskDetails" component={TaskDetails} options={({route}) => ({
                     title: route.params.name,
                     headerTitleStyle: {color: '#47597e'}
-                })}
-                />
+                })}/>
+                <Stack.Screen name="AddTask" component={AddTask} />
             </Stack.Navigator>
         </NavigationContainer>
     )

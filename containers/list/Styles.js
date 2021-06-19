@@ -8,6 +8,7 @@ const Styles = StyleSheet.create({
     },
     headerView: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         borderBottomWidth: 1,
         borderBottomColor: '#293b5f',
         height: 50,
@@ -17,6 +18,11 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 10
     },
+    addView:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 12
+    },
     tasksTxt:{
         fontSize: 15,
         marginLeft: 5,
@@ -24,7 +30,7 @@ const Styles = StyleSheet.create({
         color: '#333'
     },
     numberTxt:{
-        fontSize: 16,
+        fontSize: 17,
         marginLeft: 5,
         fontWeight: 'bold',
         color: '#900D0D'
