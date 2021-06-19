@@ -2,6 +2,7 @@ import React from 'react'
 import {Text, View} from 'react-native';
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import validator from "validator/es";
 
 const Task = (props) => {
 
@@ -18,23 +19,31 @@ const Task = (props) => {
         let i = date.getMinutes()
         return h + ':' + i
     }
+    const descriptionLimit = (description) => {
+        if (description.trim().length > 0){
+            if (validator.isLength(description.trim(),{min: 0, max: 100})){
+                return description
+            }
+            return description.substr(0,100).concat(' ...')
+        }
+    }
 
     return (
         <View style={Styles.taskView}>
-            <Text style={Styles.model}>{props.model}</Text>
+            <Text style={Styles.model}>{props.model.trim().toString()}</Text>
             <View style={Styles.taskDetailsView}>
                 <View style={Styles._50A}>
                     <View style={Styles.telView}>
                         <FontAwesome5 name="phone-square-alt" color="#444" size={15}/>
-                        <Text style={Styles.tel}>{props.tel}</Text>
+                        <Text style={Styles.tel}>{props.tel.trim().toString()}</Text>
                     </View>
                     <View style={Styles.moneyView}>
                         <Text style={Styles.earnText}>Gagner   </Text>
-                        <Text style={Styles.earn}>{props.earn}</Text>
+                        <Text style={Styles.earn}>{props.earn.trim().toString()}</Text>
                     </View>
                     <View style={Styles.moneyView}>
                         <Text style={Styles.spentText}>Dépensé</Text>
-                        <Text style={Styles.spent}>{props.spent}</Text>
+                        <Text style={Styles.spent}>{props.spent.trim().toString()}</Text>
                     </View>
                 </View>
                 <View style={Styles._50B}>
@@ -59,7 +68,7 @@ const Task = (props) => {
                 </View>
             </View>
             <Text style={Styles.description}>
-                {props.description}
+                {descriptionLimit(props.description)}
             </Text>
         </View>
     )

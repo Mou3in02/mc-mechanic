@@ -47,12 +47,12 @@ export const insertTask = (task) => {
         })
     })
 }
-export const getTasks = () => {
+export const getTasks = (limit , offset) => {
     return new Promise((resolve, reject) => {
         database.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Task ;',
-                [],
+                'SELECT * FROM Task LIMIT ? OFFSET ? ;',
+                [limit,offset],
                 (_var, result) => {
                     resolve(result)
                 },
@@ -105,6 +105,38 @@ export const deleteTaskFromDatabase = (id) => {
                 'DELETE FROM Task '+
                 'WHERE id=? ;',
                 [id],
+                (_var, result) => {
+                    resolve(result)
+                },
+                (_var, error) => {
+                    reject(error)
+                }
+            )
+        })
+    })
+}
+export const deleteAllTasks = () => {
+    return new Promise((resolve, reject) => {
+        database.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM Task ;',
+                [],
+                (_var, result) => {
+                    resolve(result)
+                },
+                (_var, error) => {
+                    reject(error)
+                }
+            )
+        })
+    })
+}
+export const countTasks = () => {
+    return new Promise((resolve, reject) => {
+        database.transaction((tx) => {
+            tx.executeSql(
+                'SELECT COUNT(id) as numbers FROM Task ;',
+                [],
                 (_var, result) => {
                     resolve(result)
                 },

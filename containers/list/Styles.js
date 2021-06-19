@@ -6,11 +6,28 @@ const Styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    listsFilter: {
+    headerView: {
         flexDirection: 'row',
         borderBottomWidth: 1,
         borderBottomColor: '#293b5f',
-        height: '10%',
+        height: 50,
+    },
+    headerContent:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 10
+    },
+    tasksTxt:{
+        fontSize: 15,
+        marginLeft: 5,
+        fontWeight: 'bold',
+        color: '#333'
+    },
+    numberTxt:{
+        fontSize: 16,
+        marginLeft: 5,
+        fontWeight: 'bold',
+        color: '#900D0D'
     },
     noRowsView:{
         flex: 1,
@@ -20,14 +37,19 @@ const Styles = StyleSheet.create({
     },
     noRowsText:{
         fontSize: 18,
-        color: '#999'
+        color: '#999',
+    },
+    spinnerScrollView:{
+        paddingVertical: 100
+        // height: 50,
+        // marginBottom: 110
     },
     // modal style
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        // marginTop: 22
     },
     modalView: {
         margin: 20,

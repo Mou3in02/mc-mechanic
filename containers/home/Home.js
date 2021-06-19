@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import {SafeAreaView, StatusBar} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Styles from "./Styles"
@@ -6,10 +6,27 @@ import Lists from "../list/Lists";
 import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AddTask from "../add/AddTask";
+import {insertTask} from "../../utils/DatabaseConnection";
 
 const Tab = createBottomTabNavigator();
 
 const Home = () => {
+
+    const insert100 = () => {
+        for (let i=1; i<=100; i++){
+            const task = {
+                model: 'Megan '+i,
+                tel: '12345678',
+                createdAt: new Date().getTime().toString(),
+                spent: '210',
+                earn: '65',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, voluptatum.',
+                status: true
+            }
+            insertTask(task).then(() => console.log(i)).catch((error) => console.log(error))
+        }
+    }
+    // insert100()
 
     return (
         <SafeAreaView style={Styles.homeView}>
@@ -28,7 +45,6 @@ const Home = () => {
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="tools" color={color} size={size}/>
                     ),
-                    // tabBarBadge: '+9'
                 }}/>
                 <Tab.Screen name="New" component={AddTask} options={{
                     tabBarLabel: 'Nouveau',
@@ -43,9 +59,9 @@ const Home = () => {
                     )
                 }}/>
                 <Tab.Screen name="Settings" component={Charts} options={{
-                    tabBarLabel: 'Paramètres',
+                    tabBarLabel: 'Info',
                     tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="cog" color={color} size={size}/>
+                        <FontAwesome5 name="info-circle" color={color} size={size}/>
                     )
                 }}/>
             </Tab.Navigator>
