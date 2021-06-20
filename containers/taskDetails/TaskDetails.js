@@ -7,14 +7,14 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from "validator/es/lib/isEmpty";
 import Toast from "react-native-simple-toast";
-import {getTaskById} from "../../utils/DatabaseConnection";
+import {getTaskById, updateTaskFromDatabase} from "../../utils/DatabaseConnection";
 
 
 const TaskDetails = (props) => {
 
     const {id} = props.route.params
     const [isLoaded, setIsLoaded] = useState(false)
-    const [data, setData] = useState(null)
+    const [data, setData] = useState({})
     const [isValidData, setIsValidData] = useState(true)
     const [showDate, setShowDate] = useState(false)
     const [selectedRadio, setSelectedRadio] = useState(0)
@@ -26,10 +26,12 @@ const TaskDetails = (props) => {
     useEffect(() => {
         getTaskById(id)
             .then((result) => {
+                // console.log()
                 setData(result.rows._array[0])
                 setIsLoaded(true)
             })
             .catch((error) => {
+                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
                 console.log(error)
             })
     }, [])
@@ -45,7 +47,7 @@ const TaskDetails = (props) => {
         if (selectedDate !== undefined) {
             setData({
                 ...data,
-                createdAt: selectedDate.getTime()
+                createdAt: selectedDate.getTime().toString()
             })
         }
     }
@@ -101,7 +103,15 @@ const TaskDetails = (props) => {
             Toast.show('Le champ modéle est obligatoire !', Toast.LONG)
         } else {
             setIsValidData(true)
-            console.log(data)
+            updateTaskFromDatabase(data)
+                .then(() => {
+                    Toast.show('Tâche modifié avec succès')
+                    props.navigation.push('Home')
+                })
+                .catch((error) => {
+                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                    console.log(error)
+                })
         }
     }
 
@@ -232,8 +242,15 @@ const TaskDetails = (props) => {
                         <View style={Styles.saveView}>
                             <Pressable style={Styles.saveButton} onPress={onClickSave}>
                                 <View style={Styles.saveItems}>
-                                    <FontAwesome5 name="edit" color="#fff" size={18}/>
+                                    {/*<FontAwesome5 name="edit" color="#fff" size={18}/>*/}
                                     <Text style={Styles.saveText}>Mettre à jour</Text>
+                                </View>
+                            </Pressable>
+                        </View>
+                        <View style={Styles.cancelView}>
+                            <Pressable style={Styles.cancelButton} onPress={() => props.navigation.push('Home')}>
+                                <View style={Styles.cancelItems}>
+                                    <Text style={Styles.cancelText}>Annuler</Text>
                                 </View>
                             </Pressable>
                         </View>

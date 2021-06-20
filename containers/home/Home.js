@@ -1,39 +1,14 @@
 import React from 'react'
-import {combineReducers, createStore} from 'redux'
 import {SafeAreaView, StatusBar} from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Styles from "./Styles"
 import Lists from "../list/Lists";
 import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AddTask from "../add/AddTask";
-import {insertTask} from "../../utils/DatabaseConnection";
-import {tasksReducer} from "../../store/reducers/TasksReducer";
-import {Provider} from 'react-redux'
 
 const Tab = createBottomTabNavigator();
 
-// let tasksReducer = tasksReducer()
-// let rootReducer = combineReducers({tasksReducer: tasksReducer})
-// let store = createStore(rootReducer)
-
 const Home = () => {
-
-    const insert100 = () => {
-        for (let i=1; i<=100; i++){
-            const task = {
-                model: 'Megan '+i,
-                tel: '12345678',
-                createdAt: new Date().getTime().toString(),
-                spent: '210',
-                earn: '65',
-                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, voluptatum.',
-                status: true
-            }
-            insertTask(task).then(() => console.log(i)).catch((error) => console.log(error))
-        }
-    }
-    // insert100()
 
     return (
         <SafeAreaView style={Styles.homeView}>
@@ -52,6 +27,12 @@ const Home = () => {
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="tools" color={color} size={size}/>
                     ),
+                }}/>
+                <Tab.Screen name="Search" component={Charts} options={{
+                    tabBarLabel: 'Rechercher',
+                    tabBarIcon: ({color, size}) => (
+                        <FontAwesome5 name="search" color={color} size={size}/>
+                    )
                 }}/>
                 <Tab.Screen name="Charts" component={Charts} options={{
                     tabBarLabel: 'Stats',

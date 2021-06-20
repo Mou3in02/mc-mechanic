@@ -3,30 +3,30 @@ import {StyleSheet} from 'react-native'
 
 
 const Styles = StyleSheet.create({
-    taskDetails:{
+    taskDetails: {
         marginVertical: 20,
         marginHorizontal: 10
     },
-    fieldView:{
+    fieldView: {
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 10,
         marginBottom: 10,
     },
-    _30:{
+    _30: {
         flexDirection: 'row',
         alignItems: 'center',
         width: '30%'
     },
-    _70:{
-      width: '70%'
+    _70: {
+        width: '70%'
     },
-    modelText:{
+    modelText: {
         fontSize: 16,
         fontWeight: 'bold',
         marginLeft: 10
     },
-    modelInput:{
+    modelInput: {
         height: 40,
         marginRight: 20,
         borderBottomWidth: 1,
@@ -36,12 +36,12 @@ const Styles = StyleSheet.create({
         color: '#293b5f',
         fontSize: 16,
     },
-    dateText:{
+    dateText: {
         fontSize: 16,
         fontWeight: 'bold',
         marginLeft: 5
     },
-    dateInput:{
+    dateInput: {
         height: 40,
         marginRight: 20,
         borderBottomWidth: 1,
@@ -52,19 +52,19 @@ const Styles = StyleSheet.create({
         fontSize: 16,
         paddingTop: 10
     },
-    descriptionView:{
+    descriptionView: {
         marginVertical: 5,
         flexDirection: 'column',
     },
-    descriptionTextView:{
+    descriptionTextView: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    descriptionInputView:{
+    descriptionInputView: {
         alignItems: 'center'
     },
-    descriptionInput:{
-        height: 120,
+    descriptionInput: {
+        height: 80,
         borderWidth: 1,
         borderColor: '#eee',
         width: '90%',
@@ -76,56 +76,64 @@ const Styles = StyleSheet.create({
         color: '#293b5f',
         lineHeight: 25
     },
-    statusView:{
+    statusView: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         marginLeft: 10,
         marginBottom: 10,
         marginTop: 10
     },
-    statusText:{
+    statusText: {
         fontSize: 16,
         fontWeight: 'bold',
     },
-    saveView:{
+    saveView: {
         marginTop: 10,
         marginHorizontal: 20,
         width: '90%',
     },
-    saveButton:{
+    saveButton: {
         height: 40,
         backgroundColor: '#293b5f',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5
     },
-    saveText:{
+    saveText: {
         color: '#fff',
-        fontSize: 16,
-        marginLeft: 5
+        fontSize: 15,
+        marginLeft: 5,
     },
-    saveItems:{
+    saveItems: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    deleteView:{
+    cancelView: {
         marginTop: 10,
         marginHorizontal: 20,
         width: '90%',
     },
-    deleteButton:{
+    cancelButton: {
         height: 40,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 30,
-        // borderWidth: 1,
-        // borderColor: '#900'
+        borderRadius: 5
     },
-    invalidModelInput:{
+    cancelText: {
+        color: '#900D0D',
+        fontSize: 16,
+        marginLeft: 5,
+        fontWeight: 'bold'
+    },
+    cancelItems: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    invalidModelInput: {
         borderBottomColor: '#f00'
     },
-    spinnerView:{
+    spinnerView: {
         flex: 1,
         justifyContent: 'center', //Centered vertically
         alignItems: 'center', // Centered horizontally

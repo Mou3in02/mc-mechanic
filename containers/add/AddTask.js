@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Text, View, TextInput, TouchableOpacity, Pressable} from 'react-native'
+import {Text, View, TextInput, TouchableOpacity, Pressable, ActivityIndicator} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -7,13 +7,14 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from 'validator/es/lib/isEmpty'
 import Toast from 'react-native-simple-toast'
+import {insertTask} from "../../utils/DatabaseConnection";
 
-const AddTask = () => {
+const AddTask = (props) => {
 
     const [data, setData] = useState({
         model: '',
         tel: '',
-        date: new Date().getTime(),
+        createdAt: new Date().getTime().toString(),
         earn: '',
         spent: '',
         description: '',
@@ -22,6 +23,7 @@ const AddTask = () => {
     const [isValidData, setIsValidData] = useState(true)
     const [showDate, setShowDate] = useState(false)
     const [selectedRadio, setSelectedRadio] = useState(0)
+    const [checkingData, setCheckingData] = useState(false)
     const radio_props = [
         {id: 0, label: 'Effectué', value: true},
         {id: 1, label: 'Non effectué', value: false}
@@ -32,12 +34,12 @@ const AddTask = () => {
     const onPressDatePicker = () => {
         showDatePicker()
     }
-    const onChange = (event, selectedDate) => {
+    const onChangeDate = (event, selectedDate) => {
         setShowDate(false)
         if (selectedDate !== undefined) {
             setData({
                 ...data,
-                date: selectedDate.getTime()
+                createdAt: selectedDate.getTime().toString()
             })
         }
     }
@@ -88,34 +90,37 @@ const AddTask = () => {
         value ? setSelectedRadio(0) : setSelectedRadio(1)
     }
     const onClickSave = () => {
+        setCheckingData(true)
         if (isEmpty(data.model.trim()) === true) {
             setIsValidData(false)
-            Toast.show('Le champ modéle est obligatoire !',Toast.LONG)
-        }
-        else {
+            setCheckingData(false)
+            Toast.show('Le champ modéle est obligatoire !', Toast.LONG)
+        } else {
             setIsValidData(true)
-            console.log(data)
+            insertTask(data)
+                .then(() => {
+                    setCheckingData(false)
+                    Toast.show('Tâche enregistré avec succès')
+                    props.navigation.push('Home')
+                })
+                .catch((error) => {
+                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                    console.log(error)
+                })
         }
     }
 
     return (
         <KeyboardAwareScrollView style={{backgroundColor: '#fff'}}>
             <View style={Styles.taskDetails}>
-                <View style={Styles.saveView}>
-                    <Pressable style={Styles.saveButton} onPress={onClickSave}>
-                        <View style={Styles.saveItems}>
-                            {/*<FontAwesome5 name="save" color="#47597e" size={18} style={{marginRight: 5}} />*/}
-                            <Text style={Styles.saveText}>Enregistrer</Text>
-                        </View>
-                    </Pressable>
-                </View>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
                         <FontAwesome5 name="car" size={16}/>
                         <Text style={Styles.modelText}>Modèle <Text style={{color: 'red'}}>*</Text></Text>
                     </View>
                     <View style={Styles._70}>
-                        <TextInput style={[Styles.modelInput, !isValidData ? Styles.invalidModelInput : null ]} value={data.model.toString()}
+                        <TextInput style={[Styles.modelInput, !isValidData ? Styles.invalidModelInput : null]}
+                                   value={data.model.toString()}
                                    onChangeText={(text) => onChangeModel(text)}/>
                     </View>
                 </View>
@@ -157,7 +162,7 @@ const AddTask = () => {
                     <View style={Styles._70}>
                         <TouchableOpacity onPress={() => onPressDatePicker()}>
                             <Text style={Styles.dateInput}>
-                                {formatDate(data.date)}
+                                {formatDate(data.createdAt)}
                                 {showDate && (
                                     <DateTimePicker
                                         testID="dateTimePicker"
@@ -165,7 +170,7 @@ const AddTask = () => {
                                         mode="datetime"
                                         is24Hour={true}
                                         display="spinner"
-                                        onChange={onChange}
+                                        onChange={onChangeDate}
                                     />
                                 )}
                             </Text>
@@ -221,6 +226,23 @@ const AddTask = () => {
                                    value={data.description.toString()}
                                    onChangeText={(text) => onChangeDescription(text)}/>
                     </View>
+                </View>
+                <View style={Styles.saveView}>
+                    <Pressable style={Styles.saveButton} onPress={onClickSave}>
+                        <View style={Styles.saveItems}>
+                            <Text style={{fontSize: 15, color: '#fff', marginRight: 5}}>
+                                Enregistrer
+                            </Text>
+                            {checkingData ? <ActivityIndicator color={'#fff'} size="small"/> : null}
+                        </View>
+                    </Pressable>
+                </View>
+                <View style={Styles.cancelView}>
+                    <Pressable style={Styles.cancelButton} onPress={() => props.navigation.push('Home')}>
+                        <View style={Styles.cancelItems}>
+                            <Text style={Styles.cancelText}>Annuler</Text>
+                        </View>
+                    </Pressable>
                 </View>
             </View>
         </KeyboardAwareScrollView>

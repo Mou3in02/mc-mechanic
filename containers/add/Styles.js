@@ -67,7 +67,7 @@ const Styles = StyleSheet.create({
         alignItems: 'center'
     },
     descriptionInput:{
-        height: 100,
+        height: 80,
         borderWidth: 1,
         borderColor: '#eee',
         width: '90%',
@@ -92,13 +92,12 @@ const Styles = StyleSheet.create({
     },
     saveView:{
         marginTop: 10,
-        marginBottom: 30,
         marginHorizontal: 20,
         width: '90%',
     },
     saveButton:{
         height: 40,
-        backgroundColor: '#fff',
+        backgroundColor: '#293b5f',
         borderWidth: 1,
         borderColor: '#293b5f',
         alignItems: 'center',
@@ -107,11 +106,31 @@ const Styles = StyleSheet.create({
     },
     saveText:{
         color: '#293b5f',
-        fontSize: 17,
-        fontWeight: 'bold',
-        // marginRight: 2
+        fontSize: 16,
     },
     saveItems:{
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    cancelView: {
+        marginTop: 10,
+        marginHorizontal: 20,
+        width: '90%',
+    },
+    cancelButton: {
+        height: 40,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5
+    },
+    cancelText: {
+        color: '#900D0D',
+        fontSize: 16,
+        marginLeft: 5,
+        fontWeight: 'bold'
+    },
+    cancelItems: {
         flexDirection: 'row',
         alignItems: 'center',
     },

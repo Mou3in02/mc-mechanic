@@ -2,7 +2,7 @@ import React from 'react'
 import {Text, View} from 'react-native';
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import validator from "validator/es";
+
 
 const Task = (props) => {
 
@@ -18,14 +18,6 @@ const Task = (props) => {
         let h = date.getUTCHours()
         let i = date.getMinutes()
         return h + ':' + i
-    }
-    const descriptionLimit = (description) => {
-        if (description.trim().length > 0){
-            if (validator.isLength(description.trim(),{min: 0, max: 100})){
-                return description
-            }
-            return description.substr(0,100).concat(' ...')
-        }
     }
 
     return (
@@ -58,17 +50,17 @@ const Task = (props) => {
                         </View>
                     }
                     <View style={Styles.dateView}>
-                        <Text style={Styles.date}>{formatTime(props.date)}</Text>
+                        <Text style={Styles.date}>{formatTime(props.createdAt)}</Text>
                         <FontAwesome5 name="clock" color="#444" size={15}/>
                     </View>
                     <View style={Styles.dateView}>
-                        <Text style={Styles.date}>{formatDate(props.date)}</Text>
+                        <Text style={Styles.date}>{formatDate(props.createdAt)}</Text>
                         <FontAwesome5 name="calendar-alt" color="#444" size={15}/>
                     </View>
                 </View>
             </View>
             <Text style={Styles.description}>
-                {descriptionLimit(props.description)}
+                {props.description.trim().toString()}
             </Text>
         </View>
     )

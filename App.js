@@ -14,7 +14,6 @@ const App = () => {
     initDatabase().then(() => {
         console.log('***    Connection is established   ***')
     }).catch((error) => {
-        console.log('Connection is failed !')
         console.log(error)
     })
 
@@ -24,9 +23,14 @@ const App = () => {
                 <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
                 <Stack.Screen name="TaskDetails" component={TaskDetails} options={({route}) => ({
                     title: route.params.name,
-                    headerTitleStyle: {color: '#47597e'}
+                    headerTitleStyle: {color: '#47597e',alignSelf: 'center'},
+                    headerLeft: () => null,
                 })}/>
-                <Stack.Screen name="AddTask" component={AddTask} />
+                <Stack.Screen name="AddTask" component={AddTask} options={({route}) => ({
+                    title: 'Nouveau Tâche',
+                    headerTitleStyle: {color: '#47597e',alignSelf: 'center'},
+                    headerLeft: () => null,
+                })}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

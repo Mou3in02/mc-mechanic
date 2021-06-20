@@ -5,16 +5,19 @@ import Task from "../../components/task/Task";
 import {getTasks, countTasks, deleteTaskFromDatabase} from "../../utils/DatabaseConnection";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {SwipeListView} from 'react-native-swipe-list-view';
+import Toast from "react-native-simple-toast";
+import { useIsFocused } from '@react-navigation/native';
 
 
 const Lists = (props) => {
 
     const [isLoaded, setIsLoaded] = useState(false)
-    const [numberOfTasks, setNumberOfTasks] = useState(null)
+    const [numberOfTasks, setNumberOfTasks] = useState(0)
     const [listNumber, setListNumber] = useState(0)
-    const limit = 2
+    const limit = 10
     const [data, setData] = useState([])
     const [dataIsEmpty, setDataIsEmpty] = useState(false)
+    const [hiddenLoadMore, setHiddenLoadMore] = useState(true)
     const [showModal, setShowModal] = useState({status: false, id: null})
     const [isScrollLoading, setIsScrollLoading] = useState(false)
 
@@ -23,28 +26,34 @@ const Lists = (props) => {
             .then((result) => {
                 let {numbers} = result.rows._array[0]
                 setNumberOfTasks(numbers)
-                if(numbers === 0){
+                if (numbers === 0) {
                     setDataIsEmpty(true)
-                }
-                else {
+                    setIsLoaded(true)
+                } else {
                     getTasks(limit, listNumber)
                         .then((result) => {
                             setData(result.rows._array)
                             setIsLoaded(true)
-                            setListNumber(listNumber+limit)
+                            setListNumber(listNumber + limit)
                         })
-                        .catch((error) => console.log(error))
+                        .catch((error) => {
+                            Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                            console.log(error)
+                        })
                 }
-            }).catch((error) => console.log(error))
+            }).catch((error) => {
+                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                console.log(error)
+            })
     }, [])
+
+
 
     const renderItem = ({item}) => {
         return (
-            <Pressable key={item.id} onPress={() => {
-                onPressTask(item.id)
-            }}
+            <Pressable key={item.id}
                        style={item.id % 2 === 0 ? {backgroundColor: '#f6f6f6'} : {backgroundColor: '#fff'}}>
-                <Task model={item.model} tel={item.tel} date={item.createdAt} earn={item.earn} spent={item.spent}
+                <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
                 {showModal.status === true && showModal.id === item.id ?
                     <Modal
@@ -97,8 +106,10 @@ const Lists = (props) => {
                     setData(newData)
                     setNumberOfTasks(numberOfTasks - 1)
                     setListNumber(listNumber - 1)
+                    Toast.show('Tâche supprimé avec succès')
                 })
                 .catch((error) => {
+                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
                     console.log(error)
                 })
         }
@@ -142,23 +153,29 @@ const Lists = (props) => {
     }
     const renderFooter = () => {
         return (
-            <Pressable style={{marginTop: 30}} onPress={loadMore}>
-                <View style={{
-                    paddingVertical: 10,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderWidth: 1,
-                    borderColor: '#293b5f',
-                    marginHorizontal: 50,
-                    borderRadius: 20
-                }}>
-                    {isScrollLoading ? <ActivityIndicator color={'#293b5f'} size="small"/> : null}
-                    <Text style={{fontSize: 14, color: '#293b5f', marginLeft: 5}}>
-                        afficher plus ...
-                    </Text>
-                </View>
-            </Pressable>
+            <View>
+                {hiddenLoadMore ?
+                    <Pressable style={{marginTop: 30}} onPress={loadMore}>
+                        <View style={{
+                            paddingVertical: 10,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderWidth: 1,
+                            borderColor: '#293b5f',
+                            marginHorizontal: 50,
+                            borderRadius: 20
+                        }}>
+                            {isScrollLoading ? <ActivityIndicator color={'#293b5f'} size="small"/> : null}
+                            <Text style={{fontSize: 14, color: '#293b5f', marginLeft: 5}}>
+                                afficher plus ...
+                            </Text>
+                        </View>
+                    </Pressable>
+                    :
+                    null
+                }
+            </View>
         )
     }
     const loadMore = () => {
@@ -166,31 +183,21 @@ const Lists = (props) => {
         getTasks(limit, listNumber)
             .then((result) => {
                 setIsScrollLoading(false)
-                if(result.rows._array.length === 0){
-                    setDataIsEmpty(true)
+                if (result.rows._array.length === 0) {
+                    setHiddenLoadMore(false)
+                } else {
+                    result.rows._array.map((task) => {
+                        return data.push(task)
+                    })
+                    setData(data)
+                    setListNumber(listNumber + limit)
                 }
-                result.rows._array.map((task) => {
-                    return data.push(task)
-                })
-                setData(data)
-                setListNumber(listNumber + limit)
             })
-            .catch((error) => console.log(error))
-    }
-    const onPressTask = (taskId) => {
-        let taskIndex = data.findIndex(({id}) => {
-            return taskId === id
-        })
-        if (taskIndex !== -1) {
-            let task = data[taskIndex]
-            let updatedTask = {
-                ...task,
-                description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At distinctio eaque quidem sed! Corporis expedita facere laudantium quo quod vitae.'
-            }
-            let newData = [...data]
-            newData.splice(taskIndex,1,updatedTask)
-            setData(newData)
-        }
+            .catch((error) => {
+                setIsScrollLoading(false)
+                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                console.log(error)
+            })
     }
 
     return (
@@ -204,8 +211,8 @@ const Lists = (props) => {
                             <Text style={Styles.numberTxt}>{numberOfTasks}</Text>
                         </View>
                         <View style={Styles.addView}>
-                            <Pressable onPress={() => props.navigation.navigate('AddTask',{name: 'Ajouter teche'})}>
-                                <FontAwesome5 name={"plus-circle"} color={'#293b5f'} size={32} />
+                            <Pressable onPress={() => props.navigation.navigate('AddTask')}>
+                                <FontAwesome5 name={"plus-circle"} color={'#293b5f'} size={32}/>
                             </Pressable>
                         </View>
                     </View>
