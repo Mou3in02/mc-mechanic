@@ -6,7 +6,6 @@ import {getTasks, countTasks, deleteTaskFromDatabase} from "../../utils/Database
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {SwipeListView} from 'react-native-swipe-list-view';
 import Toast from "react-native-simple-toast";
-import { useIsFocused } from '@react-navigation/native';
 
 
 const Lists = (props) => {
@@ -46,8 +45,6 @@ const Lists = (props) => {
                 console.log(error)
             })
     }, [])
-
-
 
     const renderItem = ({item}) => {
         return (

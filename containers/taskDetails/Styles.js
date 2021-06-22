@@ -122,9 +122,8 @@ const Styles = StyleSheet.create({
     },
     cancelText: {
         color: '#900D0D',
-        fontSize: 16,
-        marginLeft: 5,
-        fontWeight: 'bold'
+        fontSize: 17,
+        // fontWeight: 'bold'
     },
     cancelItems: {
         flexDirection: 'row',

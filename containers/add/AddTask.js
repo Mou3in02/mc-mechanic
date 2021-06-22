@@ -238,11 +238,11 @@ const AddTask = (props) => {
                     </Pressable>
                 </View>
                 <View style={Styles.cancelView}>
-                    <Pressable style={Styles.cancelButton} onPress={() => props.navigation.push('Home')}>
+                    <TouchableOpacity style={Styles.cancelButton} onPress={() => props.navigation.push('Home')}>
                         <View style={Styles.cancelItems}>
                             <Text style={Styles.cancelText}>Annuler</Text>
                         </View>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             </View>
         </KeyboardAwareScrollView>

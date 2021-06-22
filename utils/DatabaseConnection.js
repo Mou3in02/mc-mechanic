@@ -147,3 +147,20 @@ export const countTasks = () => {
         })
     })
 }
+export const searchTasksByModel = (model) => {
+    return new Promise((resolve, reject) => {
+        database.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Task '+
+                'WHERE model LIKE ? ;',
+                ['%'+model+'%'],
+                (_var, result) => {
+                    resolve(result)
+                },
+                (_var, error) => {
+                    reject(error)
+                }
+            )
+        })
+    })
+}

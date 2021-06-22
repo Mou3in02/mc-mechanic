@@ -5,6 +5,7 @@ import Styles from "./Styles"
 import Lists from "../list/Lists";
 import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Search from "../search/Search";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +29,7 @@ const Home = () => {
                         <FontAwesome5 name="tools" color={color} size={size}/>
                     ),
                 }}/>
-                <Tab.Screen name="Search" component={Charts} options={{
+                <Tab.Screen name="Search" component={Search} options={{
                     tabBarLabel: 'Rechercher',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="search" color={color} size={size}/>
