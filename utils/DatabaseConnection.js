@@ -14,7 +14,7 @@ export const initDatabase = () => {
                 'earn STRING NVARCHAR(100) NULL, '+
                 'spent STRING NVARCHAR(100) NULL, '+
                 'createdAt STRING NVARCHAR(100) NULL, '+
-                'description STRING NVARCHAR(100) NULL, '+
+                'description STRING NVARCHAR(200) NULL, '+
                 'status boolean NULL );',
                 [],
                 (_var, result) => {

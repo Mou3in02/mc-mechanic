@@ -20,7 +20,7 @@ const Styles = StyleSheet.create({
         width: '80%',
         borderWidth: 1,
         borderColor: '#14274E',
-        borderRadius: 10,
+        borderRadius: 30,
         paddingHorizontal: 20,
         paddingVertical: 10,
         fontSize: 16,
@@ -31,7 +31,7 @@ const Styles = StyleSheet.create({
     },
     countText:{
         fontSize: 15,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: '#394867',
         textAlign: 'right',
         marginRight: 10

@@ -238,7 +238,7 @@ const AddTask = (props) => {
                     </TouchableOpacity>
                 </View>
                 <View style={Styles.cancelView}>
-                    <TouchableOpacity style={Styles.cancelButton} onPress={() => props.navigation.push('Home')}>
+                    <TouchableOpacity style={Styles.cancelButton} onPress={() => props.navigation.navigate('Home')}>
                         <View style={Styles.cancelItems}>
                             <Text style={Styles.cancelText}>Annuler</Text>
                         </View>

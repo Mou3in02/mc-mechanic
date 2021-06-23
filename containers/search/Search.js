@@ -152,7 +152,7 @@ const Search = (props) => {
                 </TouchableOpacity>
             </View>
             <View style={Styles.countView}>
-                <Text style={Styles.countText}>Lignes : {numberRows}</Text>
+                <Text style={Styles.countText}>Taches : {numberRows}</Text>
             </View>
             <SwipeListView
                 contentContainerStyle={{paddingBottom: 40}}
@@ -162,7 +162,6 @@ const Search = (props) => {
                 keyExtractor={item => item.id.toString()}
                 leftOpenValue={70}
                 rightOpenValue={-70}
-                previewRowKey={'0'}
                 previewOpenValue={-40}
                 previewOpenDelay={2000}
                 renderHiddenItem={renderHiddenItem}

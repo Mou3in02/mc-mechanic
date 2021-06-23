@@ -6,10 +6,30 @@ import Lists from "../list/Lists";
 import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Search from "../search/Search";
+import {insertTask} from "../../utils/DatabaseConnection";
 
 const Tab = createBottomTabNavigator();
 
 const Home = () => {
+
+    const insert100 = () => {
+        for (let i=1; i<=100; i++){
+            let task = {
+                model: 'Véhicule '+i,
+                tel: Math.floor(Math.random() * 10000000).toString(),
+                earn: Math.floor(Math.random() * 1000).toString(),
+                spent: Math.floor(Math.random() * 1000).toString(),
+                createdAt: new Date().getTime().toString(),
+                description: 'Hello world !',
+                status: Math.floor(Math.random() * 10) % 2 === 0
+            }
+            insertTask(task)
+                .then(() => {
+                    console.log(i)
+                })
+                .catch((error) => console.log(error))
+        }
+    }
 
     return (
         <SafeAreaView style={Styles.homeView}>

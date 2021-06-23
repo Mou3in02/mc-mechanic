@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Modal, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Modal, Text, TouchableOpacity, View, FlatList} from 'react-native';
 import Styles from "./Styles"
 import Task from "../../components/task/Task";
 import {countTasks, deleteTaskFromDatabase, getTasks} from "../../utils/DatabaseConnection";
@@ -10,15 +10,14 @@ import Toast from "react-native-simple-toast";
 
 const Lists = (props) => {
 
+    const limit = 10
     const [isLoaded, setIsLoaded] = useState(false)
     const [numberOfTasks, setNumberOfTasks] = useState(0)
     const [listNumber, setListNumber] = useState(0)
-    const limit = 10
     const [data, setData] = useState([])
     const [dataIsEmpty, setDataIsEmpty] = useState(false)
-    const [hiddenLoadMore, setHiddenLoadMore] = useState(true)
+    const [isReachedEnd, setIsReachedEnd] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
-    const [isScrollLoading, setIsScrollLoading] = useState(false)
 
 
     useEffect(() => {
@@ -49,10 +48,10 @@ const Lists = (props) => {
         });
     }, [props.navigation])
 
-    const renderItem = ({item,index}) => {
+    const renderItem = ({item, index}) => {
         return (
             <View key={item.id}
-                       style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
+                  style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
                 {showModal.status === true && showModal.id === item.id ?
@@ -151,51 +150,47 @@ const Lists = (props) => {
     }
     const renderFooter = () => {
         return (
-            <View>
-                {hiddenLoadMore ?
-                    <TouchableOpacity style={{marginTop: 30}} onPress={loadMore}>
-                        <View style={{
-                            paddingVertical: 10,
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderWidth: 1,
-                            borderColor: '#14274E',
-                            marginHorizontal: 50,
-                            borderRadius: 20
-                        }}>
-                            {isScrollLoading ? <ActivityIndicator color={'#14274E'} size="small"/> : null}
-                            <Text style={{fontSize: 14, color: '#14274E', marginLeft: 5}}>
-                                afficher plus ...
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderColor: '#14274E',
+                marginHorizontal: 40,
+                marginTop: 10
+            }}>
+                {isReachedEnd ?
+                    <Text style={Styles.noMore}>Aucune tâche trouvée !</Text>
                     :
-                    null
+                    <ActivityIndicator color={'#999'} size="large"/>
                 }
             </View>
         )
     }
     const loadMore = () => {
-        setIsScrollLoading(true)
         getTasks(limit, listNumber)
             .then((result) => {
-                setIsScrollLoading(false)
-                if (result.rows._array.length === 0) {
-                    setHiddenLoadMore(false)
-                } else {
+                if (result.rows._array.length > 0){
                     result.rows._array.map((task) => {
                         return data.push(task)
                     })
                     setData(data)
                     setListNumber(listNumber + limit)
                 }
+                else {
+                    setIsReachedEnd(true)
+                }
             })
             .catch((error) => {
-                setIsScrollLoading(false)
                 Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
                 console.log(error)
             })
+    }
+    const endOfListReached = () => {
+        if (!isReachedEnd) {
+            loadMore()
+        } else {
+            setIsReachedEnd(true)
+        }
     }
 
     return (
@@ -209,25 +204,26 @@ const Lists = (props) => {
                             <Text style={Styles.numberTxt}>{numberOfTasks}</Text>
                         </View>
                         <View style={Styles.addView}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate('AddTask')}>
+                            <TouchableOpacity onPress={() => props.navigation.push('AddTask')}>
                                 <FontAwesome5 name={"plus-square"} color={'#fff'} size={33}/>
                             </TouchableOpacity>
                         </View>
                     </View>
                     {!dataIsEmpty ?
                         <SwipeListView
-                            contentContainerStyle={{paddingBottom: 40}}
+                            contentContainerStyle={{paddingBottom: 80}}
                             data={data}
                             extraData={true}
                             renderItem={renderItem}
                             keyExtractor={item => item.id.toString()}
                             leftOpenValue={70}
                             rightOpenValue={-70}
-                            previewRowKey={'0'}
                             previewOpenValue={-40}
                             previewOpenDelay={2000}
                             renderHiddenItem={renderHiddenItem}
                             ListFooterComponent={renderFooter}
+                            onEndReached={endOfListReached}
+                            onEndReachedThreshold={.5}
                         />
                         :
                         <View style={Styles.noRowsView}>

@@ -122,6 +122,10 @@ const Styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     },
+    noMore:{
+        color: '#999',
+        fontSize: 15
+    },
     // swipe list
     backTextWhite: {
         color: '#FFF',

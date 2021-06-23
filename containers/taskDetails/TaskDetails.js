@@ -14,7 +14,15 @@ const TaskDetails = (props) => {
 
     const {id} = props.route.params
     const [isLoaded, setIsLoaded] = useState(false)
-    const [data, setData] = useState({})
+    const [data, setData] = useState({
+        model: '',
+        tel: '',
+        createdAt: '',
+        earn: '',
+        spent: '',
+        description: '',
+        status: true
+    })
     const [isValidData, setIsValidData] = useState(true)
     const [showDate, setShowDate] = useState(false)
     const [selectedRadio, setSelectedRadio] = useState(0)
@@ -27,6 +35,9 @@ const TaskDetails = (props) => {
         getTaskById(id)
             .then((result) => {
                 setData(result.rows._array[0])
+                if (!result.rows._array[0].status){
+                    setSelectedRadio(1)
+                }
                 setIsLoaded(true)
             })
             .catch((error) => {
@@ -246,7 +257,7 @@ const TaskDetails = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style={Styles.cancelView}>
-                            <TouchableOpacity style={Styles.cancelButton} onPress={() => props.navigation.push('Home')}>
+                            <TouchableOpacity style={Styles.cancelButton} onPress={() => props.navigation.navigate('Home')}>
                                 <View style={Styles.cancelItems}>
                                     <Text style={Styles.cancelText}>Annuler</Text>
                                 </View>

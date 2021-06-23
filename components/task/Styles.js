@@ -6,8 +6,6 @@ const Styles = StyleSheet.create({
     taskView: {
         marginBottom: 1,
         padding: 10,
-        // backgroundColor: '#fff',
-        // borderRadius: 20
     },
     model: {
         fontSize: 17,
