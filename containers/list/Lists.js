@@ -49,10 +49,10 @@ const Lists = (props) => {
         });
     }, [props.navigation])
 
-    const renderItem = ({item}) => {
+    const renderItem = ({item,index}) => {
         return (
             <View key={item.id}
-                       style={item.id % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
+                       style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
                 {showModal.status === true && showModal.id === item.id ?
@@ -125,14 +125,12 @@ const Lists = (props) => {
         return (
             <View style={Styles.rowBack}>
                 <TouchableOpacity style={[Styles.backLeftBtn, Styles.backLeftBtnLeft]}
-                                  onPress={() => onClickModify(rowMap, data.item.id, data.item.model)}
-                >
+                                  onPress={() => onClickModify(rowMap, data.item.id, data.item.model)}>
                     <FontAwesome5 name={"edit"} size={18} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Modifier</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[Styles.backRightBtn, Styles.backRightBtnRight]}
-                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}
-                >
+                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}>
                     <FontAwesome5 name={"trash"} size={18} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Supprimer</Text>
                 </TouchableOpacity>
@@ -146,7 +144,7 @@ const Lists = (props) => {
     }
     const onClickModify = (rowMap, id, model) => {
         closeRow(rowMap, id)
-        props.navigation.navigate('TaskDetails', {
+        props.navigation.push('TaskDetails', {
             'id': id,
             'name': model
         })
@@ -206,13 +204,13 @@ const Lists = (props) => {
                 <View style={{flex: 1}}>
                     <View style={Styles.headerView}>
                         <View style={Styles.headerContent}>
-                            <FontAwesome5 name={"toolbox"} size={15} color={'#fff'}/>
+                            <FontAwesome5 name={"tools"} size={16} color={'#fff'}/>
                             <Text style={Styles.tasksTxt}>Tâches : </Text>
                             <Text style={Styles.numberTxt}>{numberOfTasks}</Text>
                         </View>
                         <View style={Styles.addView}>
                             <TouchableOpacity onPress={() => props.navigation.navigate('AddTask')}>
-                                <FontAwesome5 name={"plus-circle"} color={'#fff'} size={32}/>
+                                <FontAwesome5 name={"plus-square"} color={'#fff'} size={33}/>
                             </TouchableOpacity>
                         </View>
                     </View>

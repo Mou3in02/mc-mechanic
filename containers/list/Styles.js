@@ -25,13 +25,13 @@ const Styles = StyleSheet.create({
     tasksTxt:{
         fontSize: 15,
         marginLeft: 5,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: '#fff'
     },
     numberTxt:{
-        fontSize: 17,
+        fontSize: 16,
         marginLeft: 5,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: '#fff'
     },
     noRowsView:{

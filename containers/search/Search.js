@@ -21,10 +21,10 @@ const Search = (props) => {
     const onChangeText = (text) => {
         setSearchInput(text)
     }
-    const renderItem = ({item}) => {
+    const renderItem = ({item, index}) => {
         return (
             <View key={item.id}
-                       style={item.id % 2 === 0 ? {backgroundColor: '#f6f6f6'} : {backgroundColor: '#fff'}}>
+                       style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
                 {showModal.status === true && showModal.id === item.id ?
@@ -116,7 +116,7 @@ const Search = (props) => {
     }
     const onClickModify = (rowMap, id, model) => {
         closeRow(rowMap, id)
-        props.navigation.navigate('TaskDetails', {
+        props.navigation.push('TaskDetails', {
             'id': id,
             'name': model
         })
@@ -146,7 +146,7 @@ const Search = (props) => {
         <View style={Styles.containerView}>
             <View style={Styles.headerView}>
                 <TextInput style={[Styles.searchInput, {borderColor: isEmptyInput ? '#900D0D' : '#999'}]}
-                           value={searchInput} onChangeText={(text) => onChangeText(text)}/>
+                           placeholder="rechercher ..." value={searchInput} onChangeText={(text) => onChangeText(text)}/>
                 <TouchableOpacity onPress={onClickSearch}>
                     <FontAwesome5 name={"search"} size={28} color={'#14274E'}/>
                 </TouchableOpacity>
