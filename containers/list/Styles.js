@@ -9,8 +9,7 @@ const Styles = StyleSheet.create({
     headerView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderBottomColor: '#293b5f',
+        backgroundColor: '#14274E',
         height: 50,
     },
     headerContent:{
@@ -27,13 +26,13 @@ const Styles = StyleSheet.create({
         fontSize: 15,
         marginLeft: 5,
         fontWeight: 'bold',
-        color: '#333'
+        color: '#fff'
     },
     numberTxt:{
         fontSize: 17,
         marginLeft: 5,
         fontWeight: 'bold',
-        color: '#900D0D'
+        color: '#fff'
     },
     noRowsView:{
         flex: 1,
@@ -82,7 +81,7 @@ const Styles = StyleSheet.create({
         borderColor: "#900D0D",
     },
     buttonCancel: {
-        backgroundColor: "#293b5f",
+        backgroundColor: "#14274E",
     },
     deleteStyle: {
         color: "#900D0D",
@@ -131,7 +130,7 @@ const Styles = StyleSheet.create({
     },
     rowFront: {
         alignItems: 'center',
-        backgroundColor: '#CCC',
+        backgroundColor: '#fff',
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         justifyContent: 'center',
@@ -139,7 +138,7 @@ const Styles = StyleSheet.create({
     },
     rowBack: {
         alignItems: 'center',
-        backgroundColor: '#DDD',
+        backgroundColor: '#fff',
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -162,7 +161,7 @@ const Styles = StyleSheet.create({
         width: 70,
     },
     backLeftBtnLeft: {
-        backgroundColor: '#293b5f',
+        backgroundColor: '#14274E',
         left: 0,
     },
     backRightBtnRight: {

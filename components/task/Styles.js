@@ -12,7 +12,7 @@ const Styles = StyleSheet.create({
     model: {
         fontSize: 17,
         fontWeight: 'bold',
-        color: '#293b5f',
+        color: '#14274E',
         textAlign: 'center',
         marginBottom: 10
     },

@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {View, Pressable, Text, Modal, ActivityIndicator, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, Modal, Text, TouchableOpacity, View} from 'react-native';
 import Styles from "./Styles"
 import Task from "../../components/task/Task";
-import {getTasks, countTasks, deleteTaskFromDatabase} from "../../utils/DatabaseConnection";
+import {countTasks, deleteTaskFromDatabase, getTasks} from "../../utils/DatabaseConnection";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {SwipeListView} from 'react-native-swipe-list-view';
 import Toast from "react-native-simple-toast";
@@ -20,36 +20,39 @@ const Lists = (props) => {
     const [showModal, setShowModal] = useState({status: false, id: null})
     const [isScrollLoading, setIsScrollLoading] = useState(false)
 
+
     useEffect(() => {
-        countTasks()
-            .then((result) => {
-                let {numbers} = result.rows._array[0]
-                setNumberOfTasks(numbers)
-                if (numbers === 0) {
-                    setDataIsEmpty(true)
-                    setIsLoaded(true)
-                } else {
-                    getTasks(limit, listNumber)
-                        .then((result) => {
-                            setData(result.rows._array)
-                            setIsLoaded(true)
-                            setListNumber(listNumber + limit)
-                        })
-                        .catch((error) => {
-                            Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                            console.log(error)
-                        })
-                }
-            }).catch((error) => {
+        return props.navigation.addListener('focus', () => {
+            countTasks()
+                .then((result) => {
+                    let {numbers} = result.rows._array[0]
+                    setNumberOfTasks(numbers)
+                    if (numbers === 0) {
+                        setDataIsEmpty(true)
+                        setIsLoaded(true)
+                    } else {
+                        getTasks(limit, listNumber)
+                            .then((result) => {
+                                setData(result.rows._array)
+                                setIsLoaded(true)
+                                setListNumber(listNumber + limit)
+                            })
+                            .catch((error) => {
+                                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                                console.log(error)
+                            })
+                    }
+                }).catch((error) => {
                 Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
                 console.log(error)
             })
-    }, [])
+        });
+    }, [props.navigation])
 
     const renderItem = ({item}) => {
         return (
-            <Pressable key={item.id}
-                       style={item.id % 2 === 0 ? {backgroundColor: '#f6f6f6'} : {backgroundColor: '#fff'}}>
+            <View key={item.id}
+                       style={item.id % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
                 {showModal.status === true && showModal.id === item.id ?
@@ -63,7 +66,7 @@ const Lists = (props) => {
                                 <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
                                 <View style={Styles.buttonsView}>
                                     <View>
-                                        <Pressable
+                                        <TouchableOpacity
                                             style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
                                             onPress={() => {
                                                 deleteTask(item.id)
@@ -71,14 +74,14 @@ const Lists = (props) => {
                                             <FontAwesome5 name="trash-alt" size={16} color={"#900D0D"}
                                                           style={{marginRight: 2}}/>
                                             <Text style={Styles.deleteStyle}>Supprimer</Text>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     </View>
                                     <View>
-                                        <Pressable
+                                        <TouchableOpacity
                                             style={[Styles.button, Styles.buttonCancel]}
                                             onPress={() => setShowModal({status: false, id: null})}>
                                             <Text style={Styles.cancelStyle}>Anuuler</Text>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
@@ -87,7 +90,7 @@ const Lists = (props) => {
                     :
                     null
                 }
-            </Pressable>
+            </View>
         )
     }
     const deleteTask = (taskId) => {
@@ -152,23 +155,23 @@ const Lists = (props) => {
         return (
             <View>
                 {hiddenLoadMore ?
-                    <Pressable style={{marginTop: 30}} onPress={loadMore}>
+                    <TouchableOpacity style={{marginTop: 30}} onPress={loadMore}>
                         <View style={{
                             paddingVertical: 10,
                             flexDirection: 'row',
                             justifyContent: 'center',
                             alignItems: 'center',
                             borderWidth: 1,
-                            borderColor: '#293b5f',
+                            borderColor: '#14274E',
                             marginHorizontal: 50,
                             borderRadius: 20
                         }}>
-                            {isScrollLoading ? <ActivityIndicator color={'#293b5f'} size="small"/> : null}
-                            <Text style={{fontSize: 14, color: '#293b5f', marginLeft: 5}}>
+                            {isScrollLoading ? <ActivityIndicator color={'#14274E'} size="small"/> : null}
+                            <Text style={{fontSize: 14, color: '#14274E', marginLeft: 5}}>
                                 afficher plus ...
                             </Text>
                         </View>
-                    </Pressable>
+                    </TouchableOpacity>
                     :
                     null
                 }
@@ -203,14 +206,14 @@ const Lists = (props) => {
                 <View style={{flex: 1}}>
                     <View style={Styles.headerView}>
                         <View style={Styles.headerContent}>
-                            <FontAwesome5 name={"toolbox"} size={15} color={'#333'}/>
+                            <FontAwesome5 name={"toolbox"} size={15} color={'#fff'}/>
                             <Text style={Styles.tasksTxt}>Tâches : </Text>
                             <Text style={Styles.numberTxt}>{numberOfTasks}</Text>
                         </View>
                         <View style={Styles.addView}>
-                            <Pressable onPress={() => props.navigation.navigate('AddTask')}>
-                                <FontAwesome5 name={"plus-circle"} color={'#293b5f'} size={32}/>
-                            </Pressable>
+                            <TouchableOpacity onPress={() => props.navigation.navigate('AddTask')}>
+                                <FontAwesome5 name={"plus-circle"} color={'#fff'} size={32}/>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     {!dataIsEmpty ?

@@ -19,12 +19,12 @@ const Styles = StyleSheet.create({
         height: 45,
         width: '80%',
         borderWidth: 1,
-        borderColor: '#999',
+        borderColor: '#14274E',
         borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 10,
         fontSize: 16,
-        color: '#293b5f',
+        color: '#14274E',
     },
     countView:{
         height: 30,
@@ -32,7 +32,7 @@ const Styles = StyleSheet.create({
     countText:{
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#999',
+        color: '#394867',
         textAlign: 'right',
         marginRight: 10
     },
@@ -68,7 +68,7 @@ const Styles = StyleSheet.create({
         borderColor: "#900D0D",
     },
     buttonCancel: {
-        backgroundColor: "#293b5f",
+        backgroundColor: "#14274E",
     },
     deleteStyle: {
         color: "#900D0D",
@@ -117,7 +117,7 @@ const Styles = StyleSheet.create({
     },
     rowFront: {
         alignItems: 'center',
-        backgroundColor: '#CCC',
+        backgroundColor: '#fff',
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         justifyContent: 'center',
@@ -125,7 +125,7 @@ const Styles = StyleSheet.create({
     },
     rowBack: {
         alignItems: 'center',
-        backgroundColor: '#DDD',
+        backgroundColor: '#fff',
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -148,7 +148,7 @@ const Styles = StyleSheet.create({
         width: 70,
     },
     backLeftBtnLeft: {
-        backgroundColor: '#293b5f',
+        backgroundColor: '#14274E',
         left: 0,
     },
     backRightBtnRight: {

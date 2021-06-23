@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Text, View, TextInput, TouchableOpacity, Pressable, ActivityIndicator} from 'react-native'
+import {Text, View, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -26,7 +26,6 @@ const TaskDetails = (props) => {
     useEffect(() => {
         getTaskById(id)
             .then((result) => {
-                // console.log()
                 setData(result.rows._array[0])
                 setIsLoaded(true)
             })
@@ -240,12 +239,11 @@ const TaskDetails = (props) => {
                             </View>
                         </View>
                         <View style={Styles.saveView}>
-                            <Pressable style={Styles.saveButton} onPress={onClickSave}>
+                            <TouchableOpacity style={Styles.saveButton} onPress={onClickSave}>
                                 <View style={Styles.saveItems}>
-                                    {/*<FontAwesome5 name="edit" color="#fff" size={18}/>*/}
                                     <Text style={Styles.saveText}>Mettre à jour</Text>
                                 </View>
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                         <View style={Styles.cancelView}>
                             <TouchableOpacity style={Styles.cancelButton} onPress={() => props.navigation.push('Home')}>

@@ -13,11 +13,11 @@ const Home = () => {
 
     return (
         <SafeAreaView style={Styles.homeView}>
-            <StatusBar backgroundColor="#293b5f"/>
+            <StatusBar backgroundColor={'#14274E'}/>
             <Tab.Navigator
                 tabBarOptions={{
                     activeTintColor: '#fff',
-                    activeBackgroundColor: '#293b5f',
+                    activeBackgroundColor: '#14274E',
                     inactiveBackgroundColor: '#fff',
                     labelStyle: {
                         fontSize: 12
@@ -35,16 +35,16 @@ const Home = () => {
                         <FontAwesome5 name="search" color={color} size={size}/>
                     )
                 }}/>
+                <Tab.Screen name="Sort" component={Search} options={{
+                    tabBarLabel: 'Trier',
+                    tabBarIcon: ({color, size}) => (
+                        <FontAwesome5 name="sort-alpha-down" color={color} size={size}/>
+                    )
+                }}/>
                 <Tab.Screen name="Charts" component={Charts} options={{
                     tabBarLabel: 'Stats',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="chart-pie" color={color} size={size}/>
-                    )
-                }}/>
-                <Tab.Screen name="Settings" component={Charts} options={{
-                    tabBarLabel: 'Info',
-                    tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="info-circle" color={color} size={size}/>
                     )
                 }}/>
             </Tab.Navigator>

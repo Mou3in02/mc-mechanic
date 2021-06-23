@@ -33,7 +33,7 @@ const Styles = StyleSheet.create({
         borderBottomColor: '#eee',
         paddingHorizontal: 20,
         marginLeft: 10,
-        color: '#293b5f',
+        color: '#14274E',
         fontSize: 16,
     },
     dateText: {
@@ -48,7 +48,7 @@ const Styles = StyleSheet.create({
         borderBottomColor: '#eee',
         paddingHorizontal: 20,
         marginLeft: 10,
-        color: '#293b5f',
+        color: '#14274E',
         fontSize: 16,
         paddingTop: 10
     },
@@ -73,7 +73,7 @@ const Styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         fontSize: 15,
-        color: '#293b5f',
+        color: '#14274E',
         lineHeight: 25
     },
     statusView: {
@@ -94,7 +94,7 @@ const Styles = StyleSheet.create({
     },
     saveButton: {
         height: 40,
-        backgroundColor: '#293b5f',
+        backgroundColor: '#14274E',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5

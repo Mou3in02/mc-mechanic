@@ -1,6 +1,6 @@
 'use strict'
 import React, {useState} from "react"
-import {View, Text, TextInput, TouchableOpacity, Pressable, Modal} from 'react-native'
+import {View, Text, TextInput, TouchableOpacity, Pressable, Modal, Keyboard} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {deleteTaskFromDatabase, searchTasksByModel} from "../../utils/DatabaseConnection";
@@ -10,7 +10,7 @@ import {SwipeListView} from "react-native-swipe-list-view";
 import isEmpty from 'validator/es/lib/isEmpty'
 
 
-const Search = () => {
+const Search = (props) => {
 
     const [data, setData] = useState([])
     const [numberRows, setNumberRows] = useState(0)
@@ -21,30 +21,9 @@ const Search = () => {
     const onChangeText = (text) => {
         setSearchInput(text)
     }
-    const onClickSearch = () => {
-        if (!isEmpty(searchInput)) {
-            setIsEmptyInput(false)
-            searchTasksByModel(searchInput)
-                .then((result) => {
-                    console.log(result.rows._array)
-                    setNumberRows(result.rows._array.length)
-                    if (result.rows._array.length > 0) {
-                        setData(result.rows._array)
-                    }
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
-        }
-        else {
-            setIsEmptyInput(true)
-            Toast.show('Le champs est obligatoire !', Toast.LONG)
-        }
-    }
     const renderItem = ({item}) => {
         return (
-            <Pressable key={item.id}
+            <View key={item.id}
                        style={item.id % 2 === 0 ? {backgroundColor: '#f6f6f6'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
@@ -83,36 +62,8 @@ const Search = () => {
                     :
                     null
                 }
-            </Pressable>
+            </View>
         )
-    }
-    const deleteTask = (taskId) => {
-        setShowModal({status: false, id: null})
-        let taskIndex = data.findIndex(({id}) => {
-            return taskId === id
-        })
-        if (taskIndex !== -1) {
-            deleteTaskFromDatabase(taskId)
-                .then(() => {
-                    let newData = [...data]
-                    newData.splice(taskIndex, 1)
-                    setData(newData)
-                    setNumberOfTasks(numberOfTasks - 1)
-                    setListNumber(listNumber - 1)
-                    Toast.show('Tâche supprimé avec succès')
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
-        }
-    }
-    const onClickSwipeDelete = (rowMap, id) => {
-        closeRow(rowMap, id)
-        setShowModal({
-            status: true,
-            id: id
-        })
     }
     const renderHiddenItem = (data, rowMap) => {
         return (
@@ -137,6 +88,32 @@ const Search = () => {
             rowMap[rowKey].closeRow();
         }
     }
+    const deleteTask = (taskId) => {
+        setShowModal({status: false, id: null})
+        let taskIndex = data.findIndex(({id}) => {
+            return taskId === id
+        })
+        if (taskIndex !== -1) {
+            deleteTaskFromDatabase(taskId)
+                .then(() => {
+                    let newData = [...data]
+                    newData.splice(taskIndex, 1)
+                    setData(newData)
+                    Toast.show('Tâche supprimé avec succès')
+                })
+                .catch((error) => {
+                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                    console.log(error)
+                })
+        }
+    }
+    const onClickSwipeDelete = (rowMap, id) => {
+        closeRow(rowMap, id)
+        setShowModal({
+            status: true,
+            id: id
+        })
+    }
     const onClickModify = (rowMap, id, model) => {
         closeRow(rowMap, id)
         props.navigation.navigate('TaskDetails', {
@@ -144,13 +121,34 @@ const Search = () => {
             'name': model
         })
     }
+    const onClickSearch = () => {
+        Keyboard.dismiss()
+        if (!isEmpty(searchInput.trim())) {
+            setIsEmptyInput(false)
+            searchTasksByModel(searchInput.trim())
+                .then((result) => {
+                    setNumberRows(result.rows._array.length)
+                    setData(result.rows._array)
+                })
+                .catch((error) => {
+                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                    console.log(error)
+                })
+        } else {
+            setSearchInput('')
+            setIsEmptyInput(true)
+            Toast.show('Le champs est obligatoire !', Toast.LONG)
+        }
+    }
+
 
     return (
         <View style={Styles.containerView}>
             <View style={Styles.headerView}>
-                <TextInput style={[Styles.searchInput, {borderColor: isEmptyInput ? '#900D0D' : '#999'}]} value={searchInput} onChangeText={(text) => onChangeText(text)}/>
+                <TextInput style={[Styles.searchInput, {borderColor: isEmptyInput ? '#900D0D' : '#999'}]}
+                           value={searchInput} onChangeText={(text) => onChangeText(text)}/>
                 <TouchableOpacity onPress={onClickSearch}>
-                    <FontAwesome5 name={"search"} size={28} color={'#293b5f'}/>
+                    <FontAwesome5 name={"search"} size={28} color={'#14274E'}/>
                 </TouchableOpacity>
             </View>
             <View style={Styles.countView}>

@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8e897fc5-3d3f-48a9-8a00-b7ceaa7a6592" name="Default Changelist" comment="">
+    <list default="true" id="48bd75f0-d4f0-4fd4-8441-15c8cc444da7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/task/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/task/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/add/AddTask.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/add/AddTask.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/add/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/add/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/home/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/list/Lists.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Lists.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/list/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/search/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/search/Search.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/search/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/search/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/taskDetails/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/taskDetails/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/taskDetails/TaskDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/taskDetails/TaskDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/reducers/TasksReducer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/DatabaseConnection.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/DatabaseConnection.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1tksXrBHjwavOPwiEDneEhbzETn" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="1" id="Add" />
-  </component>
+  <component name="ProjectId" id="1uK9IUSt9qYvnKtMIbcsGtdwIH9" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -39,65 +32,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/containers/add" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\WORK\mc-mechanic\containers\add" />
-      <recent name="D:\WORK\mc-mechanic\containers\list" />
-      <recent name="D:\WORK\mc-mechanic\containers\chart" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\WORK\mc-mechanic\containers" />
-      <recent name="D:\WORK\mc-mechanic\Containers\home" />
-    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="8e897fc5-3d3f-48a9-8a00-b7ceaa7a6592" name="Default Changelist" comment="" />
-      <created>1623324469817</created>
+      <changelist id="48bd75f0-d4f0-4fd4-8441-15c8cc444da7" name="Default Changelist" comment="" />
+      <created>1624403466370</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1623324469817</updated>
-      <workItem from="1623324485392" duration="832000" />
-      <workItem from="1623325478328" duration="129000" />
-      <workItem from="1623358221356" duration="3544000" />
-      <workItem from="1623536063198" duration="413000" />
-      <workItem from="1623536694382" duration="3997000" />
-      <workItem from="1623541239139" duration="7858000" />
-      <workItem from="1623585088381" duration="579000" />
-      <workItem from="1623585964905" duration="2644000" />
-      <workItem from="1623622009106" duration="8775000" />
-      <workItem from="1623679492674" duration="12766000" />
-      <workItem from="1623710934139" duration="9763000" />
-      <workItem from="1623797427027" duration="15094000" />
-      <workItem from="1623845136029" duration="13132000" />
-      <workItem from="1623882566025" duration="15847000" />
-      <workItem from="1623945527124" duration="28369000" />
-      <workItem from="1624055403982" duration="17825000" />
-      <workItem from="1624108477186" duration="11376000" />
-      <workItem from="1624145366388" duration="7492000" />
-      <workItem from="1624233114669" duration="533000" />
-      <workItem from="1624316218041" duration="8575000" />
+      <updated>1624403466370</updated>
+      <workItem from="1624403538499" duration="6015000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

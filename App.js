@@ -23,12 +23,12 @@ const App = () => {
                 <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
                 <Stack.Screen name="TaskDetails" component={TaskDetails} options={({route}) => ({
                     title: route.params.name,
-                    headerTitleStyle: {color: '#47597e',alignSelf: 'center'},
+                    headerTitleStyle: {color: '#14274E',alignSelf: 'center'},
                     headerLeft: () => null,
                 })}/>
                 <Stack.Screen name="AddTask" component={AddTask} options={({route}) => ({
                     title: 'Nouveau Tâche',
-                    headerTitleStyle: {color: '#47597e',alignSelf: 'center'},
+                    headerTitleStyle: {color: '#14274E',alignSelf: 'center'},
                     headerLeft: () => null,
                 })}/>
             </Stack.Navigator>
