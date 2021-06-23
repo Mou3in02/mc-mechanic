@@ -164,3 +164,19 @@ export const searchTasksByModel = (model) => {
         })
     })
 }
+export const sortTasksByCreatedAt = (limit , offset) => {
+    return new Promise((resolve, reject) => {
+        database.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Task ORDER BY createdAt DESC LIMIT ? OFFSET ? ;',
+                [limit,offset],
+                (_var, result) => {
+                    resolve(result)
+                },
+                (_var, error) => {
+                    reject(error)
+                }
+            )
+        })
+    })
+}

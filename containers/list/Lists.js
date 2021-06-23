@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Modal, Text, TouchableOpacity, View, FlatList} from 'react-native';
+import {ActivityIndicator, Modal, Text, TouchableOpacity, View} from 'react-native';
 import Styles from "./Styles"
 import Task from "../../components/task/Task";
-import {countTasks, deleteTaskFromDatabase, getTasks} from "../../utils/DatabaseConnection";
+import {countTasks, deleteTaskFromDatabase, getTasks, sortTasksByCreatedAt} from "../../utils/DatabaseConnection";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {SwipeListView} from 'react-native-swipe-list-view';
 import Toast from "react-native-simple-toast";
@@ -30,7 +30,7 @@ const Lists = (props) => {
                         setDataIsEmpty(true)
                         setIsLoaded(true)
                     } else {
-                        getTasks(limit, listNumber)
+                        sortTasksByCreatedAt(limit, listNumber)
                             .then((result) => {
                                 setData(result.rows._array)
                                 setIsLoaded(true)
@@ -167,7 +167,7 @@ const Lists = (props) => {
         )
     }
     const loadMore = () => {
-        getTasks(limit, listNumber)
+        sortTasksByCreatedAt(limit, listNumber)
             .then((result) => {
                 if (result.rows._array.length > 0){
                     result.rows._array.map((task) => {
