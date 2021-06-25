@@ -1,34 +1,55 @@
 'use strict'
 import React, {useState} from "react"
-import {View, Text, TextInput, TouchableOpacity, Pressable, Modal, Keyboard} from 'react-native'
+import {View, Text, TouchableOpacity, Pressable, Modal} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import {deleteTaskFromDatabase, searchTasksByModel, searchTasksByTel} from "../../utils/DatabaseConnection";
+import {countSortTasksByDate, deleteTaskFromDatabase, sortTasksByDate} from "../../utils/CRUD";
 import Toast from "react-native-simple-toast";
 import Task from "../../components/task/Task";
 import {SwipeListView} from "react-native-swipe-list-view";
-import isEmpty from 'validator/es/lib/isEmpty'
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 
 const Sort = (props) => {
 
-    const [data, setData] = useState({
+    //  pagination
+    const limit = 10
+    const [listNumber, setListNumber] = useState(0)
+    const [isReachedEnd, setIsReachedEnd] = useState(false)
+    //  data
+    const [date, setDate] = useState({
         start: new Date().getTime().toString(),
         end: new Date().getTime().toString()
     })
-    const [showDate, setShowDate] = useState(false)
-    const [numberRows, setNumberRows] = useState(0)
-    const [searchInput, setSearchInput] = useState('')
+    const [data, setData] = useState([])
+    const [showDateStart, setShowDateStart] = useState(false)
+    const [showDateEnd, setShowDateEnd] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
     const [emptyData, setEmptyData] = useState(true)
+    const [numberOfTasks, setNumberOfTasks] = useState(0)
 
-    const onChangeDate = (event, selectedDate) => {
-        setShowDate(false)
+
+    const onPressDateStart = () => {
+        setShowDateStart(true)
+    }
+    const onChangeDateStart = (event, selectedDate) => {
+        setShowDateStart(false)
         if (selectedDate !== undefined) {
-            setData({
-                ...data,
-                createdAt: selectedDate.getTime().toString()
+            setDate({
+                ...date,
+                start: selectedDate.getTime().toString()
+            })
+        }
+    }
+    const onPressDateEnd = () => {
+        setShowDateEnd(true)
+    }
+    const onChangeDateEnd = (event, selectedDate) => {
+        setShowDateEnd(false)
+        if (selectedDate !== undefined) {
+            setDate({
+                ...date,
+                end: selectedDate.getTime().toString()
             })
         }
     }
@@ -140,85 +161,108 @@ const Sort = (props) => {
         })
     }
     const onClickSearch = () => {
-        // if (!isEmpty(searchInput.trim())) {
-        //     Keyboard.dismiss()
-        //     setIsEmptyInput(false)
-        //     searchTasksByModel(searchInput.trim())
-        //         .then((result) => {
-        //             if (result.rows._array.length > 0) {
-        //                 setEmptyData(false)
-        //                 setNumberRows(result.rows._array.length)
-        //                 setData(result.rows._array)
-        //             } else {
-        //                 searchTasksByTel(searchInput.trim())
-        //                     .then((result) => {
-        //                         setNumberRows(result.rows._array.length)
-        //                         if (result.rows._array.length > 0) {
-        //                             setEmptyData(false)
-        //                             setData(result.rows._array)
-        //                         } else {
-        //                             setEmptyData(true)
-        //                             setData([])
-        //                         }
-        //                     })
-        //                     .catch((error) => {
-        //                         Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-        //                         console.log(error)
-        //                     })
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-        //             console.log(error)
-        //         })
-        // } else {
-        //     setSearchInput('')
-        //     setIsEmptyInput(true)
-        //     Toast.show('Le champs est obligatoire !', Toast.LONG)
-        // }
+        setData([])
+        setListNumber(0)
+        setEmptyData(false)
+        countSortTasksByDate(date.start, date.end)
+            .then((result) => {
+                console.log(result)
+                // let {numbers} = result.rows._array[0]
+                // setNumberOfTasks(numbers)
+                // if (numbers === 0) {
+                //     setEmptyData(true)
+                // } else {
+                //     sortTasksByDate(date.start, date.end, limit, listNumber)
+                //         .then((result) => {
+                //             setListNumber(listNumber + limit)
+                //             setNumberOfTasks(result.rows._array.length)
+                //             if (result.rows._array.length > 0) {
+                //                 setEmptyData(false)
+                //                 setData(result.rows._array)
+                //             } else {
+                //                 setEmptyData(true)
+                //                 setData([])
+                //             }
+                //         })
+                //         .catch((error) => {
+                //             Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                //             console.log(error)
+                //         })
+                // }
+            })
+            .catch((error) => {
+                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                console.log(error)
+            })
+    }
+    const loadMore = () => {
+        sortTasksByDate(date.start, date.end, limit, listNumber)
+            .then((result) => {
+                setListNumber(listNumber + limit)
+                if (result.rows._array.length > 0) {
+                    result.rows._array.map((task) => {
+                        return data.push(task)
+                    })
+                    setData(data)
+                    setListNumber(listNumber + limit)
+                } else {
+                    setIsReachedEnd(true)
+                }
+            })
+            .catch((error) => {
+                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                console.log(error)
+            })
+    }
+    const endOfListReached = () => {
+        if (!isReachedEnd) {
+            loadMore()
+        } else {
+            setIsReachedEnd(true)
+        }
     }
 
     return (
         <View style={Styles.containerView}>
             <View style={Styles.headerView}>
                 <View style={Styles.dateView}>
-                    <FontAwesome5 name={'clock'} size={20} color={'#fff'} />
+                    <FontAwesome5 name={'clock'} size={20} color={'#fff'}/>
                 </View>
                 <View style={Styles.dateView}>
-                    <TouchableOpacity >
-                            <Text style={Styles.dateValue}>
-                                {formatDate(data.start)}
-                                {showDate && (
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={new Date()}
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="spinner"
-                                        onChange={onChangeDate}
-                                    />
-                                )}
-                            </Text>
+                    <TouchableOpacity onPress={onPressDateStart}>
+                        <Text style={Styles.dateValue}>
+                            {formatDate(date.start)}
+                            {showDateStart && (
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={new Date(parseInt(date.start))}
+                                    mode="datetime"
+                                    is24Hour={true}
+                                    display="spinner"
+                                    onChange={onChangeDateStart}
+                                />
+                            )}
+                        </Text>
                     </TouchableOpacity>
                 </View>
                 <View style={Styles.dateView}>
-                    <FontAwesome5 name={'caret-right'} size={20} color={'#fff'} />
+                    <FontAwesome5 name={'caret-right'} size={20} color={'#fff'}/>
                 </View>
                 <View style={Styles.dateView}>
-                    <TouchableOpacity>
-                            <Text style={Styles.dateValue}>
-                                {formatDate(data.end)}
-                                {showDate && (
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={new Date()}
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="spinner"
-                                        onChange={onChangeDate}
-                                    />
-                                )}
-                            </Text>
+                    <TouchableOpacity onPress={onPressDateEnd}>
+                        <Text style={Styles.dateValue}>
+                            {formatDate(date.end)}
+                            {showDateEnd && (
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={new Date(parseInt(date.end))}
+                                    mode="datetime"
+                                    is24Hour={true}
+                                    display="spinner"
+                                    onChange={onChangeDateEnd}
+                                />
+                            )}
+                        </Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity onPress={onClickSearch}>
@@ -226,7 +270,7 @@ const Sort = (props) => {
                 </TouchableOpacity>
             </View>
             <View style={Styles.countView}>
-                <Text style={Styles.countText}>Taches : {numberRows}</Text>
+                <Text style={Styles.countText}>Taches : {numberOfTasks}</Text>
             </View>
             {emptyData ?
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -234,7 +278,7 @@ const Sort = (props) => {
                 </View>
                 :
                 <SwipeListView
-                    contentContainerStyle={{paddingBottom: 40}}
+                    contentContainerStyle={{paddingBottom: 80}}
                     data={data}
                     extraData={true}
                     renderItem={renderItem}
@@ -244,6 +288,8 @@ const Sort = (props) => {
                     previewOpenValue={-40}
                     previewOpenDelay={2000}
                     renderHiddenItem={renderHiddenItem}
+                    // onEndReached={endOfListReached}
+                    // onEndReachedThreshold={.8}
                 />
             }
         </View>

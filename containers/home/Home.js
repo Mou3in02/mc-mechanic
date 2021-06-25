@@ -6,7 +6,7 @@ import Lists from "../list/Lists";
 import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Search from "../search/Search";
-import {insertTask} from "../../utils/DatabaseConnection";
+import {insertTask} from "../../utils/CRUD";
 import Sort from "../sort/Sort";
 
 const Tab = createBottomTabNavigator();

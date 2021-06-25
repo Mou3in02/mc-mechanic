@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from "validator/es/lib/isEmpty";
 import Toast from "react-native-simple-toast";
-import {getTaskById, updateTaskFromDatabase} from "../../utils/DatabaseConnection";
+import {getTaskById, updateTaskFromDatabase} from "../../utils/CRUD";
 
 
 const TaskDetails = (props) => {

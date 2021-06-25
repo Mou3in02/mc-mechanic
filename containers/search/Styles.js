@@ -12,21 +12,23 @@ const Styles = StyleSheet.create({
         justifyContent: 'space-around',
         height: 50,
         alignItems: 'center',
-        marginHorizontal: 10,
-        marginVertical: 10
+        paddingHorizontal: 12,
+        backgroundColor: '#14274E'
     },
     searchInput:{
-        height: 45,
-        width: '80%',
-        borderWidth: 1,
-        borderColor: '#14274E',
+        height: 40,
+        width: '75%',
+        borderWidth: 2,
+        borderColor: '#fff',
         borderRadius: 30,
         paddingHorizontal: 20,
         paddingVertical: 10,
         fontSize: 16,
-        color: '#14274E',
+        backgroundColor: '#fff',
+        color: '#14274E'
     },
     countView:{
+        marginTop: 6,
         height: 30,
     },
     countText:{

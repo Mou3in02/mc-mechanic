@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from 'validator/es/lib/isEmpty'
 import Toast from 'react-native-simple-toast'
-import {insertTask} from "../../utils/DatabaseConnection";
+import {insertTask} from "../../utils/CRUD";
 
 const AddTask = (props) => {
 
@@ -28,6 +28,7 @@ const AddTask = (props) => {
         {id: 0, label: 'Effectué', value: true},
         {id: 1, label: 'Non effectué', value: false}
     ]
+
     const showDatePicker = () => {
         setShowDate(true)
     }

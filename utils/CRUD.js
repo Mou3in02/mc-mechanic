@@ -1,10 +1,8 @@
-import * as SQLite from 'expo-sqlite';
-
-const database = SQLite.openDatabase('mc-mechanic.db')
+import Database from "./GetConnection";
 
 export const initDatabase = () => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 // 'DROP TABLE Task ',
                 'CREATE TABLE IF NOT EXISTS Task ( ' +
@@ -31,7 +29,7 @@ export const initDatabase = () => {
 export const insertTask = (task) => {
     const {model, tel, earn, spent, createdAt, description, status} = task
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'INSERT INTO Task (model,tel,earn,spent,createdAt,description,status) '+
                 'VALUES (?, ?, ?, ?, ?, ?, ?);',
@@ -49,7 +47,7 @@ export const insertTask = (task) => {
 }
 export const getTasks = (limit , offset) => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'SELECT * FROM Task ORDER BY id DESC LIMIT ? OFFSET ? ;',
                 [limit,offset],
@@ -65,7 +63,7 @@ export const getTasks = (limit , offset) => {
 }
 export const getTaskById = (id) => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'SELECT * FROM Task WHERE id = ? ;',
                 [id],
@@ -82,7 +80,7 @@ export const getTaskById = (id) => {
 export const updateTaskFromDatabase = (task) => {
     const {id, model, tel, earn, spent, createdAt, description, status} = task
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'UPDATE Task '+
                 'SET model=?, tel=?, earn=?, spent=?, createdAt=?, description=?, status=? '+
@@ -100,7 +98,7 @@ export const updateTaskFromDatabase = (task) => {
 }
 export const deleteTaskFromDatabase = (id) => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'DELETE FROM Task '+
                 'WHERE id=? ;',
@@ -117,7 +115,7 @@ export const deleteTaskFromDatabase = (id) => {
 }
 export const deleteAllTasks = () => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'DELETE FROM Task ;',
                 [],
@@ -133,7 +131,7 @@ export const deleteAllTasks = () => {
 }
 export const countTasks = () => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'SELECT COUNT(id) as numbers FROM Task ;',
                 [],
@@ -149,7 +147,7 @@ export const countTasks = () => {
 }
 export const searchTasksByModel = (model) => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'SELECT * FROM Task '+
                 'WHERE model LIKE ? ;',
@@ -166,7 +164,7 @@ export const searchTasksByModel = (model) => {
 }
 export const searchTasksByTel = (tel) => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
                 'SELECT * FROM Task '+
                 'WHERE tel LIKE ? ;',
@@ -181,13 +179,13 @@ export const searchTasksByTel = (tel) => {
         })
     })
 }
-export const sortTasksByDate = (dateStart, dateEnd, limit, offset) => {
+export const countSortTasksByDate = (dateStart, dateEnd) => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Task ORDER BY id DESC LIMIT ? OFFSET ? '+
-                'WHERE createdAt >= ? AND createdAt <= ? ;',
-                [limit, offset, dateStart, dateEnd],
+                'SELECT COUNT(id) as numbers FROM Task '+
+                'WHERE createdAt BETWEEN ? AND ? '+
+                [dateStart, dateEnd],
                 (_var, result) => {
                     resolve(result)
                 },
@@ -198,13 +196,15 @@ export const sortTasksByDate = (dateStart, dateEnd, limit, offset) => {
         })
     })
 }
-
-export const sortTasksByCreatedAt = (limit , offset) => {
+export const sortTasksByDate = (dateStart, dateEnd, limit, offset) => {
     return new Promise((resolve, reject) => {
-        database.transaction((tx) => {
+        Database.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Task ORDER BY createdAt DESC LIMIT ? OFFSET ? ;',
-                [limit,offset],
+                'SELECT * FROM Task '+
+                'WHERE createdAt BETWEEN ? AND ? '+
+                'ORDER BY createdAt DESC '+
+                'LIMIT ? OFFSET ? ;',
+                [dateStart, dateEnd, limit, offset],
                 (_var, result) => {
                     resolve(result)
                 },

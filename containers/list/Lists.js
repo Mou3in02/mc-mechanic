@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Modal, Text, TouchableOpacity, View} from 'react-native';
 import Styles from "./Styles"
 import Task from "../../components/task/Task";
-import {countTasks, deleteTaskFromDatabase, getTasks, sortTasksByCreatedAt} from "../../utils/DatabaseConnection";
+import {countTasks, deleteTaskFromDatabase, getTasks} from "../../utils/CRUD";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {SwipeListView} from 'react-native-swipe-list-view';
 import Toast from "react-native-simple-toast";
@@ -223,7 +223,7 @@ const Lists = (props) => {
                             renderHiddenItem={renderHiddenItem}
                             ListFooterComponent={renderFooter}
                             onEndReached={endOfListReached}
-                            onEndReachedThreshold={.5}
+                            onEndReachedThreshold={.8}
                         />
                         :
                         <View style={Styles.noRowsView}>

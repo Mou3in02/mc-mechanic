@@ -3,7 +3,7 @@ import React, {useState} from "react"
 import {View, Text, TextInput, TouchableOpacity, Pressable, Modal, Keyboard} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import {deleteTaskFromDatabase, searchTasksByModel, searchTasksByTel} from "../../utils/DatabaseConnection";
+import {deleteTaskFromDatabase, searchTasksByModel, searchTasksByTel} from "../../utils/CRUD";
 import Toast from "react-native-simple-toast";
 import Task from "../../components/task/Task";
 import {SwipeListView} from "react-native-swipe-list-view";
@@ -165,11 +165,11 @@ const Search = (props) => {
     return (
         <View style={Styles.containerView}>
             <View style={Styles.headerView}>
-                <TextInput style={[Styles.searchInput, {borderColor: isEmptyInput ? '#900D0D' : '#999'}]}
+                <TextInput style={[Styles.searchInput, {borderColor: isEmptyInput ? '#900D0D' : '#fff'}]}
                            placeholder="rechercher ..." value={searchInput}
                            onChangeText={(text) => onChangeText(text)}/>
                 <TouchableOpacity onPress={onClickSearch}>
-                    <FontAwesome5 name={"search"} size={28} color={'#14274E'}/>
+                    <FontAwesome5 name={"search"} size={28} color={'#fff'}/>
                 </TouchableOpacity>
             </View>
             <View style={Styles.countView}>
@@ -181,7 +181,7 @@ const Search = (props) => {
                 </View>
                 :
                 <SwipeListView
-                    contentContainerStyle={{paddingBottom: 40}}
+                    contentContainerStyle={{paddingBottom: 50}}
                     data={data}
                     extraData={true}
                     renderItem={renderItem}
