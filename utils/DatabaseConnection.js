@@ -164,6 +164,41 @@ export const searchTasksByModel = (model) => {
         })
     })
 }
+export const searchTasksByTel = (tel) => {
+    return new Promise((resolve, reject) => {
+        database.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Task '+
+                'WHERE tel LIKE ? ;',
+                ['%'+tel+'%'],
+                (_var, result) => {
+                    resolve(result)
+                },
+                (_var, error) => {
+                    reject(error)
+                }
+            )
+        })
+    })
+}
+export const sortTasksByDate = (dateStart, dateEnd, limit, offset) => {
+    return new Promise((resolve, reject) => {
+        database.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Task ORDER BY id DESC LIMIT ? OFFSET ? '+
+                'WHERE createdAt >= ? AND createdAt <= ? ;',
+                [limit, offset, dateStart, dateEnd],
+                (_var, result) => {
+                    resolve(result)
+                },
+                (_var, error) => {
+                    reject(error)
+                }
+            )
+        })
+    })
+}
+
 export const sortTasksByCreatedAt = (limit , offset) => {
     return new Promise((resolve, reject) => {
         database.transaction((tx) => {

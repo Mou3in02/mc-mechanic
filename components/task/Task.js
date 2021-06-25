@@ -19,6 +19,14 @@ const Task = (props) => {
         let i = date.getMinutes()
         return h + ':' + i
     }
+    const formatTel = (tel) => {
+        let telFormat = ''
+        for(let i=tel.length-1; i>=0; i--){
+            if (i % 3 === 0) telFormat = telFormat.concat(tel.charAt(i),' ')
+            else telFormat = telFormat.concat(tel.charAt(i))
+        }
+        return telFormat.split('').reverse().join('')
+    }
 
     return (
         <View style={Styles.taskView}>
@@ -27,7 +35,7 @@ const Task = (props) => {
                 <View style={Styles._50A}>
                     <View style={Styles.telView}>
                         <FontAwesome5 name="phone-square-alt" color="#444" size={15}/>
-                        <Text style={Styles.tel}>{props.tel.trim().toString()}</Text>
+                        <Text style={Styles.tel}>{formatTel(props.tel.trim().toString())}</Text>
                     </View>
                     <View style={Styles.moneyView}>
                         <Text style={Styles.earnText}>Gagner   </Text>

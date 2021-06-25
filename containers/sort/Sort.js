@@ -8,19 +8,36 @@ import Toast from "react-native-simple-toast";
 import Task from "../../components/task/Task";
 import {SwipeListView} from "react-native-swipe-list-view";
 import isEmpty from 'validator/es/lib/isEmpty'
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 
-const Search = (props) => {
+const Sort = (props) => {
 
-    const [data, setData] = useState([])
+    const [data, setData] = useState({
+        start: new Date().getTime().toString(),
+        end: new Date().getTime().toString()
+    })
+    const [showDate, setShowDate] = useState(false)
     const [numberRows, setNumberRows] = useState(0)
     const [searchInput, setSearchInput] = useState('')
-    const [isEmptyInput, setIsEmptyInput] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
-    const [emptyData, setEmptyData] = useState(false)
+    const [emptyData, setEmptyData] = useState(true)
 
-    const onChangeText = (text) => {
-        setSearchInput(text)
+    const onChangeDate = (event, selectedDate) => {
+        setShowDate(false)
+        if (selectedDate !== undefined) {
+            setData({
+                ...data,
+                createdAt: selectedDate.getTime().toString()
+            })
+        }
+    }
+    const formatDate = (dateTime) => {
+        const date = new Date(parseInt(dateTime))
+        let y = date.getFullYear()
+        let m = date.getMonth() + 1
+        let d = date.getDate()
+        return d + '/' + m + '/' + y
     }
     const renderItem = ({item, index}) => {
         return (
@@ -123,61 +140,97 @@ const Search = (props) => {
         })
     }
     const onClickSearch = () => {
-        if (!isEmpty(searchInput.trim())) {
-            Keyboard.dismiss()
-            setIsEmptyInput(false)
-            searchTasksByModel(searchInput.trim())
-                .then((result) => {
-                    if (result.rows._array.length > 0) {
-                        setEmptyData(false)
-                        setNumberRows(result.rows._array.length)
-                        setData(result.rows._array)
-                    } else {
-                        searchTasksByTel(searchInput.trim())
-                            .then((result) => {
-                                setNumberRows(result.rows._array.length)
-                                if (result.rows._array.length > 0) {
-                                    setEmptyData(false)
-                                    setData(result.rows._array)
-                                } else {
-                                    setEmptyData(true)
-                                    setData([])
-                                }
-                            })
-                            .catch((error) => {
-                                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                                console.log(error)
-                            })
-                    }
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
-        } else {
-            setSearchInput('')
-            setIsEmptyInput(true)
-            Toast.show('Le champs est obligatoire !', Toast.LONG)
-        }
+        // if (!isEmpty(searchInput.trim())) {
+        //     Keyboard.dismiss()
+        //     setIsEmptyInput(false)
+        //     searchTasksByModel(searchInput.trim())
+        //         .then((result) => {
+        //             if (result.rows._array.length > 0) {
+        //                 setEmptyData(false)
+        //                 setNumberRows(result.rows._array.length)
+        //                 setData(result.rows._array)
+        //             } else {
+        //                 searchTasksByTel(searchInput.trim())
+        //                     .then((result) => {
+        //                         setNumberRows(result.rows._array.length)
+        //                         if (result.rows._array.length > 0) {
+        //                             setEmptyData(false)
+        //                             setData(result.rows._array)
+        //                         } else {
+        //                             setEmptyData(true)
+        //                             setData([])
+        //                         }
+        //                     })
+        //                     .catch((error) => {
+        //                         Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+        //                         console.log(error)
+        //                     })
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+        //             console.log(error)
+        //         })
+        // } else {
+        //     setSearchInput('')
+        //     setIsEmptyInput(true)
+        //     Toast.show('Le champs est obligatoire !', Toast.LONG)
+        // }
     }
-
 
     return (
         <View style={Styles.containerView}>
             <View style={Styles.headerView}>
-                <TextInput style={[Styles.searchInput, {borderColor: isEmptyInput ? '#900D0D' : '#999'}]}
-                           placeholder="rechercher ..." value={searchInput}
-                           onChangeText={(text) => onChangeText(text)}/>
+                <View style={Styles.dateView}>
+                    <FontAwesome5 name={'clock'} size={20} color={'#fff'} />
+                </View>
+                <View style={Styles.dateView}>
+                    <TouchableOpacity >
+                            <Text style={Styles.dateValue}>
+                                {formatDate(data.start)}
+                                {showDate && (
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={new Date()}
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="spinner"
+                                        onChange={onChangeDate}
+                                    />
+                                )}
+                            </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={Styles.dateView}>
+                    <FontAwesome5 name={'caret-right'} size={20} color={'#fff'} />
+                </View>
+                <View style={Styles.dateView}>
+                    <TouchableOpacity>
+                            <Text style={Styles.dateValue}>
+                                {formatDate(data.end)}
+                                {showDate && (
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={new Date()}
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="spinner"
+                                        onChange={onChangeDate}
+                                    />
+                                )}
+                            </Text>
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity onPress={onClickSearch}>
-                    <FontAwesome5 name={"search"} size={28} color={'#14274E'}/>
+                    <FontAwesome5 name={"search"} size={28} color={'#fff'}/>
                 </TouchableOpacity>
             </View>
             <View style={Styles.countView}>
                 <Text style={Styles.countText}>Taches : {numberRows}</Text>
             </View>
             {emptyData ?
-                <View style={{flex: 1, justifyContent: 'center',alignItems: 'center'}}>
-                    <Text style={{fontSize: 17,color: '#999'}}>Aucune tâche trouvée !</Text>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
                 </View>
                 :
                 <SwipeListView
@@ -197,4 +250,4 @@ const Search = (props) => {
     )
 }
 
-export default Search
+export default Sort

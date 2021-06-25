@@ -30,7 +30,7 @@ const Lists = (props) => {
                         setDataIsEmpty(true)
                         setIsLoaded(true)
                     } else {
-                        sortTasksByCreatedAt(limit, listNumber)
+                        getTasks(limit, listNumber)
                             .then((result) => {
                                 setData(result.rows._array)
                                 setIsLoaded(true)
@@ -167,7 +167,7 @@ const Lists = (props) => {
         )
     }
     const loadMore = () => {
-        sortTasksByCreatedAt(limit, listNumber)
+        getTasks(limit, listNumber)
             .then((result) => {
                 if (result.rows._array.length > 0){
                     result.rows._array.map((task) => {

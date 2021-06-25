@@ -7,6 +7,7 @@ import Charts from "../chart/Charts";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Search from "../search/Search";
 import {insertTask} from "../../utils/DatabaseConnection";
+import Sort from "../sort/Sort";
 
 const Tab = createBottomTabNavigator();
 
@@ -55,10 +56,10 @@ const Home = () => {
                         <FontAwesome5 name="search" color={color} size={size}/>
                     )
                 }}/>
-                <Tab.Screen name="Sort" component={Search} options={{
+                <Tab.Screen name="Sort" component={Sort} options={{
                     tabBarLabel: 'Trier',
                     tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="sort-alpha-down" color={color} size={size}/>
+                        <FontAwesome5 name="calendar-alt" color={color} size={size}/>
                     )
                 }}/>
                 <Tab.Screen name="Charts" component={Charts} options={{
