@@ -168,7 +168,7 @@ const AddTask = (props) => {
                                     <DateTimePicker
                                         testID="dateTimePicker"
                                         value={new Date()}
-                                        mode="datetime"
+                                        mode="date"
                                         is24Hour={true}
                                         display="spinner"
                                         onChange={onChangeDate}

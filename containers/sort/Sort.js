@@ -1,6 +1,6 @@
 'use strict'
 import React, {useState} from "react"
-import {View, Text, TouchableOpacity, Pressable, Modal} from 'react-native'
+import {View, Text, TouchableOpacity, Pressable, Modal, ActivityIndicator} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {countSortTasksByDate, deleteTaskFromDatabase, sortTasksByDate} from "../../utils/CRUD";
@@ -17,6 +17,7 @@ const Sort = (props) => {
     const [listNumber, setListNumber] = useState(0)
     const [isReachedEnd, setIsReachedEnd] = useState(false)
     //  data
+    const [loading, setLoading] = useState(false)
     const [date, setDate] = useState({
         start: new Date().getTime().toString(),
         end: new Date().getTime().toString()
@@ -33,6 +34,7 @@ const Sort = (props) => {
         setShowDateStart(true)
     }
     const onChangeDateStart = (event, selectedDate) => {
+        console.log(selectedDate)
         setShowDateStart(false)
         if (selectedDate !== undefined) {
             setDate({
@@ -122,6 +124,17 @@ const Sort = (props) => {
             </View>
         )
     }
+    const renderFooter = () => {
+        return (
+            <View style={Styles.footerListView}>
+                {isReachedEnd ?
+                    <Text style={Styles.noMore}>Aucune tâche trouvée !</Text>
+                    :
+                    <ActivityIndicator color={'#999'} size="large"/>
+                }
+            </View>
+        )
+    }
     const closeRow = (rowMap, rowKey) => {
         if (rowMap[rowKey]) {
             rowMap[rowKey].closeRow();
@@ -164,31 +177,25 @@ const Sort = (props) => {
         setData([])
         setListNumber(0)
         setEmptyData(false)
+        setIsReachedEnd(false)
         countSortTasksByDate(date.start, date.end)
             .then((result) => {
-                console.log(result)
-                // let {numbers} = result.rows._array[0]
-                // setNumberOfTasks(numbers)
-                // if (numbers === 0) {
-                //     setEmptyData(true)
-                // } else {
-                //     sortTasksByDate(date.start, date.end, limit, listNumber)
-                //         .then((result) => {
-                //             setListNumber(listNumber + limit)
-                //             setNumberOfTasks(result.rows._array.length)
-                //             if (result.rows._array.length > 0) {
-                //                 setEmptyData(false)
-                //                 setData(result.rows._array)
-                //             } else {
-                //                 setEmptyData(true)
-                //                 setData([])
-                //             }
-                //         })
-                //         .catch((error) => {
-                //             Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                //             console.log(error)
-                //         })
-                // }
+                let {numbers} = result.rows._array[0]
+                setNumberOfTasks(numbers)
+                if (numbers === 0) {
+                    setEmptyData(true)
+                } else {
+                    sortTasksByDate(date.start, date.end, limit, listNumber)
+                        .then((result) => {
+                            setListNumber(listNumber + limit)
+                            setEmptyData(false)
+                            setData(result.rows._array)
+                        })
+                        .catch((error) => {
+                            Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+                            console.log(error)
+                        })
+                }
             })
             .catch((error) => {
                 Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
@@ -204,7 +211,6 @@ const Sort = (props) => {
                         return data.push(task)
                     })
                     setData(data)
-                    setListNumber(listNumber + limit)
                 } else {
                     setIsReachedEnd(true)
                 }
@@ -236,7 +242,7 @@ const Sort = (props) => {
                                 <DateTimePicker
                                     testID="dateTimePicker"
                                     value={new Date(parseInt(date.start))}
-                                    mode="datetime"
+                                    mode="date"
                                     is24Hour={true}
                                     display="spinner"
                                     onChange={onChangeDateStart}
@@ -256,7 +262,7 @@ const Sort = (props) => {
                                 <DateTimePicker
                                     testID="dateTimePicker"
                                     value={new Date(parseInt(date.end))}
-                                    mode="datetime"
+                                    mode="date"
                                     is24Hour={true}
                                     display="spinner"
                                     onChange={onChangeDateEnd}
@@ -269,29 +275,32 @@ const Sort = (props) => {
                     <FontAwesome5 name={"search"} size={28} color={'#fff'}/>
                 </TouchableOpacity>
             </View>
-            <View style={Styles.countView}>
-                <Text style={Styles.countText}>Taches : {numberOfTasks}</Text>
-            </View>
-            {emptyData ?
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
+            <View style={{flex: 1}}>
+                <View style={Styles.countView}>
+                    <Text style={Styles.countText}>Taches : {numberOfTasks}</Text>
                 </View>
-                :
-                <SwipeListView
-                    contentContainerStyle={{paddingBottom: 80}}
-                    data={data}
-                    extraData={true}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id.toString()}
-                    leftOpenValue={70}
-                    rightOpenValue={-70}
-                    previewOpenValue={-40}
-                    previewOpenDelay={2000}
-                    renderHiddenItem={renderHiddenItem}
-                    // onEndReached={endOfListReached}
-                    // onEndReachedThreshold={.8}
-                />
-            }
+                {emptyData ?
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
+                    </View>
+                    :
+                    <SwipeListView
+                        contentContainerStyle={{paddingBottom: 80}}
+                        data={data}
+                        extraData={true}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id.toString()}
+                        leftOpenValue={70}
+                        rightOpenValue={-70}
+                        previewOpenValue={-40}
+                        previewOpenDelay={2000}
+                        renderHiddenItem={renderHiddenItem}
+                        ListFooterComponent={renderFooter}
+                        onEndReached={endOfListReached}
+                        onEndReachedThreshold={.8}
+                    />
+                }
+            </View>
         </View>
     )
 }

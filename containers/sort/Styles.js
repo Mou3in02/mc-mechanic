@@ -15,9 +15,7 @@ const Styles = StyleSheet.create({
         paddingHorizontal: 12,
         backgroundColor: '#14274E'
     },
-    dateView: {
-
-    },
+    dateView: {},
     dateLabel: {
         fontSize: 14,
         color: '#999'
@@ -166,6 +164,18 @@ const Styles = StyleSheet.create({
         fontSize: 18,
         color: '#999',
     },
+    noMore: {
+        color: '#999',
+        fontSize: 15
+    },
+    footerListView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#14274E',
+        marginHorizontal: 40,
+        marginTop: 10
+    }
 })
 
 export default Styles

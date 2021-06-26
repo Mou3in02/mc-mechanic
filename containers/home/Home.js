@@ -57,7 +57,7 @@ const Home = () => {
                     )
                 }}/>
                 <Tab.Screen name="Sort" component={Sort} options={{
-                    tabBarLabel: 'Trier',
+                    tabBarLabel: 'Date',
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome5 name="calendar-alt" color={color} size={size}/>
                     )

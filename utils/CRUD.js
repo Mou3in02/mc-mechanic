@@ -183,8 +183,8 @@ export const countSortTasksByDate = (dateStart, dateEnd) => {
     return new Promise((resolve, reject) => {
         Database.transaction((tx) => {
             tx.executeSql(
-                'SELECT COUNT(id) as numbers FROM Task '+
-                'WHERE createdAt BETWEEN ? AND ? '+
+                'SELECT COUNT(id) AS numbers FROM Task '+
+                'WHERE createdAt BETWEEN ? AND ? ;',
                 [dateStart, dateEnd],
                 (_var, result) => {
                     resolve(result)
