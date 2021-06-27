@@ -17,7 +17,6 @@ const Sort = (props) => {
     const [listNumber, setListNumber] = useState(0)
     const [isReachedEnd, setIsReachedEnd] = useState(false)
     //  data
-    const [loading, setLoading] = useState(false)
     const [date, setDate] = useState({
         start: new Date().getTime().toString(),
         end: new Date().getTime().toString()
@@ -34,7 +33,6 @@ const Sort = (props) => {
         setShowDateStart(true)
     }
     const onChangeDateStart = (event, selectedDate) => {
-        console.log(selectedDate)
         setShowDateStart(false)
         if (selectedDate !== undefined) {
             setDate({

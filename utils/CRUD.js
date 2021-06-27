@@ -215,3 +215,19 @@ export const sortTasksByDate = (dateStart, dateEnd, limit, offset) => {
         })
     })
 }
+export const getAllTasks = () => {
+    return new Promise((resolve, reject) => {
+        Database.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Task ORDER BY id DESC;',
+                [],
+                (_var, result) => {
+                    resolve(result)
+                },
+                (_var, error) => {
+                    reject(error)
+                }
+            )
+        })
+    })
+}

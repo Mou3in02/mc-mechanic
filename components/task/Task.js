@@ -20,12 +20,10 @@ const Task = (props) => {
         return h + ':' + i
     }
     const formatTel = (tel) => {
-        let telFormat = ''
-        for(let i=tel.length-1; i>=0; i--){
-            if (i % 3 === 0) telFormat = telFormat.concat(tel.charAt(i),' ')
-            else telFormat = telFormat.concat(tel.charAt(i))
-        }
-        return telFormat.split('').reverse().join('')
+        let telFormat = tel.split('').map((char,index) => {
+            return index % 3 === 0 ? char+' ' : char
+        })
+        return telFormat.join('')
     }
 
     return (
