@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './containers/home/Home'
 import TaskDetails from "./containers/taskDetails/TaskDetails";
-import {initDatabase} from "./utils/CRUD";
+import {deleteAllTasks, initDatabase} from "./utils/CRUD";
 import AddTask from './containers/add/AddTask.js'
 
 const Stack = createStackNavigator()

@@ -20,7 +20,7 @@ const Home = () => {
                 tel: Math.floor(Math.random() * 10000000).toString(),
                 earn: Math.floor(Math.random() * 1000).toString(),
                 spent: Math.floor(Math.random() * 1000).toString(),
-                createdAt: new Date().getTime().toString(),
+                createdAt: new Date(getRandomInt(946681200000,new Date().getTime().toString())).getTime().toString(),
                 description: 'Hello world !',
                 status: Math.floor(Math.random() * 10) % 2 === 0
             }
@@ -30,6 +30,11 @@ const Home = () => {
                 })
                 .catch((error) => console.log(error))
         }
+    }
+    const getRandomInt = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     return (

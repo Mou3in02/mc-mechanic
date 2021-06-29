@@ -25,7 +25,7 @@ const Sort = (props) => {
     const [showDateStart, setShowDateStart] = useState(false)
     const [showDateEnd, setShowDateEnd] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
-    const [emptyData, setEmptyData] = useState(true)
+    const [isEmptyData, setIsEmptyData] = useState(true)
     const [numberOfTasks, setNumberOfTasks] = useState(0)
 
 
@@ -173,20 +173,21 @@ const Sort = (props) => {
     }
     const onClickSearch = () => {
         setData([])
-        setListNumber(0)
-        setEmptyData(false)
+        setIsEmptyData(false)
         setIsReachedEnd(false)
+        setListNumber(0)
         countSortTasksByDate(date.start, date.end)
             .then((result) => {
                 let {numbers} = result.rows._array[0]
                 setNumberOfTasks(numbers)
                 if (numbers === 0) {
-                    setEmptyData(true)
-                } else {
+                    setIsEmptyData(true)
+                    setIsReachedEnd(true)
+                }
+                else {
                     sortTasksByDate(date.start, date.end, limit, listNumber)
                         .then((result) => {
                             setListNumber(listNumber + limit)
-                            setEmptyData(false)
                             setData(result.rows._array)
                         })
                         .catch((error) => {
@@ -277,11 +278,7 @@ const Sort = (props) => {
                 <View style={Styles.countView}>
                     <Text style={Styles.countText}>Taches : {numberOfTasks}</Text>
                 </View>
-                {emptyData ?
-                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
-                    </View>
-                    :
+                {!isEmptyData ?
                     <SwipeListView
                         contentContainerStyle={{paddingBottom: 80}}
                         data={data}
@@ -297,6 +294,10 @@ const Sort = (props) => {
                         onEndReached={endOfListReached}
                         onEndReachedThreshold={.8}
                     />
+                    :
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
+                    </View>
                 }
             </View>
         </View>

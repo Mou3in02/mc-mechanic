@@ -3,15 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="48bd75f0-d4f0-4fd4-8441-15c8cc444da7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/task/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/task/Task.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/chart/Charts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/chart/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/chart/Chart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/chart/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/chart/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/home/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/sort/Sort.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/sort/Sort.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/CRUD.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/CRUD.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +54,8 @@
       <workItem from="1624575038074" duration="8931000" />
       <workItem from="1624629445881" duration="7091000" />
       <workItem from="1624714309112" duration="5260000" />
-      <workItem from="1624830088999" duration="8046000" />
+      <workItem from="1624830088999" duration="8325000" />
+      <workItem from="1624924777311" duration="6026000" />
     </task>
     <servers />
   </component>
