@@ -202,7 +202,7 @@ const Sort = (props) => {
             })
     }
     const loadMore = () => {
-        sortTasksByDate(date.start, date.end, limit, listNumber)
+        sortTasksByDate(date.start, date.end)
             .then((result) => {
                 setListNumber(listNumber + limit)
                 if (result.rows._array.length > 0) {
@@ -220,11 +220,7 @@ const Sort = (props) => {
             })
     }
     const endOfListReached = () => {
-        if (!isReachedEnd) {
-            loadMore()
-        } else {
-            setIsReachedEnd(true)
-        }
+        setIsReachedEnd(true)
     }
 
     return (
@@ -292,7 +288,7 @@ const Sort = (props) => {
                         renderHiddenItem={renderHiddenItem}
                         ListFooterComponent={renderFooter}
                         onEndReached={endOfListReached}
-                        onEndReachedThreshold={.8}
+                        // onEndReachedThreshold={.8}
                     />
                     :
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

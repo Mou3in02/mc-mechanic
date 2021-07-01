@@ -196,15 +196,15 @@ export const countSortTasksByDate = (dateStart, dateEnd) => {
         })
     })
 }
-export const sortTasksByDate = (dateStart, dateEnd, limit, offset) => {
+export const sortTasksByDate = (dateStart, dateEnd) => {
     return new Promise((resolve, reject) => {
         Database.transaction((tx) => {
             tx.executeSql(
                 'SELECT * FROM Task '+
                 'WHERE createdAt BETWEEN ? AND ? '+
-                'ORDER BY createdAt DESC '+
-                'LIMIT ? OFFSET ? ;',
-                [dateStart, dateEnd, limit, offset],
+                'ORDER BY createdAt DESC ;',
+                // 'LIMIT ? OFFSET ? ;',
+                [dateStart, dateEnd],
                 (_var, result) => {
                     resolve(result)
                 },
@@ -215,12 +215,14 @@ export const sortTasksByDate = (dateStart, dateEnd, limit, offset) => {
         })
     })
 }
-export const getAllTasks = () => {
+export const getTasksByYear = (dateStart, dateEnd) => {
     return new Promise((resolve, reject) => {
         Database.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Task ORDER BY id DESC;',
-                [],
+                'SELECT * FROM Task '+
+                'WHERE createdAt BETWEEN ? AND ? '+
+                'ORDER BY createdAt DESC ;',
+                [dateStart,dateEnd],
                 (_var, result) => {
                     resolve(result)
                 },

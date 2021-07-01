@@ -174,7 +174,7 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: '#14274E',
         marginHorizontal: 40,
-        marginTop: 10
+        marginTop: 20
     }
 })
 
