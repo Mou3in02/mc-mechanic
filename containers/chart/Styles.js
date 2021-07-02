@@ -9,7 +9,6 @@ const Styles = StyleSheet.create({
     headerView: {
         height: 50,
         backgroundColor: '#14274E',
-        paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -19,9 +18,10 @@ const Styles = StyleSheet.create({
     },
     yearTxt: {
         color: '#fff',
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginLeft: 5
+        marginLeft: 8,
+        letterSpacing: 1
     },
     lineChartView:{
       marginBottom: 10
@@ -44,7 +44,6 @@ const Styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        // marginTop: 22
     },
     modalView: {
         margin: 20,
@@ -60,14 +59,48 @@ const Styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
+    modalTxt:{
+        fontSize: 16,
+        color: '#999',
+        marginBottom: 10,
+        alignSelf: 'center'
+    },
     inputText:{
-        width: 150,
+        width: 200,
         borderWidth: 1,
-        borderRightColor: '#000',
+        borderColor: '#eee',
+        backgroundColor: '#eee',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        fontSize: 17,
-        fontWeight: 'bold'
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 25,
+        color: '#14274E',
+        borderRadius: 30
+    },
+    buttonsView:{
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    OK:{
+        backgroundColor: '#14274E',
+        paddingVertical: 10,
+        paddingHorizontal: 40,
+        borderRadius: 30
+    },
+    cancel:{
+        backgroundColor: '#fff',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 30,
+        borderWidth: 1,
+        borderColor: '#900D0D'
+    },
+    OKButton:{
+        color: '#fff',
+    },
+    cancelButton:{
+        color: '#900D0D'
     }
 })
 
