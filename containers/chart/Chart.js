@@ -34,15 +34,20 @@ const Chart = () => {
     }
 
     useEffect(() => {
+        setDate({
+            start: new Date(year, 0, 1).getTime().toString(),
+            end: new Date(year, 11, 31).getTime().toString()
+        })
+    }, [year])
+    useEffect(() => {
         getDataByYear(date.start,date.end)
-    }, [])
+    }, [date])
 
     const getDataByYear = (start, end) => {
         setIsLoaded(false)
         getTasksByYear(start, end)
             .then((result) => {
                 setIsLoaded(true)
-                console.log(result.rows._array)
                 if (result.rows._array.length > 0) {
                     setData(result.rows._array)
                     setEmptyData(false)
@@ -108,11 +113,6 @@ const Chart = () => {
             setIsYearValid(true)
             setShowModal(false)
             setYear(parseInt(yearInput))
-            setDate({
-                start: new Date(year, 0, 1).getTime().toString(),
-                end: new Date(year, 11, 31).getTime().toString()
-            })
-            getDataByYear(date.start, date.end)
         } else {
             setIsYearValid(false)
             Toast.show('L\'année est doit être plus grande que 1970', Toast.LONG)
