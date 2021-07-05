@@ -292,7 +292,7 @@ const Sort = (props) => {
                     />
                     :
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
+                        <Text style={{fontFamily: 'Poppins_400Regular',fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
                     </View>
                 }
             </View>

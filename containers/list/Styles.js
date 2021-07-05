@@ -23,13 +23,15 @@ const Styles = StyleSheet.create({
         marginRight: 12
     },
     tasksTxt:{
-        fontSize: 15,
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
         marginLeft: 5,
         // fontWeight: 'bold',
         color: '#fff'
     },
     numberTxt:{
-        fontSize: 16,
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 15,
         marginLeft: 5,
         // fontWeight: 'bold',
         color: '#fff'
@@ -41,6 +43,7 @@ const Styles = StyleSheet.create({
         justifyContent: 'center'
     },
     noRowsText:{
+        fontFamily: 'Poppins_400Regular',
         fontSize: 18,
         color: '#999',
     },
@@ -89,11 +92,11 @@ const Styles = StyleSheet.create({
     },
     cancelStyle:{
         color: "#fff",
-        fontWeight: "bold",
         textAlign: "center"
     },
     modalText: {
-        fontSize: 15,
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
         marginBottom: 25,
         textAlign: "center"
     },
@@ -107,15 +110,16 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
     },
     deleteText:{
+        fontFamily: 'Poppins_400Regular',
         color: '#900D0D',
-        fontSize: 16,
+        fontSize: 15,
         marginLeft: 5
     },
     deleteModelText:{
+        fontFamily: 'Poppins_400Regular',
         marginBottom: 10,
         textAlign: 'center',
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 17,
         color: '#900D0D'
     },
     spinnerView:{
@@ -123,14 +127,15 @@ const Styles = StyleSheet.create({
         justifyContent: 'center'
     },
     noMore:{
+        fontFamily: 'Poppins_400Regular',
         color: '#999',
-        fontSize: 15
+        fontSize: 14
     },
     // swipe list
     backTextWhite: {
+        fontFamily: 'Poppins_400Regular',
         color: '#FFF',
         fontSize: 10,
-        fontWeight: 'bold'
     },
     rowFront: {
         alignItems: 'center',

@@ -79,7 +79,7 @@ const Lists = (props) => {
                                         <TouchableOpacity
                                             style={[Styles.button, Styles.buttonCancel]}
                                             onPress={() => setShowModal({status: false, id: null})}>
-                                            <Text style={Styles.cancelStyle}>Anuuler</Text>
+                                            <Text style={Styles.cancelStyle}>Annuler</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>

@@ -231,7 +231,7 @@ const AddTask = (props) => {
                 <View style={Styles.saveView}>
                     <TouchableOpacity style={Styles.saveButton} onPress={onClickSave}>
                         <View style={Styles.saveItems}>
-                            <Text style={{fontSize: 15, color: '#fff', marginRight: 5}}>
+                            <Text style={{fontSize: 14,fontFamily: 'Poppins_400Regular', color: '#fff', marginRight: 5}}>
                                 Enregistrer
                             </Text>
                             {checkingData ? <ActivityIndicator color={'#fff'} size="small"/> : null}

@@ -163,6 +163,7 @@ const Styles = StyleSheet.create({
     noRowsText: {
         fontSize: 18,
         color: '#999',
+        fontFamily: 'Poppins_400Regular',
     },
     noMore: {
         color: '#999',

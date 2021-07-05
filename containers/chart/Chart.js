@@ -156,7 +156,7 @@ const Chart = () => {
                 }
                 {emptyData ?
                     <View style={{flex: 1, justifyContent: 'center'}}>
-                        <Text style={{fontSize: 16, color: '#999', alignSelf: 'center'}}>Aucune tache trouvé !</Text>
+                        <Text style={{fontFamily: 'Poppins_400Regular',fontSize: 17, color: '#999', alignSelf: 'center'}}>Aucune tache trouvé !</Text>
                     </View>
                     :
                     isLoaded ?

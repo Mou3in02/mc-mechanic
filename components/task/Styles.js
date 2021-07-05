@@ -1,18 +1,17 @@
 import * as React from 'react'
 import {StyleSheet} from 'react-native';
 
-
 const Styles = StyleSheet.create({
     taskView: {
         marginBottom: 1,
         padding: 10,
     },
     model: {
-        fontSize: 17,
-        fontWeight: 'bold',
+        fontFamily: 'Poppins_600SemiBold',
+        fontSize: 15,
         color: '#14274E',
         textAlign: 'center',
-        marginBottom: 10
+        marginBottom: 8,
     },
     taskDetailsView:{
         flexDirection: 'row',
@@ -31,9 +30,11 @@ const Styles = StyleSheet.create({
         marginBottom: 2
     },
     tel: {
-        fontSize: 16,
+        fontFamily: 'Poppins_600SemiBold',
+        fontSize: 14,
         color: '#333',
-        marginLeft: 5
+        marginLeft: 5,
+        marginTop: 2
     },
     dateView: {
         flexDirection: 'row',
@@ -42,32 +43,32 @@ const Styles = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     date: {
-        fontSize: 16,
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
         color: '#333',
-        marginRight: 5
+        marginRight: 5,
     },
     moneyView: {
         flexDirection: "row",
         alignItems: 'center',
     },
     earn: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#444',
-        marginLeft: 10
+        fontFamily: 'Poppins_600SemiBold',
+        fontSize: 14,
+        color: '#14274E',
     },
     spent: {
-        fontWeight: 'bold',
-        color: '#444',
-        fontSize: 16,
-        marginLeft: 10
+        fontFamily: 'Poppins_600SemiBold',
+        color: '#900D0D',
+        fontSize: 14,
     },
     description: {
-        fontSize: 14,
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 13,
         color: '#555',
     },
     status: {
-        textAlign: 'right'
+        textAlign: 'right',
     },
     statusView:{
         flexDirection: 'row',
@@ -76,21 +77,26 @@ const Styles = StyleSheet.create({
         alignItems: 'center'
     },
     trueStatusTxt:{
-        fontSize: 14,
-        color: '#151965',
-        fontWeight: 'bold',
-        marginRight: 5
+        fontFamily: 'Poppins_600SemiBold',
+        fontSize: 13,
+        color: '#444',
+        marginRight: 5,
     },
     falseStatusTxt:{
-        fontSize: 14,
-        color: '#900D0D',
-        fontWeight: 'bold'
+        fontFamily: 'Poppins_600SemiBold',
+        fontSize: 13,
+        color: '#444',
+        marginRight: 5,
     },
     earnText:{
-        color: '#444'
+        fontSize: 14,
+        fontFamily: 'Poppins_400Regular',
+        color: '#444',
     },
     spentText:{
-        color: '#444'
+        fontSize: 14,
+        fontFamily: 'Poppins_400Regular',
+        color: '#444',
     }
 })
 

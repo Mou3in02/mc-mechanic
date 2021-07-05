@@ -46,7 +46,8 @@ const Home = () => {
                     activeBackgroundColor: '#14274E',
                     inactiveBackgroundColor: '#fff',
                     labelStyle: {
-                        fontSize: 12
+                        fontSize: 12,
+                        fontFamily: 'Poppins_400Regular'
                     }
                 }}>
                 <Tab.Screen name="Lists" component={Lists} options={{

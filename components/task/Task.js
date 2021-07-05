@@ -20,10 +20,8 @@ const Task = (props) => {
         return h + ':' + i
     }
     const formatTel = (tel) => {
-        let telFormat = tel.split('').map((char,index) => {
-            return index % 3 === 0 ? char+' ' : char
-        })
-        return telFormat.join('')
+        let parts = tel.match(/.{1,3}/g);
+        return  parts.join(" ");
     }
 
     return (
@@ -36,23 +34,22 @@ const Task = (props) => {
                         <Text style={Styles.tel}>{formatTel(props.tel.trim().toString())}</Text>
                     </View>
                     <View style={Styles.moneyView}>
-                        <Text style={Styles.earnText}>Gagner   </Text>
-                        <Text style={Styles.earn}>{props.earn.trim().toString()}</Text>
+                        <Text style={Styles.earn}>{props.earn.trim().toString()} €</Text>
                     </View>
                     <View style={Styles.moneyView}>
-                        <Text style={Styles.spentText}>Dépensé</Text>
-                        <Text style={Styles.spent}>{props.spent.trim().toString()}</Text>
+                        <Text style={Styles.spent}>{props.spent.trim().toString()} €</Text>
                     </View>
                 </View>
                 <View style={Styles._50B}>
                     {props.status ?
                         <View style={Styles.statusView}>
                             <Text style={Styles.trueStatusTxt}>Effectué</Text>
-                            <FontAwesome5 name="check-square" color="#151965" size={15}/>
+                            <FontAwesome5 name="check-square" color={'#444'} size={15}/>
                         </View>
                         :
                         <View style={Styles.statusView}>
                             <Text style={Styles.falseStatusTxt}>Non effectué</Text>
+                            <FontAwesome5 name="times-circle" color={'#444'} size={15}/>
                         </View>
                     }
                     <View style={Styles.dateView}>

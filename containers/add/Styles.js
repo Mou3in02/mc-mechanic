@@ -25,9 +25,10 @@ const Styles = StyleSheet.create({
         width: '70%'
     },
     modelText:{
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginLeft: 5
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
+        marginLeft: 5,
+        marginTop: 2
     },
     modelInput:{
         height: 40,
@@ -37,12 +38,14 @@ const Styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginLeft: 10,
         color: '#14274E',
-        fontSize: 16,
+        fontSize: 15,
+        fontFamily: 'Poppins_400Regular'
     },
     dateText:{
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginLeft: 5
+        fontSize: 15,
+        marginLeft: 5,
+        fontFamily: 'Poppins_400Regular',
+        marginTop: 2
     },
     dateInput:{
         height: 40,
@@ -52,8 +55,9 @@ const Styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginLeft: 10,
         color: '#14274E',
-        fontSize: 16,
-        paddingTop: 10
+        fontSize: 15,
+        paddingTop: 15,
+        fontFamily: 'Poppins_400Regular'
     },
     descriptionView:{
         marginTop: 10,
@@ -75,9 +79,10 @@ const Styles = StyleSheet.create({
         textAlignVertical: 'top',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        fontSize: 15,
+        fontSize: 14,
         color: '#14274E',
-        lineHeight: 25
+        lineHeight: 25,
+        fontFamily: 'Poppins_400Regular'
     },
     statusView:{
         flexDirection: 'row',
@@ -87,8 +92,8 @@ const Styles = StyleSheet.create({
         marginTop: 20
     },
     statusText:{
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 15,
+        fontFamily: 'Poppins_400Regular',
     },
     saveView:{
         marginTop: 10,
@@ -102,15 +107,16 @@ const Styles = StyleSheet.create({
         borderColor: '#14274E',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5
+        borderRadius: 5,
     },
     saveText:{
         color: '#14274E',
-        fontSize: 16,
+        fontSize: 15,
+        fontFamily: 'Poppins_400Regular',
     },
     saveItems:{
         flexDirection: 'row',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     cancelView: {
         marginTop: 10,
@@ -126,7 +132,8 @@ const Styles = StyleSheet.create({
     },
     cancelText: {
         color: '#900D0D',
-        fontSize: 17,
+        fontSize: 16,
+        fontFamily: 'Poppins_400Regular',
     },
     cancelItems: {
         flexDirection: 'row',

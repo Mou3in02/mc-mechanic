@@ -4,8 +4,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './containers/home/Home'
 import TaskDetails from "./containers/taskDetails/TaskDetails";
-import {deleteAllTasks, initDatabase} from "./utils/CRUD";
+import {initDatabase} from "./utils/CRUD";
 import AddTask from './containers/add/AddTask.js'
+import AppLoading from 'expo-app-loading';
+import { useFonts, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 const Stack = createStackNavigator()
 
@@ -13,9 +15,16 @@ const App = () => {
 
     initDatabase().then(() => {
         console.log('***    Connection is established   ***')
-    }).catch((error) => {
-        console.log(error)
-    })
+    }).catch((error) => {console.log(error)})
+
+    let [fontsLoaded] = useFonts({
+        Poppins_400Regular,
+        Poppins_600SemiBold
+    });
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    }
 
     return (
         <NavigationContainer>
