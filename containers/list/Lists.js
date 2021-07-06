@@ -227,8 +227,8 @@ const Lists = (props) => {
                         />
                         :
                         <View style={Styles.noRowsView}>
-                            <Text style={Styles.noRowsText}>Aucune tâche trouvée </Text>
-                            <FontAwesome5 name="frown-open" color={'#999'} size={22}/>
+                            <Text style={Styles.noRowsText}>Aucune tâche trouvée</Text>
+                            <FontAwesome5 name="frown-open" color={'#999'} size={19}/>
                         </View>
                     }
                 </View>

@@ -22,6 +22,7 @@ const Chart = () => {
     const [showModal, setShowModal] = useState(false)
     const [yearInput, setYearInput] = useState('')
     const [isValidYearInput, setIsYearValid] = useState(true)
+    const [numberOfTasks, setNumberOfTasks] = useState(0)
     const chartMonthConfig = {
         backgroundGradientFrom: '#14274E',
         backgroundGradientTo: "#14274E",
@@ -100,10 +101,11 @@ const Chart = () => {
         ]
     }
     const onClickYear = () => {
+        setYearInput('')
         setShowModal(true)
     }
     const onChangeText = (text) => {
-        setYearInput(text)
+        setYearInput(text.trim())
     }
     const hideModal = () => {
         setShowModal(false)
@@ -130,6 +132,9 @@ const Chart = () => {
                 </TouchableOpacity>
             </View>
             <View style={{flex: 1}}>
+                <View style={Styles.countView}>
+                    <Text style={Styles.countText}>Taches : {numberOfTasks}</Text>
+                </View>
                 {showModal &&
                 <Modal
                     animationType="fade"
@@ -140,7 +145,7 @@ const Chart = () => {
                             <Text style={Styles.modalTxt}>Veuillez saisir l'année</Text>
                             <TextInput
                                 style={[Styles.inputText, isValidYearInput ? {borderColor: '#fff'} : {borderColor: '#900D0D'}]}
-                                keyboardType={'numeric'} textAlign={'center'}
+                                keyboardType={'numeric'} textAlign={'center'} value={yearInput.toString()}
                                 autoFocus={true} onChangeText={(text) => onChangeText(text)} maxLength={4}/>
                             <View style={Styles.buttonsView}>
                                 <TouchableOpacity onPress={hideModal} style={Styles.cancel}>
@@ -156,13 +161,12 @@ const Chart = () => {
                 }
                 {emptyData ?
                     <View style={{flex: 1, justifyContent: 'center'}}>
-                        <Text style={{fontFamily: 'Poppins_400Regular',fontSize: 17, color: '#999', alignSelf: 'center'}}>Aucune tache trouvé !</Text>
+                        <Text style={Styles.noRows}>Aucune tâche trouvée !</Text>
                     </View>
                     :
                     isLoaded ?
                         <View>
                             <View style={Styles.lineChartView}>
-                                <Text style={Styles.lineChartTxt}>Nombre des taches par mois</Text>
                                 <LineChart
                                     data={{
                                         labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -178,6 +182,7 @@ const Chart = () => {
                                     chartConfig={chartMonthConfig}
                                     bezier
                                 />
+                                <Text style={Styles.lineChartTxt}>Nombre des tâches par mois</Text>
                             </View>
                             <View style={Styles.PieChartView}>
                                 <PieChart

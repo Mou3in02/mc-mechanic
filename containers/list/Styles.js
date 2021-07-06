@@ -26,14 +26,14 @@ const Styles = StyleSheet.create({
         fontFamily: 'Poppins_400Regular',
         fontSize: 14,
         marginLeft: 5,
-        // fontWeight: 'bold',
-        color: '#fff'
+        color: '#fff',
+        marginTop: 5
     },
     numberTxt:{
         fontFamily: 'Poppins_400Regular',
         fontSize: 15,
         marginLeft: 5,
-        // fontWeight: 'bold',
+        marginTop: 5,
         color: '#fff'
     },
     noRowsView:{
@@ -44,13 +44,13 @@ const Styles = StyleSheet.create({
     },
     noRowsText:{
         fontFamily: 'Poppins_400Regular',
-        fontSize: 18,
+        fontSize: 16,
         color: '#999',
+        marginRight: 5,
+        marginTop: 2
     },
     spinnerScrollView:{
         paddingVertical: 100
-        // height: 50,
-        // marginBottom: 110
     },
     // modal style
     centeredView: {

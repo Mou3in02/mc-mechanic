@@ -22,7 +22,7 @@ const Styles = StyleSheet.create({
     },
     dateValue: {
         fontSize: 16,
-        color: '#fff'
+        color: '#fff',
     },
     countView: {
         marginTop: 6,
@@ -30,8 +30,7 @@ const Styles = StyleSheet.create({
     },
     countText: {
         fontSize: 15,
-        // fontWeight: 'bold',
-        color: '#394867',
+        color: '#14274E',
         textAlign: 'right',
         marginRight: 10
     },
@@ -40,7 +39,6 @@ const Styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        // marginTop: 22
     },
     modalView: {
         margin: 20,
