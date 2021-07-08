@@ -49,6 +49,7 @@ const Chart = () => {
         getTasksByYear(start, end)
             .then((result) => {
                 setIsLoaded(true)
+                setNumberOfTasks(result.rows._array.length)
                 if (result.rows._array.length > 0) {
                     setData(result.rows._array)
                     setEmptyData(false)

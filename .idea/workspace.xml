@@ -3,15 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="48bd75f0-d4f0-4fd4-8441-15c8cc444da7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/adaptive-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/adaptive-icon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/splash.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/splash_logo.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/chart/Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/chart/Chart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/chart/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/chart/Styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/list/Lists.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Lists.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/list/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/sort/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/sort/Styles.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +65,8 @@
       <workItem from="1625312433130" duration="1130000" />
       <workItem from="1625410700792" duration="14361000" />
       <workItem from="1625490944293" duration="7064000" />
-      <workItem from="1625526592895" duration="4650000" />
+      <workItem from="1625526592895" duration="6092000" />
+      <workItem from="1625697753662" duration="1621000" />
     </task>
     <servers />
   </component>
