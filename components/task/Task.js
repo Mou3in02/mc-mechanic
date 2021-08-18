@@ -20,8 +20,11 @@ const Task = (props) => {
         return h + ':' + i
     }
     const formatTel = (tel) => {
-        let parts = tel.match(/.{1,3}/g);
-        return  parts.join(" ");
+        if (tel){
+            let parts = tel.match(/.{1,3}/g);
+            return  parts.join(" ");
+        }
+        return ''
     }
 
     return (

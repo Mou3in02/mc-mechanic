@@ -8,6 +8,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Search from "../search/Search";
 import {insertTask} from "../../utils/CRUD";
 import Sort from "../sort/Sort";
+import Settings from "../settings/Settings";
 
 const Tab = createBottomTabNavigator();
 
@@ -51,27 +52,33 @@ const Home = () => {
                     }
                 }}>
                 <Tab.Screen name="Lists" component={Lists} options={{
-                    tabBarLabel: 'Tâches',
-                    tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="car-crash" color={color} size={size}/>
+                    tabBarLabel:() => {return null},
+                    tabBarIcon: ({color}) => (
+                        <FontAwesome5 name="car-crash" color={color} size={30}/>
                     ),
                 }}/>
                 <Tab.Screen name="Search" component={Search} options={{
-                    tabBarLabel: 'Rechercher',
-                    tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="search" color={color} size={size}/>
+                    tabBarLabel:() => {return null},
+                    tabBarIcon: ({color}) => (
+                        <FontAwesome5 name="search" color={color} size={30}/>
                     )
                 }}/>
                 <Tab.Screen name="Sort" component={Sort} options={{
-                    tabBarLabel: 'Date',
-                    tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="calendar-alt" color={color} size={size}/>
+                    tabBarLabel:() => {return null},
+                    tabBarIcon: ({color}) => (
+                        <FontAwesome5 name="calendar-alt" color={color} size={30}/>
                     )
                 }}/>
                 <Tab.Screen name="Chart" component={Chart} options={{
-                    tabBarLabel: 'Stats',
-                    tabBarIcon: ({color, size}) => (
-                        <FontAwesome5 name="chart-pie" color={color} size={size}/>
+                    tabBarLabel:() => {return null},
+                    tabBarIcon: ({color}) => (
+                        <FontAwesome5 name="chart-pie" color={color} size={30}/>
+                    )
+                }}/>
+                <Tab.Screen name="Settings" component={Settings} options={{
+                    tabBarLabel:() => {return null},
+                    tabBarIcon: ({color}) => (
+                        <FontAwesome5 name="cog" color={color} size={30}/>
                     )
                 }}/>
             </Tab.Navigator>

@@ -96,8 +96,10 @@ const AddTask = (props) => {
             setIsValidData(false)
             setCheckingData(false)
             Toast.show('Le champ modéle est obligatoire !', Toast.LONG)
-        } else {
+        }
+        else {
             setIsValidData(true)
+            console.log(data)
             insertTask(data)
                 .then(() => {
                     setCheckingData(false)
