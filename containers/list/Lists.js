@@ -203,11 +203,11 @@ const Lists = (props) => {
                             <Text style={Styles.tasksTxt}>Tâches : </Text>
                             <Text style={Styles.numberTxt}>{numberOfTasks}</Text>
                         </View>
-                        <View style={Styles.addView}>
-                            <TouchableOpacity onPress={() => props.navigation.push('AddTask')}>
-                                <FontAwesome5 name={"plus-square"} color={'#fff'} size={33}/>
-                            </TouchableOpacity>
-                        </View>
+                        {/*<View style={Styles.addView}>*/}
+                        {/*    <TouchableOpacity onPress={() => props.navigation.push('AddTask')}>*/}
+                        {/*        <FontAwesome5 name={"plus-square"} color={'#fff'} size={33}/>*/}
+                        {/*    </TouchableOpacity>*/}
+                        {/*</View>*/}
                     </View>
                     {!dataIsEmpty ?
                         <SwipeListView

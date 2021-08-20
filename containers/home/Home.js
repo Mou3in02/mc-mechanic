@@ -9,6 +9,8 @@ import Search from "../search/Search";
 import {insertTask} from "../../utils/CRUD";
 import Sort from "../sort/Sort";
 import Settings from "../settings/Settings";
+import AddTask from "../add/AddTask";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const Tab = createBottomTabNavigator();
 
@@ -54,31 +56,32 @@ const Home = () => {
                 <Tab.Screen name="Lists" component={Lists} options={{
                     tabBarLabel:() => {return null},
                     tabBarIcon: ({color}) => (
-                        <FontAwesome5 name="car-crash" color={color} size={30}/>
+                        <MaterialIcons name="electric-car" color={color} size={40}/>
                     ),
+                }}/>
+                <Tab.Screen name="Add" component={AddTask} options={{
+                    tabBarLabel:() => {return null},
+                    tabBarIcon: ({color}) => (
+                        // <FontAwesome5 name="plus" color={color} size={30}/>
+                        <MaterialIcons name={'add-circle-outline'} color={color} size={40} />
+                    )
                 }}/>
                 <Tab.Screen name="Search" component={Search} options={{
                     tabBarLabel:() => {return null},
                     tabBarIcon: ({color}) => (
-                        <FontAwesome5 name="search" color={color} size={30}/>
+                        <MaterialIcons name="search" color={color} size={40}/>
                     )
                 }}/>
                 <Tab.Screen name="Sort" component={Sort} options={{
                     tabBarLabel:() => {return null},
                     tabBarIcon: ({color}) => (
-                        <FontAwesome5 name="calendar-alt" color={color} size={30}/>
+                        <MaterialIcons name="event-note" color={color} size={40}/>
                     )
                 }}/>
                 <Tab.Screen name="Chart" component={Chart} options={{
                     tabBarLabel:() => {return null},
                     tabBarIcon: ({color}) => (
-                        <FontAwesome5 name="chart-pie" color={color} size={30}/>
-                    )
-                }}/>
-                <Tab.Screen name="Settings" component={Settings} options={{
-                    tabBarLabel:() => {return null},
-                    tabBarIcon: ({color}) => (
-                        <FontAwesome5 name="cog" color={color} size={30}/>
+                        <MaterialIcons name="signal-cellular-alt" color={color} size={40}/>
                     )
                 }}/>
             </Tab.Navigator>
