@@ -41,6 +41,22 @@ const TaskReducer = (state = initState, action) => {
                 }
             }
             return state
+        case (actions.EDIT_TASK_REQUEST):
+            return state
+        case (actions.EDIT_TASK_SUCCESS):
+            let editTask = action.editTask
+            let editTaskIndex = state.tasks.findIndex((task) => {
+                return task.id === editTask.id
+            })
+            if (editTaskIndex !== -1) {
+                let newTasks = [...state.tasks]
+                newTasks.splice(editTaskIndex,1,editTask)
+                return {
+                    ...state,
+                    tasks: newTasks
+                }
+            }
+            return state
         default:
             return state
     }

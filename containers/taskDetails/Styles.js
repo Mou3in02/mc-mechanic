@@ -147,6 +147,33 @@ const Styles = StyleSheet.create({
         justifyContent: 'center', //Centered vertically
         alignItems: 'center', // Centered horizontally
     },
+    // modal style
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView: {
+        backgroundColor: "white",
+        borderRadius: 20,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalText: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
+        textAlign: "center",
+        color: '#1D9741',
+        marginTop: 10
+    },
 })
 
 export default Styles

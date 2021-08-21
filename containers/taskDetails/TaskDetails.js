@@ -1,56 +1,40 @@
 import React, {useState, useEffect} from 'react'
-import {Text, View, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native'
+import {Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, Modal} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from "validator/es/lib/isEmpty";
 import Toast from "react-native-simple-toast";
-import {getTaskById, updateTaskFromDatabase} from "../../utils/CRUD";
+import {editTasksAction} from "../../store/TaskActions";
+import {connect} from "react-redux";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
 const TaskDetails = (props) => {
 
     const {id} = props.route.params
     const [isLoaded, setIsLoaded] = useState(false)
-    const [data, setData] = useState({
-        model: '',
-        tel: '',
-        createdAt: '',
-        earn: '',
-        spent: '',
-        description: '',
-        status: true
-    })
+    const [data, setData] = useState(null)
     const [isValidData, setIsValidData] = useState(true)
     const [showDate, setShowDate] = useState(false)
     const [selectedRadio, setSelectedRadio] = useState(0)
     const radio_props = [
-        {id: 0, label: 'Effectué', value: true},
-        {id: 1, label: 'Non effectué', value: false}
+        {id: 0, label: 'Payé', value: true},
+        {id: 1, label: 'Non Payé', value: false}
     ]
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
-        getTaskById(id)
-            .then((result) => {
-                setData(result.rows._array[0])
-                if (!result.rows._array[0].status){
-                    setSelectedRadio(1)
-                }
-                setIsLoaded(true)
-            })
-            .catch((error) => {
-                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                console.log(error)
-            })
+        let task = props.tasks.find((task) => {
+            return task.id === id
+        })
+        setData(task)
+        setIsLoaded(true)
     }, [])
 
-    const showDatePicker = () => {
-        setShowDate(true)
-    }
     const onPressDatePicker = () => {
-        showDatePicker()
+        setShowDate(true)
     }
     const onChangeDate = (event, selectedDate) => {
         setShowDate(false)
@@ -66,9 +50,7 @@ const TaskDetails = (props) => {
         let y = date.getFullYear()
         let m = date.getMonth() + 1
         let d = date.getDate()
-        let h = date.getUTCHours()
-        let i = date.getMinutes()
-        return d + '/' + m + '/' + y + '  ' + h + ':' + i
+        return d + '/' + m + '/' + y
     }
     const onChangeModel = (text) => {
         setData({
@@ -108,28 +90,38 @@ const TaskDetails = (props) => {
         value ? setSelectedRadio(0) : setSelectedRadio(1)
     }
     const onClickSave = () => {
-        if (isEmpty(data.model.trim()) === true) {
+        if (isEmpty(data.model) || isEmpty(data.model.trim())) {
             setIsValidData(false)
             Toast.show('Le champ modéle est obligatoire !', Toast.LONG)
         } else {
             setIsValidData(true)
-            updateTaskFromDatabase(data)
-                .then(() => {
-                    Toast.show('Tâche modifié avec succès')
-                    props.navigation.push('Home')
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
+            setShowModal(true)
+            setTimeout(() => {
+                setShowModal(false)
+                props.navigation.push('Home')
+            },1500)
+            props.onClickUpdate(data)
         }
     }
 
     return (
         <View style={{flex: 1}}>
             {isLoaded ?
-                <KeyboardAwareScrollView style={{backgroundColor: '#fff'}}>
-                    <View style={[Styles.taskDetails]}>
+                <ScrollView keyboardShouldPersistTaps='always' style={{backgroundColor: '#fff'}}>
+                    {showModal &&
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={showModal}>
+                        <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
+                            <View style={Styles.modalView}>
+                                <MaterialIcons name={'check'} color={'#1D9741'} size={40} style={{alignSelf: 'center'}}/>
+                                <Text style={Styles.modalText}>Le tâche est modifié avec succès</Text>
+                            </View>
+                        </View>
+                    </Modal>
+                    }
+                    <View style={Styles.taskDetails}>
                         <View style={Styles.fieldView}>
                             <View style={Styles._30}>
                                 <FontAwesome5 name="car" size={16}/>
@@ -208,15 +200,12 @@ const TaskDetails = (props) => {
                                                 obj={obj}
                                                 index={obj.id}
                                                 isSelected={selectedRadio === obj.id}
-                                                onPress={(value) => {
-                                                    onChangeStatus(value)
-                                                }}
+                                                onPress={(value) => {onChangeStatus(value)}}
                                                 borderWidth={2}
                                                 buttonInnerColor={'#2196f3'}
                                                 buttonOuterColor={selectedRadio === obj.id ? '#2196f3' : '#999'}
                                                 buttonSize={12}
                                                 buttonOuterSize={20}
-                                                buttonStyle={{}}
                                                 buttonWrapStyle={{marginLeft: 5}}
                                             />
                                             <RadioButtonLabel
@@ -232,7 +221,6 @@ const TaskDetails = (props) => {
                                                     paddingLeft: 5,
                                                     marginRight: 10
                                                 }}
-                                                labelWrapStyle={{}}
                                             />
                                         </RadioButton>
                                     ))}
@@ -264,7 +252,7 @@ const TaskDetails = (props) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </KeyboardAwareScrollView>
+                </ScrollView>
                 :
                 <View style={Styles.spinnerView}>
                     <ActivityIndicator size="large" color={'#293b5f'}/>
@@ -274,4 +262,15 @@ const TaskDetails = (props) => {
     )
 }
 
-export default TaskDetails
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onClickUpdate: (task) => dispatch(editTasksAction(task))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskDetails)

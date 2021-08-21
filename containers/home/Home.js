@@ -54,7 +54,7 @@ const Home = () => {
                 <Tab.Screen name="Lists" component={Lists} options={{
                     tabBarLabel: 'Taches',
                     tabBarIcon: ({color}) => (
-                        <MaterialIcons name="electric-car" color={color} size={30}/>
+                        <MaterialIcons name="drive-eta" color={color} size={30}/>
                     ),
                 }}/>
                 <Tab.Screen name="Search" component={Search} options={{
@@ -66,7 +66,7 @@ const Home = () => {
                 <Tab.Screen name="Add" component={AddTask} options={{
                     tabBarLabel:() => {return null},
                     tabBarIcon: ({color}) => (
-                        <MaterialIcons name={'add-circle-outline'} color={color} size={40} />
+                        <MaterialIcons name={'add-circle-outline'} color={color} size={45} />
                     )
                 }}/>
                 <Tab.Screen name="Sort" component={Sort} options={{

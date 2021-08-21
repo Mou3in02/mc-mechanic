@@ -6,7 +6,7 @@ export const initDatabase = () => {
             tx.executeSql(
                 // 'DROP TABLE Task ',
                 'CREATE TABLE IF NOT EXISTS Task ( ' +
-                'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ' +
+                'id INTEGER PRIMARY KEY NOT NULL, ' +
                 'model STRING NVARCHAR(100) NULL, '+
                 'tel STRING NVARCHAR(100) NULL, '+
                 'earn STRING NVARCHAR(100) NULL, '+
@@ -49,7 +49,7 @@ export const getTasks = () => {
     return new Promise((resolve, reject) => {
         Database.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Task ORDER BY id DESC ;',
+                'SELECT * FROM Task ;',
                 [],
                 (_var, result) => {
                     resolve(result)

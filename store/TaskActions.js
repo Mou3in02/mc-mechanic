@@ -1,4 +1,4 @@
-import {deleteTaskFromDatabase, getTasks, insertTask} from "../utils/CRUD";
+import {deleteTaskFromDatabase, getTasks, insertTask, updateTaskFromDatabase} from "../utils/CRUD";
 import Toast from "react-native-simple-toast";
 
 export const GET_TASKS_REQUEST = 'GET_TASKS_REQUEST'
@@ -76,6 +76,33 @@ export const deleteTasksAction = (id) => {
         deleteTaskFromDatabase(id)
             .then(() => {
                 dispatch(deleteTaskSuccess(id))
+            })
+            .catch((error) => {
+                Toast.show('DataBase delete failed !', Toast.LONG)
+                throw error
+            })
+    }
+}
+
+export const EDIT_TASK_REQUEST = 'EDIT_TASK_REQUEST'
+export const EDIT_TASK_SUCCESS = 'EDIT_TASK_SUCCESS'
+export const editTaskRequest = () => {
+    return {
+        type: EDIT_TASK_REQUEST,
+    }
+}
+export const editTaskSuccess = (task) => {
+    return {
+        type: EDIT_TASK_SUCCESS,
+        editTask: task
+    }
+}
+export const editTasksAction = (task) => {
+    return function (dispatch) {
+        dispatch(editTaskRequest())
+        updateTaskFromDatabase(task)
+            .then(() => {
+                dispatch(editTaskSuccess(task))
             })
             .catch((error) => {
                 Toast.show('DataBase delete failed !', Toast.LONG)

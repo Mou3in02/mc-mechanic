@@ -58,7 +58,7 @@ const Task = (props) => {
             <View style={Styles.taskDetailsView}>
                 <View style={Styles._50A}>
                     <View style={Styles.telView}>
-                        <MaterialIcons name="call" color="#444" size={16}/>
+                        <MaterialIcons name="phone-android" color="#444" size={16}/>
                         <Text style={Styles.tel}>{formatTel(props.tel)}</Text>
                     </View>
                     <View style={Styles.moneyView}>

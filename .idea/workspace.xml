@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="48bd75f0-d4f0-4fd4-8441-15c8cc444da7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/task/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/task/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/task/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/task/Task.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/add/AddTask.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/add/AddTask.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/add/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/add/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/containers/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/list/Lists.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Lists.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/list/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/taskDetails/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/taskDetails/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/taskDetails/TaskDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/taskDetails/TaskDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/TaskActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/TaskActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/TaskReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/TaskReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/CRUD.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/CRUD.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +87,7 @@
       <workItem from="1629378338302" duration="7192000" />
       <workItem from="1629389886042" duration="882000" />
       <workItem from="1629466584735" duration="20541000" />
-      <workItem from="1629548677580" duration="8256000" />
+      <workItem from="1629548677580" duration="12384000" />
     </task>
     <servers />
   </component>

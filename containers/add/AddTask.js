@@ -102,7 +102,7 @@ const AddTask = (props) => {
             resetForm()
             setTimeout(() => {
                 setShowModal(false)
-            }, 2000)
+            }, 1500)
             data.id = new Date().getTime().toString() + Math.floor(Math.random() * 1000).toString()
             props.onClickSave(data)
         }
