@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import {Text, View, TextInput, TouchableOpacity} from 'react-native'
+import React, {useState} from 'react'
+import {Text, View, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, Platform, ScrollView} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from 'validator/es/lib/isEmpty'
@@ -27,9 +26,10 @@ const AddTask = (props) => {
     const [showDate, setShowDate] = useState(false)
     const [selectedRadio, setSelectedRadio] = useState(0)
     const radio_props = [
-        {id: 0, label: 'Effectué', value: true},
-        {id: 1, label: 'Non effectué', value: false}
+        {id: 0, label: 'Payé', value: true},
+        {id: 1, label: 'Non payé', value: false}
     ]
+    const [showModal, setShowModal] = useState(false)
 
 
     const onPressDatePicker = () => {
@@ -49,9 +49,7 @@ const AddTask = (props) => {
         let y = date.getFullYear()
         let m = date.getMonth() + 1
         let d = date.getDate()
-        let h = date.getUTCHours()
-        let i = date.getMinutes()
-        return d + '/' + m + '/' + y + '  ' + h + ':' + i
+        return d + '/' + m + '/' + y
     }
     const onChangeModel = (text) => {
         setData({
@@ -91,24 +89,58 @@ const AddTask = (props) => {
         value ? setSelectedRadio(0) : setSelectedRadio(1)
     }
     const onClickSave = () => {
-        if (isEmpty(data.model.trim()) === true) {
+        if (isEmpty(data.model) || isEmpty(data.model.trim())) {
             setIsValidData(false)
+            setData({
+                ...data,
+                model: ''
+            })
             Toast.show('Le champ modéle est obligatoire !', Toast.LONG)
         } else {
             setIsValidData(true)
+            setShowModal(true)
+            resetForm()
+            setTimeout(() => {
+                setShowModal(false)
+            }, 2000)
             data.id = new Date().getTime().toString() + Math.floor(Math.random() * 1000).toString()
-            props.onClickSave(data, props.navigation)
+            props.onClickSave(data)
         }
+    }
+    const resetForm = () => {
+        setData({
+            id: null,
+            model: '',
+            tel: '',
+            createdAt: new Date().getTime().toString(),
+            earn: '',
+            spent: '',
+            description: '',
+            status: true
+        })
     }
 
     return (
-        <KeyboardAwareScrollView style={{backgroundColor: '#fff'}}>
+        <ScrollView keyboardShouldPersistTaps='always' style={{backgroundColor: '#fff', flex: 1}}>
             <View style={Styles.headerView}>
                 <View style={Styles.headerContent}>
                     <MaterialIcons name={"playlist-add"} size={30} color={'#fff'}/>
-                    <Text style={Styles.newTaskTxt}>Nouveau tache</Text>
+                    <Text style={Styles.newTaskTxt}>Nouveau tâche</Text>
                 </View>
             </View>
+            {showModal &&
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={showModal}>
+                <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
+                    <View style={Styles.modalView}>
+                        <MaterialIcons name={'check'} color={'#1D9741'} size={40} style={{alignSelf: 'center'}}/>
+                        <Text style={Styles.modalText}>Le tâche est ajouté avec succès</Text>
+                    </View>
+                </View>
+            </Modal>
+            }
             <View style={Styles.taskDetails}>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
@@ -133,7 +165,7 @@ const AddTask = (props) => {
                 </View>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
-                        <Text style={{fontSize: 17,fontWeight:'bold'}}>€</Text>
+                        <Text style={{fontSize: 17, fontWeight: 'bold'}}>€</Text>
                         <Text style={Styles.modelText}>Dépensé </Text>
                     </View>
                     <View style={Styles._70}>
@@ -143,7 +175,7 @@ const AddTask = (props) => {
                 </View>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
-                        <Text style={{fontSize: 17,fontWeight:'bold'}}>€</Text>
+                        <Text style={{fontSize: 17, fontWeight: 'bold'}}>€</Text>
                         <Text style={Styles.modelText}>Gagner </Text>
                     </View>
                     <View style={Styles._70}>
@@ -206,7 +238,12 @@ const AddTask = (props) => {
                                         onPress={(value) => {
                                             onChangeStatus(value)
                                         }}
-                                        labelStyle={{fontSize: 14, color: '#293b5f', paddingLeft: 5, marginRight: 10}}
+                                        labelStyle={{
+                                            fontSize: 14,
+                                            color: '#293b5f',
+                                            paddingLeft: 5,
+                                            marginRight: 10
+                                        }}
                                         labelWrapStyle={{}}
                                     />
                                 </RadioButton>
@@ -226,16 +263,11 @@ const AddTask = (props) => {
                 </View>
                 <View style={Styles.saveView}>
                     <TouchableOpacity style={Styles.saveButton} onPress={onClickSave}>
-                        <View style={Styles.saveItems}>
-                            <Text
-                                style={{fontSize: 14, fontFamily: 'Poppins_400Regular', color: '#fff', marginRight: 5}}>
-                                Enregistrer
-                            </Text>
-                        </View>
+                        <Text style={Styles.saveTxt}>Enregistrer</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
     )
 }
 
@@ -244,7 +276,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        onClickSave: (task, navigation) => dispatch(addTasksAction(task, navigation))
+        onClickSave: (task) => dispatch(addTasksAction(task))
     }
 }
 

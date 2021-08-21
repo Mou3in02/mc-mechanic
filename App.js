@@ -49,11 +49,6 @@ const App = () => {
                         headerTitleStyle: {color: '#14274E',alignSelf: 'center'},
                         headerLeft: () => null,
                     })}/>
-                    <Stack.Screen name="AddTask" component={AddTask} options={({route}) => ({
-                        title: 'Nouveau Tâche',
-                        headerTitleStyle: {color: '#14274E',alignSelf: 'center'},
-                        headerLeft: () => null,
-                    })}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

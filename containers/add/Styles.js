@@ -15,6 +15,7 @@ const Styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: '#14274E',
         height: 50,
+        marginBottom: 10
     },
     headerContent: {
         flexDirection: 'row',
@@ -126,14 +127,11 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
     },
-    saveText: {
-        color: '#14274E',
-        fontSize: 15,
+    saveTxt:{
+        fontSize: 14,
         fontFamily: 'Poppins_400Regular',
-    },
-    saveItems: {
-        flexDirection: 'row',
-        // alignItems: 'center',
+        color: '#fff',
+        marginRight: 5
     },
     cancelView: {
         marginTop: 10,
@@ -158,7 +156,34 @@ const Styles = StyleSheet.create({
     },
     invalidModelInput: {
         borderBottomColor: '#f00'
-    }
+    },
+    // modal style
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView: {
+        backgroundColor: "white",
+        borderRadius: 20,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalText: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
+        textAlign: "center",
+        color: '#1D9741',
+        marginTop: 10
+    },
 })
 
 export default Styles

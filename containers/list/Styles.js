@@ -182,8 +182,7 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#14274E',
-        marginHorizontal: 40,
-        marginTop: 10
+        marginTop: 40
     }
 })
 

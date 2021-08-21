@@ -1,8 +1,8 @@
 import React from 'react'
 import {Text, View} from 'react-native';
 import Styles from './Styles'
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import isEmpty from "validator/es/lib/isEmpty";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
 const Task = (props) => {
@@ -58,35 +58,30 @@ const Task = (props) => {
             <View style={Styles.taskDetailsView}>
                 <View style={Styles._50A}>
                     <View style={Styles.telView}>
-                        <FontAwesome5 name="phone-square-alt" color="#444" size={15}/>
+                        <MaterialIcons name="call" color="#444" size={16}/>
                         <Text style={Styles.tel}>{formatTel(props.tel)}</Text>
                     </View>
                     <View style={Styles.moneyView}>
-                        <Text style={Styles.earn}>{formatEarn(props.earn)} €</Text>
+                        <Text style={Styles.earn}>€ {formatEarn(props.earn)}</Text>
                     </View>
                     <View style={Styles.moneyView}>
-                        <Text style={Styles.spent}>{formatSpent(props.spent)} €</Text>
+                        <Text style={Styles.spent}>€ {formatSpent(props.spent)}</Text>
                     </View>
                 </View>
                 <View style={Styles._50B}>
                     {props.status ?
                         <View style={Styles.statusView}>
-                            <Text style={Styles.trueStatusTxt}>Effectué</Text>
-                            <FontAwesome5 name="check-square" color={'#444'} size={15}/>
+                            <Text style={Styles.trueStatusTxt}>Payé</Text>
+                            <MaterialIcons name="check-circle" color={'#444'} size={18}/>
                         </View>
                         :
                         <View style={Styles.statusView}>
-                            <Text style={Styles.falseStatusTxt}>Non effectué</Text>
-                            <FontAwesome5 name="times-circle" color={'#444'} size={15}/>
+                            <Text style={Styles.falseStatusTxt}>Non payé</Text>
                         </View>
                     }
                     <View style={Styles.dateView}>
-                        <Text style={Styles.date}>{formatTime(props.createdAt)}</Text>
-                        <FontAwesome5 name="clock" color="#444" size={15}/>
-                    </View>
-                    <View style={Styles.dateView}>
                         <Text style={Styles.date}>{formatDate(props.createdAt)}</Text>
-                        <FontAwesome5 name="calendar-alt" color="#444" size={15}/>
+                        <MaterialIcons name="date-range" color="#444" size={18}/>
                     </View>
                 </View>
             </View>

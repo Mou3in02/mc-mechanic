@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Modal, Text, TouchableOpacity, View} from 'react-native';
 import Styles from "./Styles"
 import Task from "../../components/task/Task";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {connect} from "react-redux";
-import {getTasksAction} from "../../store/TaskActions";
+import {deleteTasksAction, getTasksAction} from "../../store/TaskActions";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
@@ -37,11 +36,7 @@ const Lists = (props) => {
                                     <View>
                                         <TouchableOpacity
                                             style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
-                                            onPress={() => {
-                                                deleteTask(item.id)
-                                            }}>
-                                            <FontAwesome5 name="trash-alt" size={16} color={"#900D0D"}
-                                                          style={{marginRight: 2}}/>
+                                            onPress={() => {props.onClickDelete(item.id)}}>
                                             <Text style={Styles.deleteStyle}>Supprimer</Text>
                                         </TouchableOpacity>
                                     </View>
@@ -62,27 +57,6 @@ const Lists = (props) => {
             </View>
         )
     }
-    // const deleteTask = (taskId) => {
-    //     setShowModal({status: false, id: null})
-    //     let taskIndex = data.findIndex(({id}) => {
-    //         return taskId === id
-    //     })
-    //     if (taskIndex !== -1) {
-    //         deleteTaskFromDatabase(taskId)
-    //             .then(() => {
-    //                 let newData = [...data]
-    //                 newData.splice(taskIndex, 1)
-    //                 setData(newData)
-    //                 setNumberOfTasks(numberOfTasks - 1)
-    //                 setListNumber(listNumber - 1)
-    //                 Toast.show('Tâche supprimé avec succès')
-    //             })
-    //             .catch((error) => {
-    //                 Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-    //                 console.log(error)
-    //             })
-    //     }
-    // }
     const onClickSwipeDelete = (rowMap, id) => {
         closeRow(rowMap, id)
         setShowModal({
@@ -95,12 +69,12 @@ const Lists = (props) => {
             <View style={Styles.rowBack}>
                 <TouchableOpacity style={[Styles.backLeftBtn, Styles.backLeftBtnLeft]}
                                   onPress={() => onClickModify(rowMap, data.item.id, data.item.model)}>
-                    <FontAwesome5 name={"edit"} size={18} color={'#fff'}/>
+                    <MaterialIcons name="drive-file-rename-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Modifier</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[Styles.backRightBtn, Styles.backRightBtnRight]}
                                   onPress={() => onClickSwipeDelete(rowMap, data.item.id)}>
-                    <FontAwesome5 name={"trash"} size={18} color={'#fff'}/>
+                    <MaterialIcons name="delete-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Supprimer</Text>
                 </TouchableOpacity>
             </View>
@@ -158,7 +132,6 @@ const Lists = (props) => {
                         :
                         <View style={Styles.noRowsView}>
                             <Text style={Styles.noRowsText}>Aucune tâche trouvée</Text>
-                            <FontAwesome5 name="frown-open" color={'#999'} size={19}/>
                         </View>
                     }
                 </View>
@@ -179,7 +152,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLoadHome: () => dispatch(getTasksAction())
+        onLoadHome: () => dispatch(getTasksAction()),
+        onClickDelete: (id) => dispatch(deleteTasksAction(id))
     }
 }
 

@@ -25,6 +25,22 @@ const TaskReducer = (state = initState, action) => {
                 ...state,
                 tasks: tasks
             }
+        case (actions.DELETE_TASK_REQUEST):
+            return state
+        case (actions.DELETE_TASK_SUCCESS):
+            let id = action.taskId
+            let taskIndex = state.tasks.findIndex((task) => {
+                return task.id === id
+            })
+            if (taskIndex !== -1) {
+                let newTasks = [...state.tasks]
+                newTasks.splice(taskIndex,1)
+                return {
+                    ...state,
+                    tasks: newTasks
+                }
+            }
+            return state
         default:
             return state
     }

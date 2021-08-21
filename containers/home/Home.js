@@ -4,11 +4,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Styles from "./Styles"
 import Lists from "../list/Lists";
 import Chart from "../chart/Chart";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Search from "../search/Search";
 import {insertTask} from "../../utils/CRUD";
 import Sort from "../sort/Sort";
-import Settings from "../settings/Settings";
 import AddTask from "../add/AddTask";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -49,39 +47,38 @@ const Home = () => {
                     activeBackgroundColor: '#14274E',
                     inactiveBackgroundColor: '#fff',
                     labelStyle: {
-                        fontSize: 12,
-                        fontFamily: 'Poppins_400Regular'
+                        fontSize: 10,
+                        fontFamily: 'Poppins_400Regular',
                     }
                 }}>
                 <Tab.Screen name="Lists" component={Lists} options={{
-                    tabBarLabel:() => {return null},
+                    tabBarLabel: 'Taches',
                     tabBarIcon: ({color}) => (
-                        <MaterialIcons name="electric-car" color={color} size={40}/>
+                        <MaterialIcons name="electric-car" color={color} size={30}/>
                     ),
+                }}/>
+                <Tab.Screen name="Search" component={Search} options={{
+                    tabBarLabel: 'Rechercher',
+                    tabBarIcon: ({color}) => (
+                        <MaterialIcons name="search" color={color} size={30}/>
+                    )
                 }}/>
                 <Tab.Screen name="Add" component={AddTask} options={{
                     tabBarLabel:() => {return null},
                     tabBarIcon: ({color}) => (
-                        // <FontAwesome5 name="plus" color={color} size={30}/>
                         <MaterialIcons name={'add-circle-outline'} color={color} size={40} />
                     )
                 }}/>
-                <Tab.Screen name="Search" component={Search} options={{
-                    tabBarLabel:() => {return null},
-                    tabBarIcon: ({color}) => (
-                        <MaterialIcons name="search" color={color} size={40}/>
-                    )
-                }}/>
                 <Tab.Screen name="Sort" component={Sort} options={{
-                    tabBarLabel:() => {return null},
+                    tabBarLabel: 'Date',
                     tabBarIcon: ({color}) => (
-                        <MaterialIcons name="event-note" color={color} size={40}/>
+                        <MaterialIcons name="event-note" color={color} size={30}/>
                     )
                 }}/>
                 <Tab.Screen name="Chart" component={Chart} options={{
-                    tabBarLabel:() => {return null},
+                    tabBarLabel: 'Graph',
                     tabBarIcon: ({color}) => (
-                        <MaterialIcons name="signal-cellular-alt" color={color} size={40}/>
+                        <MaterialIcons name="signal-cellular-alt" color={color} size={30}/>
                     )
                 }}/>
             </Tab.Navigator>

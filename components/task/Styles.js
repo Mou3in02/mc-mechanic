@@ -47,6 +47,7 @@ const Styles = StyleSheet.create({
         fontSize: 14,
         color: '#333',
         marginRight: 5,
+        marginTop: 2,
     },
     moneyView: {
         flexDirection: "row",
