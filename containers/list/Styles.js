@@ -177,6 +177,14 @@ const Styles = StyleSheet.create({
         backgroundColor: '#900D0D',
         right: 0,
     },
+    footerView:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#14274E',
+        marginHorizontal: 40,
+        marginTop: 10
+    }
 })
 
 export default Styles

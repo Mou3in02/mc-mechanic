@@ -3,11 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="48bd75f0-d4f0-4fd4-8441-15c8cc444da7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/containers/settings/Settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/settings/Settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/task/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/task/Task.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/add/AddTask.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/add/AddTask.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/add/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/add/Styles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/list/Lists.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Lists.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/containers/list/Styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/containers/list/Styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/CRUD.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/CRUD.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +84,7 @@
       <workItem from="1629308045758" duration="3938000" />
       <workItem from="1629378338302" duration="7192000" />
       <workItem from="1629389886042" duration="882000" />
-      <workItem from="1629466584735" duration="4323000" />
+      <workItem from="1629466584735" duration="20380000" />
     </task>
     <servers />
   </component>
@@ -101,15 +105,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="137" y="24" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1629386572834">
-      <screen x="0" y="0" width="1366" height="738" />
-    </state>
-    <state x="137" y="24" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.738@0.0.1366.738" timestamp="1629386572834" />
-    <state x="92" y="92" width="1182" height="554" key="AVDManager" timestamp="1629388815164">
-      <screen x="0" y="0" width="1366" height="738" />
-    </state>
-    <state x="92" y="92" width="1182" height="554" key="AVDManager/0.0.1366.738@0.0.1366.738" timestamp="1629388815164" />
   </component>
 </project>

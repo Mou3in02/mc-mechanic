@@ -3,34 +3,51 @@ import {StyleSheet} from 'react-native'
 
 
 const Styles = StyleSheet.create({
-    taskDetails:{
+    taskDetails: {
         flex: 1,
         backgroundColor: '#fff',
         marginTop: 10,
         marginBottom: 20,
         marginHorizontal: 10
     },
-    fieldView:{
+    headerView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#14274E',
+        height: 50,
+    },
+    headerContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 10
+    },
+    newTaskTxt: {
+        color: '#fff',
+        fontFamily: 'Poppins_400Regular',
+        marginLeft: 20,
+        fontSize: 16
+    },
+    fieldView: {
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 5,
         marginBottom: 10,
     },
-    _30:{
+    _30: {
         flexDirection: 'row',
         alignItems: 'center',
         width: '30%'
     },
-    _70:{
+    _70: {
         width: '70%'
     },
-    modelText:{
+    modelText: {
         fontFamily: 'Poppins_400Regular',
         fontSize: 14,
         marginLeft: 5,
         marginTop: 2
     },
-    modelInput:{
+    modelInput: {
         height: 40,
         marginRight: 20,
         borderBottomWidth: 1,
@@ -41,13 +58,13 @@ const Styles = StyleSheet.create({
         fontSize: 15,
         fontFamily: 'Poppins_400Regular'
     },
-    dateText:{
+    dateText: {
         fontSize: 15,
         marginLeft: 5,
         fontFamily: 'Poppins_400Regular',
         marginTop: 2
     },
-    dateInput:{
+    dateInput: {
         height: 40,
         marginRight: 20,
         borderBottomWidth: 1,
@@ -59,18 +76,18 @@ const Styles = StyleSheet.create({
         paddingTop: 15,
         fontFamily: 'Poppins_400Regular'
     },
-    descriptionView:{
+    descriptionView: {
         marginTop: 10,
         flexDirection: 'column',
     },
-    descriptionTextView:{
+    descriptionTextView: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    descriptionInputView:{
+    descriptionInputView: {
         alignItems: 'center'
     },
-    descriptionInput:{
+    descriptionInput: {
         height: 80,
         borderWidth: 1,
         borderColor: '#eee',
@@ -84,23 +101,23 @@ const Styles = StyleSheet.create({
         lineHeight: 25,
         fontFamily: 'Poppins_400Regular'
     },
-    statusView:{
+    statusView: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         marginLeft: 5,
         marginBottom: 10,
         marginTop: 20
     },
-    statusText:{
+    statusText: {
         fontSize: 15,
         fontFamily: 'Poppins_400Regular',
     },
-    saveView:{
+    saveView: {
         marginTop: 10,
         marginHorizontal: 20,
         width: '90%',
     },
-    saveButton:{
+    saveButton: {
         height: 40,
         backgroundColor: '#14274E',
         borderWidth: 1,
@@ -109,12 +126,12 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
     },
-    saveText:{
+    saveText: {
         color: '#14274E',
         fontSize: 15,
         fontFamily: 'Poppins_400Regular',
     },
-    saveItems:{
+    saveItems: {
         flexDirection: 'row',
         // alignItems: 'center',
     },
@@ -139,7 +156,7 @@ const Styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    invalidModelInput:{
+    invalidModelInput: {
         borderBottomColor: '#f00'
     }
 })

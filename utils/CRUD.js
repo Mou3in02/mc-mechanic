@@ -45,12 +45,12 @@ export const insertTask = (task) => {
         })
     })
 }
-export const getTasks = (limit , offset) => {
+export const getTasks = () => {
     return new Promise((resolve, reject) => {
         Database.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Task ORDER BY id DESC LIMIT ? OFFSET ? ;',
-                [limit,offset],
+                'SELECT * FROM Task ORDER BY id DESC ;',
+                [],
                 (_var, result) => {
                     resolve(result)
                 },

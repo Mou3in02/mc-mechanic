@@ -2,51 +2,21 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Modal, Text, TouchableOpacity, View} from 'react-native';
 import Styles from "./Styles"
 import Task from "../../components/task/Task";
-import {countTasks, deleteTaskFromDatabase, getTasks} from "../../utils/CRUD";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import {SwipeListView} from 'react-native-swipe-list-view';
-import Toast from "react-native-simple-toast";
+import {connect} from "react-redux";
+import {getTasksAction} from "../../store/TaskActions";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
 const Lists = (props) => {
 
-    const limit = 10
-    const [isLoaded, setIsLoaded] = useState(false)
-    const [numberOfTasks, setNumberOfTasks] = useState(0)
-    const [listNumber, setListNumber] = useState(0)
-    const [data, setData] = useState([])
-    const [dataIsEmpty, setDataIsEmpty] = useState(false)
     const [isReachedEnd, setIsReachedEnd] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
 
-
     useEffect(() => {
-        return props.navigation.addListener('focus', () => {
-            countTasks()
-                .then((result) => {
-                    let {numbers} = result.rows._array[0]
-                    setNumberOfTasks(numbers)
-                    if (numbers === 0) {
-                        setDataIsEmpty(true)
-                        setIsLoaded(true)
-                    } else {
-                        getTasks(limit, listNumber)
-                            .then((result) => {
-                                setData(result.rows._array)
-                                setIsLoaded(true)
-                                setListNumber(listNumber + limit)
-                            })
-                            .catch((error) => {
-                                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                                console.log(error)
-                            })
-                    }
-                }).catch((error) => {
-                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                console.log(error)
-            })
-        });
-    }, [props.navigation])
+        props.onLoadHome()
+    }, [])
 
     const renderItem = ({item, index}) => {
         return (
@@ -92,27 +62,27 @@ const Lists = (props) => {
             </View>
         )
     }
-    const deleteTask = (taskId) => {
-        setShowModal({status: false, id: null})
-        let taskIndex = data.findIndex(({id}) => {
-            return taskId === id
-        })
-        if (taskIndex !== -1) {
-            deleteTaskFromDatabase(taskId)
-                .then(() => {
-                    let newData = [...data]
-                    newData.splice(taskIndex, 1)
-                    setData(newData)
-                    setNumberOfTasks(numberOfTasks - 1)
-                    setListNumber(listNumber - 1)
-                    Toast.show('Tâche supprimé avec succès')
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
-        }
-    }
+    // const deleteTask = (taskId) => {
+    //     setShowModal({status: false, id: null})
+    //     let taskIndex = data.findIndex(({id}) => {
+    //         return taskId === id
+    //     })
+    //     if (taskIndex !== -1) {
+    //         deleteTaskFromDatabase(taskId)
+    //             .then(() => {
+    //                 let newData = [...data]
+    //                 newData.splice(taskIndex, 1)
+    //                 setData(newData)
+    //                 setNumberOfTasks(numberOfTasks - 1)
+    //                 setListNumber(listNumber - 1)
+    //                 Toast.show('Tâche supprimé avec succès')
+    //             })
+    //             .catch((error) => {
+    //                 Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
+    //                 console.log(error)
+    //             })
+    //     }
+    // }
     const onClickSwipeDelete = (rowMap, id) => {
         closeRow(rowMap, id)
         setShowModal({
@@ -150,70 +120,31 @@ const Lists = (props) => {
     }
     const renderFooter = () => {
         return (
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderColor: '#14274E',
-                marginHorizontal: 40,
-                marginTop: 10
-            }}>
+            <View style={Styles.footerView}>
                 {isReachedEnd ?
-                    <Text style={Styles.noMore}>Aucune tâche trouvée !</Text>
+                    <Text style={Styles.noMore}>Rien d'autres !</Text>
                     :
                     <ActivityIndicator color={'#999'} size="large"/>
                 }
             </View>
         )
     }
-    const loadMore = () => {
-        getTasks(limit, listNumber)
-            .then((result) => {
-                if (result.rows._array.length > 0){
-                    result.rows._array.map((task) => {
-                        return data.push(task)
-                    })
-                    setData(data)
-                    setListNumber(listNumber + limit)
-                }
-                else {
-                    setIsReachedEnd(true)
-                }
-            })
-            .catch((error) => {
-                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                console.log(error)
-            })
-    }
-    const endOfListReached = () => {
-        if (!isReachedEnd) {
-            loadMore()
-        } else {
-            setIsReachedEnd(true)
-        }
-    }
 
     return (
         <View style={Styles.listsView}>
-            {isLoaded ?
+            {props.isLoaded ?
                 <View style={{flex: 1}}>
                     <View style={Styles.headerView}>
                         <View style={Styles.headerContent}>
-                            <FontAwesome5 name={"tools"} size={16} color={'#fff'}/>
+                            <MaterialIcons name={"handyman"} size={20} color={'#fff'}/>
                             <Text style={Styles.tasksTxt}>Tâches : </Text>
-                            <Text style={Styles.numberTxt}>{numberOfTasks}</Text>
+                            <Text style={Styles.numberTxt}>{props.tasks.length}</Text>
                         </View>
-                        {/*<View style={Styles.addView}>*/}
-                        {/*    <TouchableOpacity onPress={() => props.navigation.push('AddTask')}>*/}
-                        {/*        <FontAwesome5 name={"plus-square"} color={'#fff'} size={33}/>*/}
-                        {/*    </TouchableOpacity>*/}
-                        {/*</View>*/}
                     </View>
-                    {!dataIsEmpty ?
+                    {props.tasks.length > 0 ?
                         <SwipeListView
                             contentContainerStyle={{paddingBottom: 80}}
-                            data={data}
-                            extraData={true}
+                            data={props.tasks}
                             renderItem={renderItem}
                             keyExtractor={item => item.id.toString()}
                             leftOpenValue={70}
@@ -222,8 +153,7 @@ const Lists = (props) => {
                             previewOpenDelay={2000}
                             renderHiddenItem={renderHiddenItem}
                             ListFooterComponent={renderFooter}
-                            onEndReached={endOfListReached}
-                            onEndReachedThreshold={.8}
+                            onEndReached={() => setIsReachedEnd(true)}
                         />
                         :
                         <View style={Styles.noRowsView}>
@@ -241,4 +171,16 @@ const Lists = (props) => {
     )
 }
 
-export default Lists
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks,
+        isLoaded: state.isLoaded
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLoadHome: () => dispatch(getTasksAction())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lists)

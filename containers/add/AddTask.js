@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {Text, View, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {Text, View, TextInput, TouchableOpacity} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
@@ -7,11 +7,14 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button'
 import isEmpty from 'validator/es/lib/isEmpty'
 import Toast from 'react-native-simple-toast'
-import {insertTask} from "../../utils/CRUD";
+import {addTasksAction} from "../../store/TaskActions";
+import {connect} from "react-redux";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 const AddTask = (props) => {
 
     const [data, setData] = useState({
+        id: null,
         model: '',
         tel: '',
         createdAt: new Date().getTime().toString(),
@@ -23,17 +26,14 @@ const AddTask = (props) => {
     const [isValidData, setIsValidData] = useState(true)
     const [showDate, setShowDate] = useState(false)
     const [selectedRadio, setSelectedRadio] = useState(0)
-    const [checkingData, setCheckingData] = useState(false)
     const radio_props = [
         {id: 0, label: 'Effectué', value: true},
         {id: 1, label: 'Non effectué', value: false}
     ]
 
-    const showDatePicker = () => {
-        setShowDate(true)
-    }
+
     const onPressDatePicker = () => {
-        showDatePicker()
+        setShowDate(true)
     }
     const onChangeDate = (event, selectedDate) => {
         setShowDate(false)
@@ -91,30 +91,24 @@ const AddTask = (props) => {
         value ? setSelectedRadio(0) : setSelectedRadio(1)
     }
     const onClickSave = () => {
-        setCheckingData(true)
         if (isEmpty(data.model.trim()) === true) {
             setIsValidData(false)
-            setCheckingData(false)
             Toast.show('Le champ modéle est obligatoire !', Toast.LONG)
-        }
-        else {
+        } else {
             setIsValidData(true)
-            console.log(data)
-            insertTask(data)
-                .then(() => {
-                    setCheckingData(false)
-                    Toast.show('Tâche enregistré avec succès')
-                    props.navigation.push('Home')
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
+            data.id = new Date().getTime().toString() + Math.floor(Math.random() * 1000).toString()
+            props.onClickSave(data, props.navigation)
         }
     }
 
     return (
         <KeyboardAwareScrollView style={{backgroundColor: '#fff'}}>
+            <View style={Styles.headerView}>
+                <View style={Styles.headerContent}>
+                    <MaterialIcons name={"playlist-add"} size={30} color={'#fff'}/>
+                    <Text style={Styles.newTaskTxt}>Nouveau tache</Text>
+                </View>
+            </View>
             <View style={Styles.taskDetails}>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
@@ -139,7 +133,7 @@ const AddTask = (props) => {
                 </View>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
-                        <FontAwesome5 name="euro-sign" size={16}/>
+                        <Text style={{fontSize: 17,fontWeight:'bold'}}>€</Text>
                         <Text style={Styles.modelText}>Dépensé </Text>
                     </View>
                     <View style={Styles._70}>
@@ -149,7 +143,7 @@ const AddTask = (props) => {
                 </View>
                 <View style={Styles.fieldView}>
                     <View style={Styles._30}>
-                        <FontAwesome5 name="euro-sign" size={16}/>
+                        <Text style={{fontSize: 17,fontWeight:'bold'}}>€</Text>
                         <Text style={Styles.modelText}>Gagner </Text>
                     </View>
                     <View style={Styles._70}>
@@ -233,17 +227,10 @@ const AddTask = (props) => {
                 <View style={Styles.saveView}>
                     <TouchableOpacity style={Styles.saveButton} onPress={onClickSave}>
                         <View style={Styles.saveItems}>
-                            <Text style={{fontSize: 14,fontFamily: 'Poppins_400Regular', color: '#fff', marginRight: 5}}>
+                            <Text
+                                style={{fontSize: 14, fontFamily: 'Poppins_400Regular', color: '#fff', marginRight: 5}}>
                                 Enregistrer
                             </Text>
-                            {checkingData ? <ActivityIndicator color={'#fff'} size="small"/> : null}
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={Styles.cancelView}>
-                    <TouchableOpacity style={Styles.cancelButton} onPress={() => props.navigation.navigate('Home')}>
-                        <View style={Styles.cancelItems}>
-                            <Text style={Styles.cancelText}>Annuler</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -252,4 +239,13 @@ const AddTask = (props) => {
     )
 }
 
-export default AddTask
+const mapStateToProps = (state) => {
+    return state
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onClickSave: (task, navigation) => dispatch(addTasksAction(task, navigation))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTask)
