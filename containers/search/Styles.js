@@ -37,9 +37,8 @@ const Styles = StyleSheet.create({
         position: 'absolute',
         fontSize: 17,
         color: '#fff',
-        fontWeight: 'bold',
         right: 20,
-        // fontFamily: 'Poppins_400Regular',
+        fontFamily: 'Poppins_400Regular',
     },
     // modal style
     centeredView: {

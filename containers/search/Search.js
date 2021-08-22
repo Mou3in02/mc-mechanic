@@ -114,13 +114,13 @@ const Search = (props) => {
             </View>
         )
     }
-    const getTasksByStatus = (tasks, status) => {
-        if (tasks.length > 0) {
-            return tasks.filter((task) => {
+    const getTasksByStatus = (status) => {
+        if (props.tasks.length > 0){
+            return props.tasks.filter((task) => {
                 return task.status === status
             })
         }
-        return []
+        else return []
     }
     const getTasksByInput = (tasks, input) => {
         if (isEmpty(input) && isEmpty(input.trim())) return tasks
@@ -139,15 +139,18 @@ const Search = (props) => {
     }
     const onClickSearch = () => {
         Keyboard.dismiss()
-        if ((payedCheck && nonPayedCheck) || (!payedCheck && !nonPayedCheck)) {
-            let tasks = getTasksByInput(props.tasks, searchInput)
-            setData(tasks)
-        } else if (payedCheck) {
-            let tasks = getTasksByStatus(getTasksByInput(props.tasks, searchInput), true)
-            setData(tasks)
-        } else {
-            let tasks = getTasksByStatus(getTasksByInput(props.tasks, searchInput), false)
-            setData(tasks)
+        if (payedCheck && !nonPayedCheck) {
+            let payedTasks = getTasksByStatus(1)
+            let filterTasks = getTasksByInput(payedTasks,searchInput)
+            setData(filterTasks)
+        } else if (nonPayedCheck && !payedCheck) {
+            let payedTasks = getTasksByStatus(0)
+            let filterTasks = getTasksByInput(payedTasks,searchInput)
+            setData(filterTasks)
+        }
+        else {
+            let filterTasks = getTasksByInput(props.tasks,searchInput)
+            setData(filterTasks)
         }
     }
 
@@ -184,8 +187,7 @@ const Search = (props) => {
             {isLoaded ?
                 data.length <= 0 ?
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontFamily: 'Poppins_400Regular', fontSize: 17, color: '#999'}}>Aucune tâche
-                            trouvée !</Text>
+                        <Text style={{fontFamily: 'Poppins_400Regular', fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
                     </View>
                     :
                     <SwipeListView

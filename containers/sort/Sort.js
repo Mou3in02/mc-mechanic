@@ -1,65 +1,41 @@
-'use strict'
-import React, {useState} from "react"
-import {View, Text, TouchableOpacity, Pressable, Modal, ActivityIndicator} from 'react-native'
+import React, {useEffect, useState} from "react"
+import {View, Text, TouchableOpacity, Modal, ActivityIndicator} from 'react-native'
 import Styles from './Styles'
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import {countSortTasksByDate, deleteTaskFromDatabase, sortTasksByDate} from "../../utils/CRUD";
-import Toast from "react-native-simple-toast";
 import Task from "../../components/task/Task";
 import {SwipeListView} from "react-native-swipe-list-view";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import {deleteTasksAction} from "../../store/TaskActions";
+import {connect} from "react-redux";
 
 
 const Sort = (props) => {
 
-    //  pagination
-    const limit = 10
-    const [listNumber, setListNumber] = useState(0)
+    const [isLoaded, setIsLoaded] = useState(false)
     const [isReachedEnd, setIsReachedEnd] = useState(false)
-    //  data
     const [date, setDate] = useState({
-        start: new Date().getTime().toString(),
-        end: new Date().getTime().toString()
+        start: null,
+        end: null
     })
     const [data, setData] = useState([])
     const [showDateStart, setShowDateStart] = useState(false)
     const [showDateEnd, setShowDateEnd] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
-    const [isEmptyData, setIsEmptyData] = useState(true)
-    const [numberOfTasks, setNumberOfTasks] = useState(0)
 
 
-    const onPressDateStart = () => {
-        setShowDateStart(true)
-    }
-    const onChangeDateStart = (event, selectedDate) => {
-        setShowDateStart(false)
-        if (selectedDate !== undefined) {
-            setDate({
-                ...date,
-                start: selectedDate.getTime().toString()
-            })
-        }
-    }
-    const onPressDateEnd = () => {
-        setShowDateEnd(true)
-    }
-    const onChangeDateEnd = (event, selectedDate) => {
-        setShowDateEnd(false)
-        if (selectedDate !== undefined) {
-            setDate({
-                ...date,
-                end: selectedDate.getTime().toString()
-            })
-        }
-    }
-    const formatDate = (dateTime) => {
-        const date = new Date(parseInt(dateTime))
+    useEffect(() => {
+        let date = new Date()
         let y = date.getFullYear()
-        let m = date.getMonth() + 1
-        let d = date.getDate()
-        return d + '/' + m + '/' + y
-    }
+        let m = date.getMonth()
+        let d = date.getDay()
+        setDate({
+            start: new Date(y,m,d).getTime().toString(),
+            end: new Date(y,m,d).getTime().toString()
+        })
+        setData(props.tasks)
+        setIsLoaded(true)
+    }, [])
+
     const renderItem = ({item, index}) => {
         return (
             <View key={item.id}
@@ -77,22 +53,20 @@ const Sort = (props) => {
                                 <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
                                 <View style={Styles.buttonsView}>
                                     <View>
-                                        <Pressable
+                                        <TouchableOpacity
                                             style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
                                             onPress={() => {
-                                                deleteTask(item.id)
+                                                props.onClickDelete(item.id)
                                             }}>
-                                            <FontAwesome5 name="trash-alt" size={16} color={"#900D0D"}
-                                                          style={{marginRight: 2}}/>
                                             <Text style={Styles.deleteStyle}>Supprimer</Text>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     </View>
                                     <View>
-                                        <Pressable
+                                        <TouchableOpacity
                                             style={[Styles.button, Styles.buttonCancel]}
                                             onPress={() => setShowModal({status: false, id: null})}>
-                                            <Text style={Styles.cancelStyle}>Anuuler</Text>
-                                        </Pressable>
+                                            <Text style={Styles.cancelStyle}>Annuler</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
@@ -104,32 +78,26 @@ const Sort = (props) => {
             </View>
         )
     }
+    const onClickSwipeDelete = (rowMap, id) => {
+        closeRow(rowMap, id)
+        setShowModal({
+            status: true,
+            id: id
+        })
+    }
     const renderHiddenItem = (data, rowMap) => {
         return (
             <View style={Styles.rowBack}>
                 <TouchableOpacity style={[Styles.backLeftBtn, Styles.backLeftBtnLeft]}
-                                  onPress={() => onClickModify(rowMap, data.item.id, data.item.model)}
-                >
-                    <FontAwesome5 name={"edit"} size={18} color={'#fff'}/>
+                                  onPress={() => onClickModify(rowMap, data.item.id, data.item.model)}>
+                    <MaterialIcons name="drive-file-rename-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Modifier</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[Styles.backRightBtn, Styles.backRightBtnRight]}
-                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}
-                >
-                    <FontAwesome5 name={"trash"} size={18} color={'#fff'}/>
+                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}>
+                    <MaterialIcons name="delete-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Supprimer</Text>
                 </TouchableOpacity>
-            </View>
-        )
-    }
-    const renderFooter = () => {
-        return (
-            <View style={Styles.footerListView}>
-                {isReachedEnd ?
-                    <Text style={Styles.noMore}>Aucune tâche trouvée !</Text>
-                    :
-                    <ActivityIndicator color={'#999'} size="large"/>
-                }
             </View>
         )
     }
@@ -138,32 +106,6 @@ const Sort = (props) => {
             rowMap[rowKey].closeRow();
         }
     }
-    const deleteTask = (taskId) => {
-        setShowModal({status: false, id: null})
-        let taskIndex = data.findIndex(({id}) => {
-            return taskId === id
-        })
-        if (taskIndex !== -1) {
-            deleteTaskFromDatabase(taskId)
-                .then(() => {
-                    let newData = [...data]
-                    newData.splice(taskIndex, 1)
-                    setData(newData)
-                    Toast.show('Tâche supprimé avec succès')
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
-        }
-    }
-    const onClickSwipeDelete = (rowMap, id) => {
-        closeRow(rowMap, id)
-        setShowModal({
-            status: true,
-            id: id
-        })
-    }
     const onClickModify = (rowMap, id, model) => {
         closeRow(rowMap, id)
         props.navigation.push('TaskDetails', {
@@ -171,63 +113,61 @@ const Sort = (props) => {
             'name': model
         })
     }
+    const renderFooter = () => {
+        return (
+            <View style={Styles.footerView}>
+                {isReachedEnd ?
+                    <Text style={Styles.noMore}>Rien d'autres !</Text>
+                    :
+                    <ActivityIndicator color={'#999'} size="large"/>
+                }
+            </View>
+        )
+    }
+    const onPressDateStart = () => {
+        setShowDateStart(true)
+    }
+    const onChangeDateStart = (event, selectedDate) => {
+        setShowDateStart(false)
+        if (selectedDate !== undefined) {
+            let y = selectedDate.getFullYear()
+            let m = selectedDate.getMonth()
+            let d = selectedDate.getDay()
+            setDate({
+                ...date,
+                start: new Date(y,m,d).getTime().toString()
+            })
+        }
+    }
+    const onPressDateEnd = () => {
+        setShowDateEnd(true)
+    }
+    const onChangeDateEnd = (event, selectedDate) => {
+        setShowDateEnd(false)
+        let y = selectedDate.getFullYear()
+        let m = selectedDate.getMonth()
+        let d = selectedDate.getDay()
+        setDate({
+            ...date,
+            end: new Date(y,m,d).getTime().toString()
+        })
+    }
+    const formatDate = (dateTime) => {
+        const date = new Date(parseInt(dateTime))
+        let y = date.getFullYear()
+        let m = date.getMonth() + 1
+        let d = date.getDate()
+        return d + '/' + m + '/' + y
+    }
     const onClickSearch = () => {
-        setData([])
-        setIsEmptyData(false)
-        setIsReachedEnd(false)
-        setListNumber(0)
-        countSortTasksByDate(date.start, date.end)
-            .then((result) => {
-                let {numbers} = result.rows._array[0]
-                setNumberOfTasks(numbers)
-                if (numbers === 0) {
-                    setIsEmptyData(true)
-                    setIsReachedEnd(true)
-                }
-                else {
-                    sortTasksByDate(date.start, date.end, limit, listNumber)
-                        .then((result) => {
-                            setListNumber(listNumber + limit)
-                            setData(result.rows._array)
-                        })
-                        .catch((error) => {
-                            Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                            console.log(error)
-                        })
-                }
-            })
-            .catch((error) => {
-                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                console.log(error)
-            })
-    }
-    const loadMore = () => {
-        sortTasksByDate(date.start, date.end)
-            .then((result) => {
-                setListNumber(listNumber + limit)
-                if (result.rows._array.length > 0) {
-                    result.rows._array.map((task) => {
-                        return data.push(task)
-                    })
-                    setData(data)
-                } else {
-                    setIsReachedEnd(true)
-                }
-            })
-            .catch((error) => {
-                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                console.log(error)
-            })
-    }
-    const endOfListReached = () => {
-        setIsReachedEnd(true)
+        console.log(date)
     }
 
     return (
         <View style={Styles.containerView}>
             <View style={Styles.headerView}>
                 <View style={Styles.dateView}>
-                    <FontAwesome5 name={'clock'} size={20} color={'#fff'}/>
+                    <MaterialIcons name={'schedule'} size={30} color={'#fff'}/>
                 </View>
                 <View style={Styles.dateView}>
                     <TouchableOpacity onPress={onPressDateStart}>
@@ -247,7 +187,7 @@ const Sort = (props) => {
                     </TouchableOpacity>
                 </View>
                 <View style={Styles.dateView}>
-                    <FontAwesome5 name={'caret-right'} size={20} color={'#fff'}/>
+                    <MaterialIcons name={'arrow-right'} size={30} color={'#fff'}/>
                 </View>
                 <View style={Styles.dateView}>
                     <TouchableOpacity onPress={onPressDateEnd}>
@@ -267,32 +207,36 @@ const Sort = (props) => {
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity onPress={onClickSearch}>
-                    <FontAwesome5 name={"search"} size={28} color={'#fff'}/>
+                    <MaterialIcons name={"search"} size={35} color={'#fff'}/>
                 </TouchableOpacity>
             </View>
+            <View style={Styles.tasksNumberView}>
+                <Text style={Styles.numberTxt}>{data.length}</Text>
+            </View>
             <View style={{flex: 1}}>
-                <View style={Styles.countView}>
-                    <Text style={Styles.countText}>Taches : {numberOfTasks}</Text>
-                </View>
-                {!isEmptyData ?
-                    <SwipeListView
-                        contentContainerStyle={{paddingBottom: 80}}
-                        data={data}
-                        extraData={true}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id.toString()}
-                        leftOpenValue={70}
-                        rightOpenValue={-70}
-                        previewOpenValue={-40}
-                        previewOpenDelay={2000}
-                        renderHiddenItem={renderHiddenItem}
-                        ListFooterComponent={renderFooter}
-                        onEndReached={endOfListReached}
-                        // onEndReachedThreshold={.8}
-                    />
+                {isLoaded ?
+                    data.length <= 0 ?
+                        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{fontFamily: 'Poppins_400Regular', fontSize: 17, color: '#999'}}>Aucune tâche
+                                trouvée !</Text>
+                        </View>
+                        :
+                        <SwipeListView
+                            contentContainerStyle={{paddingBottom: 80}}
+                            data={data}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.id.toString()}
+                            leftOpenValue={70}
+                            rightOpenValue={-70}
+                            previewOpenValue={-40}
+                            previewOpenDelay={2000}
+                            renderHiddenItem={renderHiddenItem}
+                            ListFooterComponent={renderFooter}
+                            onEndReached={() => setIsReachedEnd(true)}
+                        />
                     :
-                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontFamily: 'Poppins_400Regular',fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
+                    <View style={Styles.spinnerView}>
+                        <ActivityIndicator size="large" color={'#47597e'}/>
                     </View>
                 }
             </View>
@@ -300,4 +244,15 @@ const Sort = (props) => {
     )
 }
 
-export default Sort
+const mapStateToProps = state => {
+    return {
+        tasks: state.tasks
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onClickDelete: (id) => dispatch(deleteTasksAction(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sort)

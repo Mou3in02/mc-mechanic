@@ -163,10 +163,6 @@ const Styles = StyleSheet.create({
         color: '#999',
         fontFamily: 'Poppins_400Regular',
     },
-    noMore: {
-        color: '#999',
-        fontSize: 15
-    },
     footerListView: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -174,6 +170,31 @@ const Styles = StyleSheet.create({
         borderColor: '#14274E',
         marginHorizontal: 40,
         marginTop: 20
+    },
+    footerView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#14274E',
+        marginTop: 40
+    },
+    noMore: {
+        fontFamily: 'Poppins_400Regular',
+        color: '#999',
+        fontSize: 14
+    },
+    tasksNumberView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        height: 40,
+        backgroundColor: '#14274E'
+    },
+    numberTxt:{
+        color: '#fff',
+        fontSize: 17,
+        marginRight: 20,
+        fontFamily: 'Poppins_400Regular',
     }
 })
 
