@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Text, View, TextInput, TouchableOpacity, Modal, KeyboardAvoidingView, Platform, ScrollView} from 'react-native'
+import {Text, View, TextInput, TouchableOpacity, Modal, ScrollView} from 'react-native'
 import Styles from './Styles'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import DateTimePicker from '@react-native-community/datetimepicker'

@@ -72,7 +72,7 @@ const Home = () => {
                 <Tab.Screen name="Sort" component={Sort} options={{
                     tabBarLabel: 'Date',
                     tabBarIcon: ({color}) => (
-                        <MaterialIcons name="event-note" color={color} size={30}/>
+                        <MaterialIcons name="today" color={color} size={30}/>
                     )
                 }}/>
                 <Tab.Screen name="Chart" component={Chart} options={{

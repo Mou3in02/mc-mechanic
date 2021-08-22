@@ -1,27 +1,31 @@
-'use strict'
-import React, {useState} from "react"
-import {View, Text, TextInput, TouchableOpacity, Pressable, Modal, Keyboard} from 'react-native'
+import React, {useEffect, useState} from "react"
+import {View, Text, TextInput, TouchableOpacity, Modal, ActivityIndicator, Keyboard} from 'react-native'
 import Styles from './Styles'
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import {deleteTaskFromDatabase, searchTasksByModel, searchTasksByTel} from "../../utils/CRUD";
-import Toast from "react-native-simple-toast";
 import Task from "../../components/task/Task";
 import {SwipeListView} from "react-native-swipe-list-view";
 import isEmpty from 'validator/es/lib/isEmpty'
+import {connect} from "react-redux";
+import {deleteTasksAction} from "../../store/TaskActions";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import CheckBox from '@react-native-community/checkbox'
 
 
 const Search = (props) => {
 
+    const [isLoaded, setIsLoaded] = useState(false)
     const [data, setData] = useState([])
-    const [numberRows, setNumberRows] = useState(0)
     const [searchInput, setSearchInput] = useState('')
-    const [isEmptyInput, setIsEmptyInput] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
-    const [emptyData, setEmptyData] = useState(false)
+    const [isReachedEnd, setIsReachedEnd] = useState(false)
+    const [payedCheck, setPayedCheck] = useState(true)
+    const [nonPayedCheck, setNonPayedCheck] = useState(true)
 
-    const onChangeText = (text) => {
-        setSearchInput(text)
-    }
+
+    useEffect(() => {
+        setData(props.tasks)
+        setIsLoaded(true)
+    }, [])
+
     const renderItem = ({item, index}) => {
         return (
             <View key={item.id}
@@ -39,22 +43,20 @@ const Search = (props) => {
                                 <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
                                 <View style={Styles.buttonsView}>
                                     <View>
-                                        <Pressable
+                                        <TouchableOpacity
                                             style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
                                             onPress={() => {
-                                                deleteTask(item.id)
+                                                props.onClickDelete(item.id)
                                             }}>
-                                            <FontAwesome5 name="trash-alt" size={16} color={"#900D0D"}
-                                                          style={{marginRight: 2}}/>
                                             <Text style={Styles.deleteStyle}>Supprimer</Text>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     </View>
                                     <View>
-                                        <Pressable
+                                        <TouchableOpacity
                                             style={[Styles.button, Styles.buttonCancel]}
                                             onPress={() => setShowModal({status: false, id: null})}>
-                                            <Text style={Styles.cancelStyle}>Anuuler</Text>
-                                        </Pressable>
+                                            <Text style={Styles.cancelStyle}>Annuler</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
@@ -66,19 +68,24 @@ const Search = (props) => {
             </View>
         )
     }
+    const onClickSwipeDelete = (rowMap, id) => {
+        closeRow(rowMap, id)
+        setShowModal({
+            status: true,
+            id: id
+        })
+    }
     const renderHiddenItem = (data, rowMap) => {
         return (
             <View style={Styles.rowBack}>
                 <TouchableOpacity style={[Styles.backLeftBtn, Styles.backLeftBtnLeft]}
-                                  onPress={() => onClickModify(rowMap, data.item.id, data.item.model)}
-                >
-                    <FontAwesome5 name={"edit"} size={18} color={'#fff'}/>
+                                  onPress={() => onClickModify(rowMap, data.item.id, data.item.model)}>
+                    <MaterialIcons name="drive-file-rename-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Modifier</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[Styles.backRightBtn, Styles.backRightBtnRight]}
-                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}
-                >
-                    <FontAwesome5 name={"trash"} size={18} color={'#fff'}/>
+                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}>
+                    <MaterialIcons name="delete-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Supprimer</Text>
                 </TouchableOpacity>
             </View>
@@ -89,32 +96,6 @@ const Search = (props) => {
             rowMap[rowKey].closeRow();
         }
     }
-    const deleteTask = (taskId) => {
-        setShowModal({status: false, id: null})
-        let taskIndex = data.findIndex(({id}) => {
-            return taskId === id
-        })
-        if (taskIndex !== -1) {
-            deleteTaskFromDatabase(taskId)
-                .then(() => {
-                    let newData = [...data]
-                    newData.splice(taskIndex, 1)
-                    setData(newData)
-                    Toast.show('Tâche supprimé avec succès')
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
-        }
-    }
-    const onClickSwipeDelete = (rowMap, id) => {
-        closeRow(rowMap, id)
-        setShowModal({
-            status: true,
-            id: id
-        })
-    }
     const onClickModify = (rowMap, id, model) => {
         closeRow(rowMap, id)
         props.navigation.push('TaskDetails', {
@@ -122,79 +103,122 @@ const Search = (props) => {
             'name': model
         })
     }
+    const renderFooter = () => {
+        return (
+            <View style={Styles.footerView}>
+                {isReachedEnd ?
+                    <Text style={Styles.noMore}>Rien d'autres !</Text>
+                    :
+                    <ActivityIndicator color={'#999'} size="large"/>
+                }
+            </View>
+        )
+    }
+    const getTasksByStatus = (tasks, status) => {
+        if (tasks.length > 0) {
+            return tasks.filter((task) => {
+                return task.status === status
+            })
+        }
+        return []
+    }
+    const getTasksByInput = (tasks, input) => {
+        if (isEmpty(input) && isEmpty(input.trim())) return tasks
+        if (tasks.length > 0) {
+            let filterTasksByModel = tasks.filter((task) => {
+                return task.model.includes(input)
+            })
+            if (filterTasksByModel.length > 0) return filterTasksByModel
+            else {
+                return tasks.filter((task) => {
+                    return task.tel.includes(input)
+                })
+            }
+        }
+        return []
+    }
     const onClickSearch = () => {
-        if (!isEmpty(searchInput.trim())) {
-            Keyboard.dismiss()
-            setIsEmptyInput(false)
-            searchTasksByModel(searchInput.trim())
-                .then((result) => {
-                    if (result.rows._array.length > 0) {
-                        setEmptyData(false)
-                        setNumberRows(result.rows._array.length)
-                        setData(result.rows._array)
-                    } else {
-                        searchTasksByTel(searchInput.trim())
-                            .then((result) => {
-                                setNumberRows(result.rows._array.length)
-                                if (result.rows._array.length > 0) {
-                                    setEmptyData(false)
-                                    setData(result.rows._array)
-                                } else {
-                                    setEmptyData(true)
-                                    setData([])
-                                }
-                            })
-                            .catch((error) => {
-                                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                                console.log(error)
-                            })
-                    }
-                })
-                .catch((error) => {
-                    Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                    console.log(error)
-                })
+        Keyboard.dismiss()
+        if ((payedCheck && nonPayedCheck) || (!payedCheck && !nonPayedCheck)) {
+            let tasks = getTasksByInput(props.tasks, searchInput)
+            setData(tasks)
+        } else if (payedCheck) {
+            let tasks = getTasksByStatus(getTasksByInput(props.tasks, searchInput), true)
+            setData(tasks)
         } else {
-            setSearchInput('')
-            setIsEmptyInput(true)
-            Toast.show('Le champs est obligatoire !', Toast.LONG)
+            let tasks = getTasksByStatus(getTasksByInput(props.tasks, searchInput), false)
+            setData(tasks)
         }
     }
-
 
     return (
         <View style={Styles.containerView}>
             <View style={Styles.headerView}>
-                <TextInput style={[Styles.searchInput, {borderColor: isEmptyInput ? '#900D0D' : '#fff'}]}
-                           placeholder="rechercher ..." value={searchInput}
-                           onChangeText={(text) => onChangeText(text)}/>
+                <TextInput style={Styles.searchInput} placeholder="model, tel ..." value={searchInput}
+                           onChangeText={(text) => setSearchInput(text)}/>
                 <TouchableOpacity onPress={onClickSearch}>
-                    <FontAwesome5 name={"search"} size={28} color={'#fff'}/>
+                    <MaterialIcons name={"search"} size={40} color={'#fff'}/>
                 </TouchableOpacity>
             </View>
-            <View style={Styles.countView}>
-                <Text style={Styles.countText}>Taches : {numberRows}</Text>
-            </View>
-            {emptyData ?
-                <View style={{flex: 1, justifyContent: 'center',alignItems: 'center'}}>
-                    <Text style={{fontFamily: 'Poppins_400Regular',fontSize: 17,color: '#999'}}>Aucune tâche trouvée !</Text>
+            <View style={Styles.optionView}>
+                <View style={Styles.payedView}>
+                    <Text style={Styles.checkboxLabel}>Payé</Text>
+                    <CheckBox
+                        tintColors={{true: '#3DB2FF', false: '#fff'}}
+                        disabled={false}
+                        value={payedCheck}
+                        onValueChange={(newValue) => setPayedCheck(newValue)}
+                    />
                 </View>
+                <View style={Styles.NonPayedView}>
+                    <Text style={Styles.checkboxLabel}>Non payé</Text>
+                    <CheckBox
+                        tintColors={{true: '#3DB2FF', false: '#fff'}}
+                        disabled={false}
+                        value={nonPayedCheck}
+                        onValueChange={(newValue) => setNonPayedCheck(newValue)}
+                    />
+                </View>
+                <Text style={Styles.countText}>{data.length}</Text>
+            </View>
+            {isLoaded ?
+                data.length <= 0 ?
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontFamily: 'Poppins_400Regular', fontSize: 17, color: '#999'}}>Aucune tâche
+                            trouvée !</Text>
+                    </View>
+                    :
+                    <SwipeListView
+                        contentContainerStyle={{paddingBottom: 80}}
+                        data={data}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id.toString()}
+                        leftOpenValue={70}
+                        rightOpenValue={-70}
+                        previewOpenValue={-40}
+                        previewOpenDelay={2000}
+                        renderHiddenItem={renderHiddenItem}
+                        ListFooterComponent={renderFooter}
+                        onEndReached={() => setIsReachedEnd(true)}
+                    />
                 :
-                <SwipeListView
-                    contentContainerStyle={{paddingBottom: 50}}
-                    data={data}
-                    extraData={true}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id.toString()}
-                    leftOpenValue={70}
-                    rightOpenValue={-70}
-                    previewOpenValue={-40}
-                    previewOpenDelay={2000}
-                    renderHiddenItem={renderHiddenItem}
-                />
+                <View style={Styles.spinnerView}>
+                    <ActivityIndicator size="large" color={'#47597e'}/>
+                </View>
             }
         </View>
     )
 }
 
-export default Search
+const mapStateToProps = state => {
+    return {
+        tasks: state.tasks
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onClickDelete: (id) => dispatch(deleteTasksAction(id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

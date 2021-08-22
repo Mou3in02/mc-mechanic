@@ -15,7 +15,7 @@ const Styles = StyleSheet.create({
     },
     searchInput:{
         height: 40,
-        width: '75%',
+        width: '80%',
         borderWidth: 2,
         borderColor: '#fff',
         borderRadius: 30,
@@ -25,23 +25,27 @@ const Styles = StyleSheet.create({
         backgroundColor: '#fff',
         color: '#14274E'
     },
-    countView:{
-        marginTop: 6,
-        height: 30,
+    optionView:{
+        backgroundColor: '#14274E',
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 40,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
     },
     countText:{
-        fontSize: 15,
-        // fontWeight: 'bold',
-        color: '#394867',
-        textAlign: 'right',
-        marginRight: 10
+        position: 'absolute',
+        fontSize: 17,
+        color: '#fff',
+        fontWeight: 'bold',
+        right: 20,
+        // fontFamily: 'Poppins_400Regular',
     },
     // modal style
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        // marginTop: 22
     },
     modalView: {
         margin: 20,
@@ -166,6 +170,33 @@ const Styles = StyleSheet.create({
         color: '#999',
         fontFamily: 'Poppins_400Regular',
     },
+    footerView:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#14274E',
+        marginTop: 40
+    },
+    noMore:{
+        fontFamily: 'Poppins_400Regular',
+        color: '#999',
+        fontSize: 14
+    },
+    checkboxLabel:{
+        color: '#fff',
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 13,
+        marginTop: 2
+    },
+    payedView:{
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    NonPayedView:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 12
+    }
 })
 
 export default Styles
