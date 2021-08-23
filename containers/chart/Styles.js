@@ -35,7 +35,7 @@ const Styles = StyleSheet.create({
         marginRight: 10
     },
     lineChartView: {
-        marginBottom: 10
+        height: '50%',
     },
     lineChartTxt: {
         fontSize: 14,
@@ -44,7 +44,7 @@ const Styles = StyleSheet.create({
         alignSelf: 'center'
     },
     PieChartView: {
-        marginBottom: 10
+        height: '50%',
     },
     spinnerView: {
         flex: 1,

@@ -14,23 +14,22 @@ const Sort = (props) => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [isReachedEnd, setIsReachedEnd] = useState(false)
     const [date, setDate] = useState({
-        start: null,
-        end: null
+        start: new Date().getTime(),
+        end: new Date().getTime()
     })
     const [data, setData] = useState([])
     const [showDateStart, setShowDateStart] = useState(false)
     const [showDateEnd, setShowDateEnd] = useState(false)
     const [showModal, setShowModal] = useState({status: false, id: null})
 
-
     useEffect(() => {
         let date = new Date()
         let y = date.getFullYear()
         let m = date.getMonth()
-        let d = date.getDay()
+        let d = date.getDate()
         setDate({
-            start: new Date(y,m,d).getTime().toString(),
-            end: new Date(y,m,d).getTime().toString()
+            start: new Date(y,m,d).getTime(),
+            end: new Date(y,m,d).getTime()
         })
         setData(props.tasks)
         setIsLoaded(true)
@@ -135,7 +134,7 @@ const Sort = (props) => {
             let d = selectedDate.getDay()
             setDate({
                 ...date,
-                start: new Date(y,m,d).getTime().toString()
+                start: new Date(y,m,d).getTime()
             })
         }
     }
@@ -149,7 +148,7 @@ const Sort = (props) => {
         let d = selectedDate.getDay()
         setDate({
             ...date,
-            end: new Date(y,m,d).getTime().toString()
+            end: new Date(y,m,d).getTime()
         })
     }
     const formatDate = (dateTime) => {
@@ -160,7 +159,10 @@ const Sort = (props) => {
         return d + '/' + m + '/' + y
     }
     const onClickSearch = () => {
-        console.log(date)
+        let tasksFilter = props.tasks.filter((task) => {
+            if (parseInt(task.createdAt) >= date.start && parseInt(task.createdAt) <= date.end) return task
+        })
+        setData(tasksFilter)
     }
 
     return (
@@ -176,7 +178,7 @@ const Sort = (props) => {
                             {showDateStart && (
                                 <DateTimePicker
                                     testID="dateTimePicker"
-                                    value={new Date(parseInt(date.start))}
+                                    value={new Date(date.start)}
                                     mode="date"
                                     is24Hour={true}
                                     display="spinner"
@@ -196,7 +198,7 @@ const Sort = (props) => {
                             {showDateEnd && (
                                 <DateTimePicker
                                     testID="dateTimePicker"
-                                    value={new Date(parseInt(date.end))}
+                                    value={new Date(date.end)}
                                     mode="date"
                                     is24Hour={true}
                                     display="spinner"

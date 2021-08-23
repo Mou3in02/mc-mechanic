@@ -2,27 +2,21 @@ import React, {useState, useEffect} from "react";
 import {View, Text, Dimensions, ActivityIndicator, TouchableOpacity, Modal, TextInput} from "react-native";
 import Styles from './Styles'
 import {LineChart, PieChart} from "react-native-chart-kit";
-import {getTasksByYear} from "../../utils/CRUD";
 import Toast from "react-native-simple-toast";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import isEmpty from "validator/es/lib/isEmpty";
 import isInt from "validator/es/lib/isInt";
+import {connect} from "react-redux";
 
 
-const Chart = () => {
+const Chart = (props) => {
 
     const [year, setYear] = useState(new Date().getFullYear())
-    const [date, setDate] = useState({
-        start: new Date(year, 0, 1).getTime().toString(),
-        end: new Date(year, 11, 31).getTime().toString()
-    })
     const [isLoaded, setIsLoaded] = useState(false)
     const [data, setData] = useState([])
-    const [emptyData, setEmptyData] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [yearInput, setYearInput] = useState('')
     const [isValidYearInput, setIsYearValid] = useState(true)
-    const [numberOfTasks, setNumberOfTasks] = useState(0)
     const chartMonthConfig = {
         backgroundGradientFrom: '#14274E',
         backgroundGradientTo: "#14274E",
@@ -35,33 +29,19 @@ const Chart = () => {
     }
 
     useEffect(() => {
-        setDate({
-            start: new Date(year, 0, 1).getTime().toString(),
-            end: new Date(year, 11, 31).getTime().toString()
-        })
-    }, [year])
+        setData(getTasksByYear())
+        setIsLoaded(true)
+    },[])
     useEffect(() => {
-        getDataByYear(date.start,date.end)
-    }, [date])
-
-    const getDataByYear = (start, end) => {
         setIsLoaded(false)
-        getTasksByYear(start, end)
-            .then((result) => {
-                setIsLoaded(true)
-                setNumberOfTasks(result.rows._array.length)
-                if (result.rows._array.length > 0) {
-                    setData(result.rows._array)
-                    setEmptyData(false)
-                } else {
-                    setEmptyData(true)
-                    setData([])
-                }
-            })
-            .catch((error) => {
-                Toast.show('Erreur, échec de l\'opération !', Toast.LONG)
-                console.log(error)
-            })
+        setData(getTasksByYear)
+        setIsLoaded(true)
+    },[year])
+
+    const getTasksByYear = () => {
+        return  props.tasks.filter((task) => {
+            if (new Date(parseInt(task.createdAt)).getFullYear() === year) return task
+        })
     }
     const countTaskByMonth = () => {
         let monthCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -108,11 +88,8 @@ const Chart = () => {
     const onChangeText = (text) => {
         setYearInput(text.trim())
     }
-    const hideModal = () => {
-        setShowModal(false)
-    }
     const onClickOK = () => {
-        if (!isEmpty(yearInput) && isInt(yearInput, {gt: 1970})) {
+        if (!isEmpty(yearInput) && !isEmpty(yearInput.trim()) && isInt(yearInput, {gt: 1970})) {
             setIsYearValid(true)
             setShowModal(false)
             setYear(parseInt(yearInput))
@@ -134,7 +111,7 @@ const Chart = () => {
             </View>
             <View style={{flex: 1}}>
                 <View style={Styles.countView}>
-                    <Text style={Styles.countText}>Taches : {numberOfTasks}</Text>
+                    <Text style={Styles.countText}>Taches : {data.length}</Text>
                 </View>
                 {showModal &&
                 <Modal
@@ -149,7 +126,7 @@ const Chart = () => {
                                 keyboardType={'numeric'} textAlign={'center'} value={yearInput.toString()}
                                 autoFocus={true} onChangeText={(text) => onChangeText(text)} maxLength={4}/>
                             <View style={Styles.buttonsView}>
-                                <TouchableOpacity onPress={hideModal} style={Styles.cancel}>
+                                <TouchableOpacity onPress={() => setShowModal(false)} style={Styles.cancel}>
                                     <Text style={Styles.cancelButton}>Annuler</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={onClickOK} style={Styles.OK}>
@@ -160,54 +137,56 @@ const Chart = () => {
                     </View>
                 </Modal>
                 }
-                {emptyData ?
-                    <View style={{flex: 1, justifyContent: 'center'}}>
-                        <Text style={Styles.noRows}>Aucune tâche trouvée !</Text>
+                {isLoaded ?
+                    <View style={{flex:1}}>
+                        <View style={Styles.lineChartView}>
+                            <LineChart
+                                data={{
+                                    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                                    datasets: [
+                                        {
+                                            data: countTaskByMonth()
+                                        }
+                                    ]
+                                }}
+                                width={Dimensions.get("window").width}
+                                height={230}
+                                fromZero={true}
+                                chartConfig={chartMonthConfig}
+                                bezier
+                            />
+                            <Text style={Styles.lineChartTxt}>Nombre des tâches par mois</Text>
+                        </View>
+                        <View style={Styles.PieChartView}>
+                            <PieChart
+                                data={countEarnAndSpent()}
+                                width={Dimensions.get("window").width}
+                                chartConfig={chartPieConfig}
+                                height={180}
+                                accessor={"value"}
+                                backgroundColor={`#fff`}
+                                opacity={0.5}
+                                paddingLeft={"15"}
+                                center={[0, 0]}
+                                absolute
+                            />
+                        </View>
                     </View>
                     :
-                    isLoaded ?
-                        <View>
-                            <View style={Styles.lineChartView}>
-                                <LineChart
-                                    data={{
-                                        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                                        datasets: [
-                                            {
-                                                data: countTaskByMonth()
-                                            }
-                                        ]
-                                    }}
-                                    width={Dimensions.get("window").width} // from react-native
-                                    height={230}
-                                    fromZero={true}
-                                    chartConfig={chartMonthConfig}
-                                    bezier
-                                />
-                                <Text style={Styles.lineChartTxt}>Nombre des tâches par mois</Text>
-                            </View>
-                            <View style={Styles.PieChartView}>
-                                <PieChart
-                                    data={countEarnAndSpent()}
-                                    width={Dimensions.get("window").width}
-                                    chartConfig={chartPieConfig}
-                                    height={180}
-                                    accessor={"value"}
-                                    backgroundColor={`#fff`}
-                                    opacity={0.5}
-                                    paddingLeft={"15"}
-                                    center={[0, 0]}
-                                    absolute
-                                />
-                            </View>
-                        </View>
-                        :
-                        <View style={Styles.spinnerView}>
-                            <ActivityIndicator size="large" color={'#47597e'}/>
-                        </View>
+                    <View style={Styles.spinnerView}>
+                        <ActivityIndicator size="large" color={'#47597e'}/>
+                    </View>
                 }
             </View>
         </View>
     )
 }
 
-export default Chart
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks
+    }
+}
+
+export default connect(mapStateToProps)(Chart)
+

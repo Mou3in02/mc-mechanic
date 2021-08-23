@@ -76,7 +76,7 @@ const Home = () => {
                     )
                 }}/>
                 <Tab.Screen name="Chart" component={Chart} options={{
-                    tabBarLabel: 'Graph',
+                    tabBarLabel: 'Graphs',
                     tabBarIcon: ({color}) => (
                         <MaterialIcons name="signal-cellular-alt" color={color} size={30}/>
                     )
