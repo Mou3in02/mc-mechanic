@@ -15,7 +15,6 @@ const Styles = StyleSheet.create({
         paddingHorizontal: 12,
         backgroundColor: '#14274E'
     },
-    dateView: {},
     dateLabel: {
         fontSize: 14,
         color: '#999'

@@ -3,10 +3,11 @@ import {View, Text, Dimensions, ActivityIndicator, TouchableOpacity, Modal, Text
 import Styles from './Styles'
 import {LineChart, PieChart} from "react-native-chart-kit";
 import Toast from "react-native-simple-toast";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import isEmpty from "validator/es/lib/isEmpty";
 import isInt from "validator/es/lib/isInt";
 import {connect} from "react-redux";
+import isNumeric from "validator/es/lib/isNumeric";
 
 
 const Chart = (props) => {
@@ -27,7 +28,6 @@ const Chart = (props) => {
     const chartPieConfig = {
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     }
-
     useEffect(() => {
         setData(getTasksByYear())
         setIsLoaded(true)
@@ -57,24 +57,36 @@ const Chart = (props) => {
         }
         return monthCount
     }
-    const countEarnAndSpent = () => {
-        let earn = 0
+    const getSpentByYear = () => {
         let spent = 0
         data.map((task) => {
-            earn += parseFloat(task.earn)
-            spent += parseFloat(task.spent)
+            if (!isEmpty(task.spent) && isNumeric(task.spent)){
+                spent += parseFloat(task.spent)
+            }
         })
+        return spent
+    }
+    const getEarnByYear = () => {
+        let earn = 0
+        data.map((task) => {
+            if (!isEmpty(task.earn) && isNumeric(task.earn)){
+                earn += parseFloat(task.earn)
+            }
+        })
+        return earn
+    }
+    const countEarnAndSpent = () => {
         return [
             {
                 name: "€ Gagner",
-                value: earn,
+                value: getEarnByYear(),
                 color: "#14274E",
                 legendFontColor: "#000",
                 legendFontSize: 13
             },
             {
                 name: "€ Dépensé",
-                value: spent,
+                value: getSpentByYear(),
                 color: "#900D0D",
                 legendFontColor: "#000",
                 legendFontSize: 13
@@ -84,9 +96,6 @@ const Chart = (props) => {
     const onClickYear = () => {
         setYearInput('')
         setShowModal(true)
-    }
-    const onChangeText = (text) => {
-        setYearInput(text.trim())
     }
     const onClickOK = () => {
         if (!isEmpty(yearInput) && !isEmpty(yearInput.trim()) && isInt(yearInput, {gt: 1970})) {
@@ -104,41 +113,39 @@ const Chart = (props) => {
             <View style={Styles.headerView}>
                 <TouchableOpacity onPress={onClickYear}>
                     <View style={Styles.yearView}>
-                        <FontAwesome5 name={'calendar-alt'} color={'#fff'} size={16}/>
+                        <MaterialIcons name={'date-range'} color={'#fff'} size={20}/>
                         <Text style={Styles.yearTxt}>{year.toString()}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
             <View style={{flex: 1}}>
-                <View style={Styles.countView}>
-                    <Text style={Styles.countText}>Taches : {data.length}</Text>
-                </View>
-                {showModal &&
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={showModal}>
-                    <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
-                        <View style={Styles.modalView}>
-                            <Text style={Styles.modalTxt}>Veuillez saisir l'année</Text>
-                            <TextInput
-                                style={[Styles.inputText, isValidYearInput ? {borderColor: '#fff'} : {borderColor: '#900D0D'}]}
-                                keyboardType={'numeric'} textAlign={'center'} value={yearInput.toString()}
-                                autoFocus={true} onChangeText={(text) => onChangeText(text)} maxLength={4}/>
-                            <View style={Styles.buttonsView}>
-                                <TouchableOpacity onPress={() => setShowModal(false)} style={Styles.cancel}>
-                                    <Text style={Styles.cancelButton}>Annuler</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={onClickOK} style={Styles.OK}>
-                                    <Text style={Styles.OKButton}>OK</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
-                }
                 {isLoaded ?
                     <View style={{flex:1}}>
+                        {showModal && <Modal
+                            animationType="fade"
+                            transparent={true}
+                            visible={showModal}>
+                            <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
+                                <View style={Styles.modalView}>
+                                    <Text style={Styles.modalTxt}>Veuillez saisir l'année</Text>
+                                    <TextInput
+                                        style={[Styles.inputText, isValidYearInput ? {borderColor: '#fff'} : {borderColor: '#900D0D'}]}
+                                        keyboardType={'numeric'} textAlign={'center'} value={yearInput.toString()}
+                                        autoFocus={true} onChangeText={(text) => setYearInput(text.trim())} maxLength={4}/>
+                                    <View style={Styles.buttonsView}>
+                                        <TouchableOpacity onPress={() => setShowModal(false)} style={Styles.cancel}>
+                                            <Text style={Styles.cancelButton}>Annuler</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={onClickOK} style={Styles.OK}>
+                                            <Text style={Styles.OKButton}>OK</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </View>
+                        </Modal>}
+                        <View style={Styles.countView}>
+                            <Text style={Styles.countText}>Taches : {data.length}</Text>
+                        </View>
                         <View style={Styles.lineChartView}>
                             <LineChart
                                 data={{

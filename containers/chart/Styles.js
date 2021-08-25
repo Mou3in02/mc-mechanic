@@ -7,14 +7,15 @@ const Styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     headerView: {
-        height: 50,
         backgroundColor: '#14274E',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        paddingVertical: 10,
     },
     yearView: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     yearTxt: {
         color: '#fff',
@@ -25,17 +26,20 @@ const Styles = StyleSheet.create({
         marginTop: 5
     },
     countView: {
-        marginTop: 6,
         height: 30,
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     countText: {
-        fontSize: 15,
-        color: '#14274E',
-        textAlign: 'right',
-        marginRight: 10
+        fontSize: 14,
+        color: '#14274e',
+        marginRight: 10,
+        fontFamily: 'Poppins_400Regular'
     },
     lineChartView: {
-        height: '50%',
+        height: '55%',
     },
     lineChartTxt: {
         fontSize: 14,
@@ -44,7 +48,7 @@ const Styles = StyleSheet.create({
         alignSelf: 'center'
     },
     PieChartView: {
-        height: '50%',
+        height: '45%',
     },
     spinnerView: {
         flex: 1,
