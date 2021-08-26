@@ -15,7 +15,7 @@ const Search = (props) => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [data, setData] = useState([])
     const [searchInput, setSearchInput] = useState('')
-    const [showModal, setShowModal] = useState({status: false, id: null})
+    const [showModal, setShowModal] = useState({status: false, id: null, model: null})
     const [isReachedEnd, setIsReachedEnd] = useState(false)
     const [payedCheck, setPayedCheck] = useState(true)
     const [nonPayedCheck, setNonPayedCheck] = useState(true)
@@ -28,51 +28,18 @@ const Search = (props) => {
 
     const renderItem = ({item, index}) => {
         return (
-            <View key={item.id}
-                  style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
+            <View key={item.id} style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
-                {showModal.status === true && showModal.id === item.id ?
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={showModal.status}>
-                        <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
-                            <View style={Styles.modalView}>
-                                <Text style={Styles.deleteModelText}>{item.model}</Text>
-                                <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
-                                <View style={Styles.buttonsView}>
-                                    <View>
-                                        <TouchableOpacity
-                                            style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
-                                            onPress={() => {
-                                                props.onClickDelete(item.id)
-                                            }}>
-                                            <Text style={Styles.deleteStyle}>Supprimer</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View>
-                                        <TouchableOpacity
-                                            style={[Styles.button, Styles.buttonCancel]}
-                                            onPress={() => setShowModal({status: false, id: null})}>
-                                            <Text style={Styles.cancelStyle}>Annuler</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                    :
-                    null
-                }
             </View>
         )
     }
-    const onClickSwipeDelete = (rowMap, id) => {
+    const onClickSwipeDelete = (rowMap, id, model) => {
         closeRow(rowMap, id)
         setShowModal({
             status: true,
-            id: id
+            id: id,
+            model: model
         })
     }
     const renderHiddenItem = (data, rowMap) => {
@@ -84,7 +51,7 @@ const Search = (props) => {
                     <Text style={Styles.backTextWhite}>Modifier</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[Styles.backRightBtn, Styles.backRightBtnRight]}
-                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}>
+                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id, data.item.model)}>
                     <MaterialIcons name="delete-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Supprimer</Text>
                 </TouchableOpacity>
@@ -137,6 +104,10 @@ const Search = (props) => {
         }
         return []
     }
+    const onClickDeleteBtn = (id) => {
+        props.onClickDelete(id)
+        setShowModal({status: false, id: null, model: null})
+    }
     const onClickSearch = () => {
         Keyboard.dismiss()
         if (payedCheck && !nonPayedCheck) {
@@ -184,30 +155,70 @@ const Search = (props) => {
                 </View>
                 <Text style={Styles.countText}>{data.length}</Text>
             </View>
-            {isLoaded ?
-                data.length <= 0 ?
-                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{fontFamily: 'Poppins_400Regular', fontSize: 17, color: '#999'}}>Aucune tâche trouvée !</Text>
-                    </View>
+            <View style={{flex: 1}}>
+                {isLoaded ?
+                    data.length <= 0 ?
+                        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{fontFamily: 'Poppins_400Regular', fontSize: 17, color: '#999'}}>Aucune tâche
+                                trouvée !</Text>
+                        </View>
+                        :
+                        <View>
+                            {showModal.status &&
+                            <Modal
+                                animationType="fade"
+                                transparent={true}
+                                visible={showModal.status}>
+                                <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
+                                    <View style={Styles.modalView}>
+                                        <Text style={Styles.deleteModelText}>{showModal.model}</Text>
+                                        <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
+                                        <View style={Styles.buttonsView}>
+                                            <View>
+                                                <TouchableOpacity
+                                                    style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
+                                                    onPress={() => {onClickDeleteBtn(showModal.id)}}>
+                                                    <Text style={Styles.deleteStyle}>Supprimer</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View>
+                                                <TouchableOpacity
+                                                    style={[Styles.button, Styles.buttonCancel]}
+                                                    onPress={() => setShowModal({status: false, id: null, model: null})}>
+                                                    <Text style={Styles.cancelStyle}>Annuler</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+                            </Modal>
+                            }
+                            {props.tasks.length > 0 ?
+                                <SwipeListView
+                                    contentContainerStyle={{paddingBottom: 80}}
+                                    data={props.tasks}
+                                    renderItem={renderItem}
+                                    keyExtractor={item => item.id.toString()}
+                                    leftOpenValue={70}
+                                    rightOpenValue={-70}
+                                    previewOpenValue={-40}
+                                    previewOpenDelay={2000}
+                                    renderHiddenItem={renderHiddenItem}
+                                    ListFooterComponent={renderFooter}
+                                    onEndReached={() => setIsReachedEnd(true)}
+                                />
+                                :
+                                <View style={Styles.noRowsView}>
+                                    <Text style={Styles.noRowsText}>Aucune tâche trouvée</Text>
+                                </View>
+                            }
+                        </View>
                     :
-                    <SwipeListView
-                        contentContainerStyle={{paddingBottom: 80}}
-                        data={data}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id.toString()}
-                        leftOpenValue={70}
-                        rightOpenValue={-70}
-                        previewOpenValue={-40}
-                        previewOpenDelay={2000}
-                        renderHiddenItem={renderHiddenItem}
-                        ListFooterComponent={renderFooter}
-                        onEndReached={() => setIsReachedEnd(true)}
-                    />
-                :
-                <View style={Styles.spinnerView}>
-                    <ActivityIndicator size="large" color={'#47597e'}/>
-                </View>
-            }
+                    <View style={Styles.spinnerView}>
+                        <ActivityIndicator size="large" color={'#47597e'}/>
+                    </View>
+                }
+            </View>
         </View>
     )
 }

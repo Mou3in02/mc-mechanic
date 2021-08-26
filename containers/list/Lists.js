@@ -11,7 +11,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const Lists = (props) => {
 
     const [isReachedEnd, setIsReachedEnd] = useState(false)
-    const [showModal, setShowModal] = useState({status: false, id: null})
+    const [showModal, setShowModal] = useState({status: false, id: null, model: null})
 
     useEffect(() => {
         props.onLoadHome()
@@ -19,49 +19,18 @@ const Lists = (props) => {
 
     const renderItem = ({item, index}) => {
         return (
-            <View key={item.id}
-                  style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
+            <View key={item.id} style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
-                {showModal.status === true && showModal.id === item.id ?
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={showModal.status}>
-                        <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
-                            <View style={Styles.modalView}>
-                                <Text style={Styles.deleteModelText}>{item.model}</Text>
-                                <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
-                                <View style={Styles.buttonsView}>
-                                    <View>
-                                        <TouchableOpacity
-                                            style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
-                                            onPress={() => {props.onClickDelete(item.id)}}>
-                                            <Text style={Styles.deleteStyle}>Supprimer</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View>
-                                        <TouchableOpacity
-                                            style={[Styles.button, Styles.buttonCancel]}
-                                            onPress={() => setShowModal({status: false, id: null})}>
-                                            <Text style={Styles.cancelStyle}>Annuler</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                    :
-                    null
-                }
             </View>
         )
     }
-    const onClickSwipeDelete = (rowMap, id) => {
+    const onClickSwipeDelete = (rowMap, id, model) => {
         closeRow(rowMap, id)
         setShowModal({
             status: true,
-            id: id
+            id: id,
+            model: model
         })
     }
     const renderHiddenItem = (data, rowMap) => {
@@ -73,7 +42,7 @@ const Lists = (props) => {
                     <Text style={Styles.backTextWhite}>Modifier</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[Styles.backRightBtn, Styles.backRightBtnRight]}
-                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}>
+                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id, data.item.model)}>
                     <MaterialIcons name="delete-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Supprimer</Text>
                 </TouchableOpacity>
@@ -103,6 +72,10 @@ const Lists = (props) => {
             </View>
         )
     }
+    const onClickDeleteBtn = (id) => {
+        props.onClickDelete(id)
+        setShowModal({status: false, id: null, model: null})
+    }
 
     return (
         <View style={Styles.listsView}>
@@ -115,6 +88,35 @@ const Lists = (props) => {
                             <Text style={Styles.numberTxt}>{props.tasks.length}</Text>
                         </View>
                     </View>
+                    {showModal.status &&
+                        <Modal
+                            animationType="fade"
+                            transparent={true}
+                            visible={showModal.status}>
+                            <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
+                                <View style={Styles.modalView}>
+                                    <Text style={Styles.deleteModelText}>{showModal.model}</Text>
+                                    <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
+                                    <View style={Styles.buttonsView}>
+                                        <View>
+                                            <TouchableOpacity
+                                                style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
+                                                onPress={() => {onClickDeleteBtn(showModal.id)}}>
+                                                <Text style={Styles.deleteStyle}>Supprimer</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View>
+                                            <TouchableOpacity
+                                                style={[Styles.button, Styles.buttonCancel]}
+                                                onPress={() => setShowModal({status: false, id: null, model: null})}>
+                                                <Text style={Styles.cancelStyle}>Annuler</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </Modal>
+                    }
                     {props.tasks.length > 0 ?
                         <SwipeListView
                             contentContainerStyle={{paddingBottom: 80}}

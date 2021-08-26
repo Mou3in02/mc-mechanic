@@ -20,7 +20,7 @@ const Sort = (props) => {
     const [data, setData] = useState([])
     const [showDateStart, setShowDateStart] = useState(false)
     const [showDateEnd, setShowDateEnd] = useState(false)
-    const [showModal, setShowModal] = useState({status: false, id: null})
+    const [showModal, setShowModal] = useState({status: false, id: null, model: null})
 
     useEffect(() => {
         let date = new Date()
@@ -28,8 +28,8 @@ const Sort = (props) => {
         let m = date.getMonth()
         let d = date.getDate()
         setDate({
-            start: new Date(y,m,d).getTime(),
-            end: new Date(y,m,d).getTime()
+            start: new Date(y,m,d,0,0,0).getTime(),
+            end: new Date(y,m,d,0,0,0).getTime()
         })
         setData(props.tasks)
         setIsLoaded(true)
@@ -37,51 +37,18 @@ const Sort = (props) => {
 
     const renderItem = ({item, index}) => {
         return (
-            <View key={item.id}
-                  style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
+            <View key={item.id} style={index % 2 === 0 ? {backgroundColor: '#F1F6F9'} : {backgroundColor: '#fff'}}>
                 <Task model={item.model} tel={item.tel} createdAt={item.createdAt} earn={item.earn} spent={item.spent}
                       description={item.description} status={item.status}/>
-                {showModal.status === true && showModal.id === item.id ?
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={showModal.status}>
-                        <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
-                            <View style={Styles.modalView}>
-                                <Text style={Styles.deleteModelText}>{item.model}</Text>
-                                <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
-                                <View style={Styles.buttonsView}>
-                                    <View>
-                                        <TouchableOpacity
-                                            style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
-                                            onPress={() => {
-                                                props.onClickDelete(item.id)
-                                            }}>
-                                            <Text style={Styles.deleteStyle}>Supprimer</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View>
-                                        <TouchableOpacity
-                                            style={[Styles.button, Styles.buttonCancel]}
-                                            onPress={() => setShowModal({status: false, id: null})}>
-                                            <Text style={Styles.cancelStyle}>Annuler</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                    :
-                    null
-                }
             </View>
         )
     }
-    const onClickSwipeDelete = (rowMap, id) => {
+    const onClickSwipeDelete = (rowMap, id, model) => {
         closeRow(rowMap, id)
         setShowModal({
             status: true,
-            id: id
+            id: id,
+            model: model
         })
     }
     const renderHiddenItem = (data, rowMap) => {
@@ -93,7 +60,7 @@ const Sort = (props) => {
                     <Text style={Styles.backTextWhite}>Modifier</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[Styles.backRightBtn, Styles.backRightBtnRight]}
-                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id)}>
+                                  onPress={() => onClickSwipeDelete(rowMap, data.item.id, data.item.model)}>
                     <MaterialIcons name="delete-outline" size={25} color={'#fff'}/>
                     <Text style={Styles.backTextWhite}>Supprimer</Text>
                 </TouchableOpacity>
@@ -123,6 +90,10 @@ const Sort = (props) => {
             </View>
         )
     }
+    const onClickDeleteBtn = (id) => {
+        props.onClickDelete(id)
+        setShowModal({status: false, id: null, model: null})
+    }
     const onPressDateStart = () => {
         setShowDateStart(true)
     }
@@ -131,10 +102,10 @@ const Sort = (props) => {
         if (selectedDate !== undefined) {
             let y = selectedDate.getFullYear()
             let m = selectedDate.getMonth()
-            let d = selectedDate.getDay()
+            let d = selectedDate.getDate()
             setDate({
                 ...date,
-                start: new Date(y,m,d).getTime()
+                start: new Date(y,m,d,0,0,0).getTime()
             })
         }
     }
@@ -145,10 +116,10 @@ const Sort = (props) => {
         setShowDateEnd(false)
         let y = selectedDate.getFullYear()
         let m = selectedDate.getMonth()
-        let d = selectedDate.getDay()
+        let d = selectedDate.getDate()
         setDate({
             ...date,
-            end: new Date(y,m,d).getTime()
+            end: new Date(y,m,d,0,0,0).getTime()
         })
     }
     const formatDate = (dateTime) => {
@@ -223,19 +194,56 @@ const Sort = (props) => {
                                 trouvée !</Text>
                         </View>
                         :
-                        <SwipeListView
-                            contentContainerStyle={{paddingBottom: 80}}
-                            data={data}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.id.toString()}
-                            leftOpenValue={70}
-                            rightOpenValue={-70}
-                            previewOpenValue={-40}
-                            previewOpenDelay={2000}
-                            renderHiddenItem={renderHiddenItem}
-                            ListFooterComponent={renderFooter}
-                            onEndReached={() => setIsReachedEnd(true)}
-                        />
+                        <View>
+                            {showModal.status &&
+                            <Modal
+                                animationType="fade"
+                                transparent={true}
+                                visible={showModal.status}>
+                                <View style={[Styles.centeredView, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}>
+                                    <View style={Styles.modalView}>
+                                        <Text style={Styles.deleteModelText}>{showModal.model}</Text>
+                                        <Text style={Styles.modalText}>Voulez-vous supprimer cette tâche ?</Text>
+                                        <View style={Styles.buttonsView}>
+                                            <View>
+                                                <TouchableOpacity
+                                                    style={[Styles.deleteItems, Styles.button, Styles.buttonDelete]}
+                                                    onPress={() => {onClickDeleteBtn(showModal.id)}}>
+                                                    <Text style={Styles.deleteStyle}>Supprimer</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View>
+                                                <TouchableOpacity
+                                                    style={[Styles.button, Styles.buttonCancel]}
+                                                    onPress={() => setShowModal({status: false, id: null, model: null})}>
+                                                    <Text style={Styles.cancelStyle}>Annuler</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+                            </Modal>
+                            }
+                            {props.tasks.length > 0 ?
+                                <SwipeListView
+                                    contentContainerStyle={{paddingBottom: 80}}
+                                    data={props.tasks}
+                                    renderItem={renderItem}
+                                    keyExtractor={item => item.id.toString()}
+                                    leftOpenValue={70}
+                                    rightOpenValue={-70}
+                                    previewOpenValue={-40}
+                                    previewOpenDelay={2000}
+                                    renderHiddenItem={renderHiddenItem}
+                                    ListFooterComponent={renderFooter}
+                                    onEndReached={() => setIsReachedEnd(true)}
+                                />
+                                :
+                                <View style={Styles.noRowsView}>
+                                    <Text style={Styles.noRowsText}>Aucune tâche trouvée</Text>
+                                </View>
+                            }
+                        </View>
                     :
                     <View style={Styles.spinnerView}>
                         <ActivityIndicator size="large" color={'#47597e'}/>

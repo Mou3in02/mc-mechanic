@@ -61,22 +61,6 @@ export const getTasks = () => {
         })
     })
 }
-export const getTaskById = (id) => {
-    return new Promise((resolve, reject) => {
-        Database.transaction((tx) => {
-            tx.executeSql(
-                'SELECT * FROM Task WHERE id = ? ;',
-                [id],
-                (_var, result) => {
-                    resolve(result)
-                },
-                (_var, error) => {
-                    reject(error)
-                }
-            )
-        })
-    })
-}
 export const updateTaskFromDatabase = (task) => {
     const {id, model, tel, earn, spent, createdAt, description, status} = task
     return new Promise((resolve, reject) => {
@@ -145,57 +129,6 @@ export const countTasks = () => {
         })
     })
 }
-export const searchTasksByModel = (model) => {
-    return new Promise((resolve, reject) => {
-        Database.transaction((tx) => {
-            tx.executeSql(
-                'SELECT * FROM Task '+
-                'WHERE model LIKE ? ;',
-                ['%'+model+'%'],
-                (_var, result) => {
-                    resolve(result)
-                },
-                (_var, error) => {
-                    reject(error)
-                }
-            )
-        })
-    })
-}
-export const searchTasksByTel = (tel) => {
-    return new Promise((resolve, reject) => {
-        Database.transaction((tx) => {
-            tx.executeSql(
-                'SELECT * FROM Task '+
-                'WHERE tel LIKE ? ;',
-                ['%'+tel+'%'],
-                (_var, result) => {
-                    resolve(result)
-                },
-                (_var, error) => {
-                    reject(error)
-                }
-            )
-        })
-    })
-}
-export const countSortTasksByDate = (dateStart, dateEnd) => {
-    return new Promise((resolve, reject) => {
-        Database.transaction((tx) => {
-            tx.executeSql(
-                'SELECT COUNT(id) AS numbers FROM Task '+
-                'WHERE createdAt BETWEEN ? AND ? ;',
-                [dateStart, dateEnd],
-                (_var, result) => {
-                    resolve(result)
-                },
-                (_var, error) => {
-                    reject(error)
-                }
-            )
-        })
-    })
-}
 export const sortTasksByDate = (dateStart, dateEnd) => {
     return new Promise((resolve, reject) => {
         Database.transaction((tx) => {
@@ -205,24 +138,6 @@ export const sortTasksByDate = (dateStart, dateEnd) => {
                 'ORDER BY createdAt DESC ;',
                 // 'LIMIT ? OFFSET ? ;',
                 [dateStart, dateEnd],
-                (_var, result) => {
-                    resolve(result)
-                },
-                (_var, error) => {
-                    reject(error)
-                }
-            )
-        })
-    })
-}
-export const getTasksByYear = (dateStart, dateEnd) => {
-    return new Promise((resolve, reject) => {
-        Database.transaction((tx) => {
-            tx.executeSql(
-                'SELECT * FROM Task '+
-                'WHERE createdAt BETWEEN ? AND ? '+
-                'ORDER BY createdAt DESC ;',
-                [dateStart,dateEnd],
                 (_var, result) => {
                     resolve(result)
                 },
